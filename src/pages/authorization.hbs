@@ -1,0 +1,32 @@
+---
+forms: [
+    {
+        type: 'text',
+        placeholder: 'Login',
+    },
+    {
+        type: 'password',
+        placeholder: 'Password',
+    }
+]
+---
+{{!< link-page}}
+
+<div class='flex justify-center items-center h-screen'>
+    <div class='w-[340px] h-[384px] bg-zinc-800 rounded-md p-[20px]'>
+        {{> 'title/title' title='Autorization'}}
+        <form class='flex flex-col gap-y-12 justify-center items-center'>
+            {{#each forms}}
+                <div>
+                    {{> 'input/input' }}
+                </div>
+            {{/each}}
+            <div>
+                {{> 'button-confirm/button-confirm' btn='Sign Up'}}
+                <div class='text-center py-6 text-cyan-500'>
+                    {{> 'link-page/link-page' link='./' link-title='Create account'}}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
