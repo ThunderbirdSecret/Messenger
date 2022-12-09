@@ -1,0 +1,51 @@
+---
+pages: [
+    {
+        title: 'Authorization',
+        link: './authorization.hbs',
+    },
+    {
+        title: 'Registration',
+        link: './registration.hbs',
+    },
+    {
+        title: 'Page 404',
+        link: './page404.hbs',
+    },
+    {
+        title: 'Page 500',
+        link: './page500.hbs',
+    },
+    {
+        title: 'Dialog',
+        link: './dialog.hbs',
+    },
+    {
+        title: 'Edit settings',
+        link: './edit-settings.hbs',
+    },
+    {
+        title: 'Edit Password',
+        link: './edit-password.hbs',
+    },
+    {
+        title: 'Settings',
+        link: './settings.hbs',
+    },
+
+]
+---
+
+{{!< link-page}}
+
+<div class='flex justify-center text-2xl items-center h-screen'>
+    <ul class='text-center'>
+        {{#each pages}}
+        <li>
+            <a href={{link}}>
+             <h1>{{title}}</h1>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+</div>

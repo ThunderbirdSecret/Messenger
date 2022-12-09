@@ -1,0 +1,51 @@
+---
+dialogs: [
+    {
+        login: 'login1',
+        lastMessage: 'message',
+    },
+    {
+        login: 'login2',
+        lastMessage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab aliquam beatae cupiditate dolorem esse est eveniet fuga, ipsam itaque nobis odio, pariatur praesentium provident quasi quod tempore voluptatem voluptatibus.',
+    },
+    {
+        login: 'login3',
+        lastMessage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus dolor ea explicabo facilis, illo ipsum, laboriosam nihil, nulla officiis quaerat recusandae vitae! Accusantium aut consequatur delectus eligendi fuga, ipsum quisquam.',
+    },
+    {
+        login: 'login4',
+        lastMessage: 'Lorem ipsum dolor.',
+    },
+    {
+        login: 'login5',
+        lastMessage: 'Lorem ipsum.',
+    },
+]
+---
+{{!< link-page}}
+
+<div class='h-screen flex flex-row overflow-hidden'>
+    <div class='basis-1/4 bg-zinc-800'>
+       {{> 'header-list-dialog/header-list-dialog' src='../asserts/menu.svg'  }}
+        <ul>
+            {{#each dialogs}}
+                {{> 'chats-list/chats-list' }}
+            {{/each}}
+        </ul>
+    </div>
+    <div class='basis-3/4 bg-contain'>
+        {{> 'header-talk/header-talk' login='Solgar' src='../asserts/three-point.svg'}}
+        <div class='flex items-center justify-center min-h-[665px]'>
+            <p>Select chat to change a message</p>
+        </div>
+        <div class='flex px-4'>
+            <div >{{> 'drop-down/drop-down' src='../asserts/pin.svg'}} </div>
+            <div class='w-11/12 px-2'>{{> 'message/message' placeholder='Write...' type='text'}}</div>
+            <div class='ml-auto'>
+                <button class='rounded-full bg-cyan-400'>
+                    <img src='../asserts/arrow.svg' alt='send'/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+---
+dataInput: [
+    {
+        type: 'email',
+        placeholder: 'E-mail',
+    },
+    {
+        type: 'text',
+        placeholder: 'Login',
+    },
+    {
+        type: 'text',
+        placeholder: 'Name',
+    },
+    {
+        type: 'text',
+        placeholder: 'Second-name',
+    },
+    {
+        type: 'tel',
+        placeholder: 'Phone',
+    },
+    {
+        type: 'password',
+        placeholder: 'Password',
+    },
+    {
+        type: 'password',
+        placeholder: 'Password repeat',
+    }
+]
+---
+{{!< link-page}}
+
+<div class='flex justify-center items-center h-screen'>
+    <div class='w-[340px] h-[615px] bg-zinc-800 rounded-md p-[20px]'>
+        <form class='flex flex-col gap-y-2.5 justify-center items-center'>
+            {{> 'title/title' title='Registration'}}
+            <ul>
+                {{#each dataInput}}
+                    <li class="py-2.5">
+                        {{> 'input/input' }}
+                    </li>
+                {{/each}}
+            </ul>
+            <div>
+                {{> 'button-confirm/button-confirm' btn='Create account'}}
+                <div class="text-center py-6 text-cyan-500">
+                    {{> 'link-page/link-page' link='./' link-title='Create account'}}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
