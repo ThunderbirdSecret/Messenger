@@ -1,54 +1,61 @@
 ---
 dataInput: [
     {
-        type: 'email',
-        placeholder: 'E-mail',
+        type: "email",
+        placeholder: "E-mail",
+        name: "email",
     },
     {
-        type: 'text',
-        placeholder: 'Login',
+        type: "text",
+        placeholder: "Login",
+        name: "login",
     },
     {
-        type: 'text',
-        placeholder: 'Name',
+        type: "text",
+        placeholder: "Name",
+        name: "first_name",
     },
     {
-        type: 'text',
-        placeholder: 'Second-name',
+        type: "text",
+        placeholder: "Second-name",
+        name: "second-name",
     },
     {
-        type: 'tel',
-        placeholder: 'Phone',
+        type: "tel",
+        placeholder: "Phone",
+        name: "phone",
     },
     {
-        type: 'password',
-        placeholder: 'Password',
+        type: "password",
+        placeholder: "Password",
+        name: "password",
     },
     {
-        type: 'password',
-        placeholder: 'Password repeat',
+        type: "password",
+        placeholder: "Password repeat",
+        name: "password",
     }
 ]
 ---
 {{!< link-page}}
 
-<div class='flex justify-center items-center h-screen'>
-    <div class='w-[340px] h-[615px] bg-zinc-800 rounded-md p-[20px]'>
-        <form class='flex flex-col gap-y-2.5 justify-center items-center'>
-            {{> 'title/title' title='Registration'}}
-            <ul>
-                {{#each dataInput}}
-                    <li class="py-2.5">
-                        {{> 'input/input' }}
-                    </li>
-                {{/each}}
-            </ul>
+<main class="flex justify-center items-center h-screen">
+    <div class="w-[340px] h-[615px] bg-graphite rounded-md p-[20px]">
+        <form class="flex flex-col gap-y-2.5 justify-center items-center">
+            {{> "title/title" title="Registration"}}
             <div>
-                {{> 'button-confirm/button-confirm' btn='Create account'}}
-                <div class="text-center py-6 text-cyan-500">
-                    {{> 'link-page/link-page' link='./' link-title='Create account'}}
+                {{#each dataInput}}
+                    <div class="py-2.5">
+                        {{> "input/input" }}
+                    </div>
+                {{/each}}
+            </div>
+            <div>
+                {{> "button-confirm/button-confirm" btn="Create account" path="./dialog.hbs"}}
+                <div class="text-center py-6 text-blue">
+                    {{> "link-page/link-page" link="./authorization.hbs" link-title="Sign in"}}
                 </div>
             </div>
         </form>
     </div>
-</div>
+</main>

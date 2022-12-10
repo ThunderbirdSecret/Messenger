@@ -14,4 +14,4 @@ function isEmpty(value) {
     return true;
 }
 
-console.log(isEmpty(new Map([['1', 'str1'], [1, 'num1'], [true, 'bool1']])))
+console.log(isEmpty(new Map([["1", "str1"], [1, "num1"], [true, "bool1"]])))
