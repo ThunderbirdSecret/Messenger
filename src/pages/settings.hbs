@@ -1,0 +1,74 @@
+---
+changeLinks: [
+    {
+        link: "./edit-settings",
+        link-title: "Change profile",
+    },
+    {
+        link: "./edit-password",
+        link-title: "Change password",
+    },
+    {
+        link: "./",
+        link-title: "Log Out",
+    }
+]
+
+lines: [
+    {
+        type: "email",
+        placeholder: "E-mail",
+        setting: "defaut@yandex.ru",
+        name: "email",
+    },
+    {
+        type: "text",
+        placeholder: "Login",
+        setting: "Default",
+        name: "login",
+    },
+    {
+        type: "text",
+        placeholder: "Name",
+        setting: "Default",
+        name: "first-name",
+    },
+    {
+        type: "text",
+        placeholder: "Second-name",
+        setting: "Defaultovich",
+        name: "second-name",
+    },
+    {
+        type: "text",
+        placeholder: "Display_name",
+        setting: "Princess777",
+        name: "Display_name",
+    },
+    {
+        type: "tel",
+        placeholder: "Phone",
+        setting: "1021-1-2020",
+        name: "phone",
+    },
+]
+
+---
+{{!< link-page}}
+
+<main class="h-screen flex px-2">
+    <div class="mr-auto my-auto flex-none">
+        {{> "back-button/back-button" path="./dialog.hbs" src="../asserts/arrow-left.svg"}}
+    </div>
+    <form class="grow flex flex-col gap-y-2 justify-center items-center h-screen">
+        {{> "avatar/avatar" src="../asserts/sd.png" }}
+        {{#each lines}}
+            {{> "settings-input/settings-input" }}
+        {{/each}}
+        <div class="py-10 mr-[380px] ">
+            {{#each changeLinks}}
+                <div>{{> "link-page/link-page"}}</div>
+            {{/each}}
+        </div>
+    </form>
+</main>
