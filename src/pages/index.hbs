@@ -39,13 +39,15 @@ pages: [
 {{!< link-page}}
 
 <main class="flex justify-center text-2xl items-center h-screen">
-    <nav class="text-center">
-        {{#each pages}}
-        <div>
-            <a href={{link}}>
-             <h1>{{title}}</h1>
-            </a>
-        </div>
-        {{/each}}
+    <nav>
+        <ul class="text-center">
+            {{#each pages}}
+            <li>
+                <a href={{link}}>
+                    <h1>{{title}}</h1>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
     </nav>
 </main>
