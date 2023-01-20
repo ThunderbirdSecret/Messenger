@@ -1,0 +1,38 @@
+[
+    {
+        "type": "email",
+        "label": "E-mail",
+        "setting": "defaut@yandex.ru",
+        "name": "email"
+    },
+    {
+        "type": "text",
+        "label": "Login",
+        "setting": "Default",
+        "name": "login"
+    },
+    {
+        "type": "text",
+        "label": "Name",
+        "setting": "Default",
+        "name": "first-name"
+    },
+    {
+        "type": "text",
+        "label": "Second-name",
+        "setting": "Defaultovich",
+        "name": "second-name"
+    },
+    {
+        "type": "text",
+        "label": "Display_name",
+        "setting": "Princess777",
+        "name": "Display_name"
+    },
+    {
+        "type": "tel",
+        "label": "Phone",
+        "setting": "1021-1-2020",
+        "name": "phone"
+    }
+]

@@ -3,28 +3,37 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "parcel src/pages/index.hbs --port 3000 --no-cache && node ./server.js",
-    "build": "parcel build src/pages/index.hbs",
+    "dev": "parcel src/index.html --port 3000 --no-cache && node ./server.js",
+    "build": "parcel build src/index.html",
     "start": "npm run build && node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "alias": {
+    "utils": "./src/utils",
+    "components": "./src/components",
+    "pages": "./src/pages",
+    "asserts": "./src/asserts",
+    "styles": "./src/styles",
+    "helpers": "./src/helpers"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines": {
-    "node": ">=12.0.0"
-  },
   "devDependencies": {
-    "@anikin/parcel-transformer-handlebars": "^1.0.9",
-    "autoprefixer": "^10.4.13",
-    "parcel": "^2.8.0",
-    "postcss": "^8.4.19",
-    "postcss-import": "^15.0.0",
-    "tailwind": "^4.0.0",
-    "tailwindcss": "^3.2.4",
-    "tailwindcss-gradients": "^3.0.0"
+    "@anikin/parcel-transformer-handlebars": "1.0.9",
+    "@anikin/parcel-transformer-handlebars-precompile": "1.0.1",
+    "autoprefixer": "10.4.13",
+    "parcel": "2.8.0",
+    "postcss": "8.4.19",
+    "postcss-import": "15.0.0",
+    "tailwind": "4.0.0",
+    "tailwindcss": "3.2.4",
+    "tailwindcss-gradients": "3.0.0",
+    "ts-node": "10.9.1",
+    "typescript": "4.9.4"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "4.18.2",
+    "handlebars": "4.7.7"
   }
 }
