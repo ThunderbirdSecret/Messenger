@@ -8,7 +8,7 @@ export class Dialog extends Block {
 
     protected render(): string {
         return `
-            <main class="h-[760px] w-[1198px] flex flex-row overflow-hidden text-base">
+            <main class="h-[760px] w-cover flex flex-row overflow-hidden text-base">
                 <div class="basis-1/4 bg-graphite h-screen">
                     {{{ HeaderListDialog }}}
                     <article class="h-[665px] p-4 overflow-auto scrollbar">
@@ -30,7 +30,7 @@ export class Dialog extends Block {
                         <div>
                             {{{DropDown}}}
                         </div>
-                        <div class="w-11/12 px-2">
+                        <div class="w-full px-2">
                             {{{ MessageInput
                                 placeholder="Write..." 
                                 name="message" 

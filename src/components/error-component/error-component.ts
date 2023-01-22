@@ -9,7 +9,7 @@ export class ErrorComponent extends Block <ErrorComponentProps>{
 
     protected render(): string {
         return `
-        <p class="text-center text-xs">
+        <p class="text-center text-xs id="err">
             {{text}}
         </p>`
     }

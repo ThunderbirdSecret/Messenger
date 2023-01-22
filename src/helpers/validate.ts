@@ -39,11 +39,17 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any)
             if(!regExpValidate.Login.test(el.value)) {
                 return err.setProps({text: "Логин кривой!"})
             }
+            if(el.value = "") {
+                return err.setProps({text: "Поле должно быть заполнено!"})
+            }
         }
 
         if(el.name! === "password") {
             if(!regExpValidate.Password.test(el.value)) {
                 return err.setProps({text: "пароль не очень!"})
+            }
+            if(el.value = "") {
+                return err.setProps({text: "Поле должно быть заполнено!"})
             }
         }
 
@@ -51,11 +57,17 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any)
             if(!regExpValidate.Email.test(el.value)) {
                 return err.setProps({text: "email должен выглядеть не так!"})
             }
+            if(el.value = "") {
+                return err.setProps({text: "Поле должно быть заполнено!"})
+            }
         }
 
         if(el.name === "phone") {
             if(!regExpValidate.Phone.test(el.value)) {
                 return err.setProps({text: "Номер нормально пиши!"})
+            }
+            if(el.value = "") {
+                return err.setProps({text: "Поле должно быть заполнено!"})
             }
         }
 
@@ -63,17 +75,26 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any)
             if(!regExpValidate.Name.test(el.value)) {
                 return err.setProps({text: "Че за знаки в Имени?!"})
             }
+            if(el.value = "") {
+                return err.setProps({text: "Поле должно быть заполнено!"})
+            }
         }
 
         if(el.name === "second_name") {
             if(!regExpValidate.Name.test(el.value)) {
                 return err.setProps({text: "Че ты в фамилии написал?!"})
             }
+            if(el.value = "") {
+                return err.setProps({text: "Поле должно быть заполнено!"})
+            }
         }
 
         if(el.name === "display_name") {
             if(!regExpValidate.Name.test(el.value)) {
                 return err.setProps({text: "Стремный дисплейнейм!"})
+            }
+            if(el.value = "") {
+                return err.setProps({text: "Поле должно быть заполнено!"})
             }
         }
 
@@ -89,6 +110,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any)
     }
 
     if(nameEvent === "submit") {
+        //добавить проверку на пустые инпуты
         if(!err.props.text){
             return console.log("Cоответствует валидации: ", el.value)
         } else {

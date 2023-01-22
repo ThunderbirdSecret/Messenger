@@ -14,11 +14,8 @@ export class Authorization extends Block {
             onSubmit: (event: Event)=>{
                 event.preventDefault()
                 event.stopPropagation()
-                // const loginElem = this.element?.querySelector("input[name='login']") as HTMLInputElement
-                // const passElem = this.element?.querySelector("input[name='password']") as HTMLInputElement
-                // console.log(this)
                 let el = event.target as HTMLInputElement
-                console.log(this.refs)
+                console.log(this.refs.buttonConfirm)
                 let err = this.refs.login.refs.err
                 return InputValidate("submit", el, err)
             // console.log(err.props.text)

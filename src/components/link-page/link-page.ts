@@ -3,7 +3,8 @@ import Block from "utils/Block";
 interface LinkPageProps {
     link?: string;
     linkTitle: string;
-    onClick?: ()=> void
+    invisibleLink?: string;
+    onClick?: ()=> void;
 }
 
 export class LinkPage extends Block {
@@ -15,7 +16,8 @@ export class LinkPage extends Block {
 
     protected render(): string {
         return `
-        <a class="text-blue text-center text-base py-6 " href={{link}}> {{linkTitle}}
+        <a class="text-blue text-base py-6" href="{{link}}"> 
+            <p>{{linkTitle}}</p>
         </a>
         `
     }

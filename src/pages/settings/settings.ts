@@ -1,20 +1,38 @@
+import { InputValidate } from "helpers/validate";
 import Block from "utils/Block";
 
 export class Settings extends Block {
     static cName = "Settings"
     constructor(){
-        super();
-
+        super({
+            }
+        );
         this.setProps ({
-            onClick: () => this.onClick.bind(this),
-        //     // onInput: this.onInput.bind(this),
-        //     // onBlur: this.onBlur.bind(this),
-        //     // onFocus: this.onFocus.bind(this),
-        //     // onChange: this.onChange.bind(this),
-        //     // hidden: false, 
+            onClick: (e: Event) => {
+                e.preventDefault()  
+                e.stopPropagation()
+                console.log("begin")
+                let statusArr = [...document.querySelectorAll("input")]
+                let linkVisible = [...document.querySelectorAll("a > p")]
+                let confirm = document.getElementById("confirm")
+                console.log(confirm)
+                statusArr.map((item) => {
+                    item.disabled = false
+                })
+                linkVisible.map((link) => {
+                    link.classList.add("invisible")
+                })
+                confirm!.classList.remove("invisible")
+            },
+            onSubmit: (e: Event) => {
+                e.preventDefault()
+                e.stopPropagation()
+                let allErr = [...document.querySelectorAll("#err")]
+                allErr.forEach((item) => {
+                    console.log(item.outerHTML)
+                })
+            },
             status: "disabled",
-            visiblelink: "",
-            visiblebtn: "",
             placeholder: {
                 email: "pochta@yandex.ru",
                 login: "ivanivanov",
@@ -26,27 +44,10 @@ export class Settings extends Block {
         }) 
     }
     
-    
 
-
-    onClick(e: Event) {
-        e.preventDefault();
-        this.setProps({
-            status: '',
-            placeholders: {
-                email: 'Введите почту',
-                login: 'Введите логин',
-                first_name: 'Введите имя',
-                second_name: 'Введите фамилию',
-                display_name:'Введите имя в чате',
-                phone: 'Введите номер телефона',
-            }
-        })
-    }
 
 
     protected render(): string {
-        console.log(this.refs)
         return `
         <main class="h-screen flex px-2">
             <div class="mr-auto my-auto flex-none">
@@ -54,18 +55,32 @@ export class Settings extends Block {
             </div>
             <form class="grow flex flex-col gap-y-2 justify-center items-center h-screen">
                 {{{Avatar}}}
-                    <div>{{{SettingInput label="Email" type="email" name="email" placeholder=placeholder.email status=status}}}</div>
-                    <div>{{{SettingInput label="Login" type="text" name="login" placeholder=placeholder.login status=status}}}</div>
-                    <div>{{{SettingInput label="Name" type="text" name="name" placeholder=placeholder.first_name status=status}}}</div>
-                    <div>{{{SettingInput label="Second-Name" type="text" name="second-name" placeholder=placeholder.second_name status=status}}}</div>
-                    <div>{{{SettingInput label="Display-Name" type="text" name="display-name" placeholder=placeholder.display_name status=status}}}</div>
-                    <div>{{{SettingInput label="Phone" type="phone" name="phone" placeholder=placeholder.phone status=status}}}</div>
+                    <div>{{{SettingInput 
+                                label="Login" 
+                                ref="setInput" 
+                                type="text" 
+                                name="login" 
+                                placeholder=placeholder.login 
+                                status=status
+                        }}}</div>
+                    <div>{{{SettingInput label="Name" ref="setInput" type="text" name="name" placeholder=placeholder.first_name status=status}}}</div>
+                    <div>{{{SettingInput label="Second-Name" ref="setInput" type="text" name="second-name" placeholder=placeholder.second_name status=status}}}</div>
+                    <div>{{{SettingInput label="Display-Name" ref="setInput" type="text" name="display-name" placeholder=placeholder.display_name status=status}}}</div>
+                    <div>{{{SettingInput label="Email" ref="setInput" type="email" name="email" placeholder=placeholder.email status=status}}}</div>
+                    <div>{{{SettingInput label="Phone" ref="setInput" type="phone" name="phone" placeholder=placeholder.phone status=status}}}</div>
                 <div id="links" class="{{visiblelink}} text-blue py-10 mr-[420px]">
-                  <div><a class="text-blue text-center text-base py-6" id="sett" href="../../index.html">Edit Settings</a></div>
-                  <div>{{{LinkPage onClick=OnClick linkTitle="Edit password"}}}</div>
+                  <div>
+                    {{{LinkPage 
+                            linkTitle="Edit settings" 
+                            href="./"
+                            onClick=onClick
+                            ref="linkSettings"
+                    }}} 
+                    </div>
+                  <div>{{{LinkPage linkTitle="Edit password"}}}</div>
                   <div>{{{LinkPage linkTitle="Log out"}}}</div>
                 </div>
-                <div id="confirm" class="py-10 {{visiblebtn}}">{{{ButtonConfirm btn="Save" path="#"}}}</div>
+                <div id="confirm" class="z-40 mt-[-100px] invisible">{{{ButtonConfirm btn="Save" path="#" onSubmit=onSubmit}}}</div>
             </form>
         </main>
             `

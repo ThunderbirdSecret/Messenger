@@ -7,6 +7,7 @@ interface InputProps {
     name?: "login" | "password" | "name" | "second_name" | "display_name" | "email" | "phone";
     status?: string;
     accept?: string;
+    id?: string;
     class?: string;
     onInput?: () => void;
     onBlur?: () => void;
@@ -37,8 +38,8 @@ export class Input extends Block {
             placeholder="{{placeholder}}"
             value="{{value}}"
             name="{{name}}"
-            onPick = {{onPick}}
             {{status}}
+            id="{{id}}"
             {{#if accept}}accept={{accept}}{{/if}}
         >`
     }
