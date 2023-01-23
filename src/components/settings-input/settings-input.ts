@@ -9,6 +9,7 @@ interface SettingInputProps {
     error?: string;
     status?: string;
     text?: string;
+    id?: string;
     onInput?: () => void;
     onBlur?: () => void;
     onFocus?: () => void;
@@ -24,10 +25,12 @@ export class SettingInput extends Block {
             onBlur: (event: FocusEvent) => {
                 let el = event.target as HTMLInputElement
                 let err = this.refs.err
-                console.log(err)
-                console.log(el)
-
-                InputValidate("blur", el, err)
+                console.log(el.placeholder)
+                 if(!el.value && el.placeholder) {
+                    el.value = el.placeholder
+                    console.log("данные по умолчанию")
+                 }
+                InputValidate("blur", el, err, this.refs)
             } 
         })
     }
@@ -46,6 +49,7 @@ export class SettingInput extends Block {
                     onInput=onInput
                     onFocus=onFocus
                     onBlur=onBlur
+                    id=id
                 }}}
                 <div class="text-red pt-2" id="err"> 
                     {{{ErrorComponent text=error ref="err"}}}

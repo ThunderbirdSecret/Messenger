@@ -1,3 +1,4 @@
+import { SubmitBtn } from "helpers/submit"
 import { InputValidate } from "helpers/validate"
 import Block from "utils/Block"
 
@@ -12,13 +13,7 @@ export class Authorization extends Block {
             password: "",
             error: "",
             onSubmit: (event: Event)=>{
-                event.preventDefault()
-                event.stopPropagation()
-                let el = event.target as HTMLInputElement
-                console.log(this.refs.buttonConfirm)
-                let err = this.refs.login.refs.err
-                return InputValidate("submit", el, err)
-            // console.log(err.props.text)
+                return SubmitBtn(event, "authorization", this.refs)
             },
             onInput: () => console.log("input"),
             onFocus: () => console.log("Focus"),
@@ -43,6 +38,7 @@ export class Authorization extends Block {
                                     onInput=onInput
                                     onFocus=onFocus
                                     value=value
+                                    id="login"
                             }}}
                     </div>
                     <div>
@@ -54,9 +50,13 @@ export class Authorization extends Block {
                                 onInput=onInput
                                 onFocus=onFocus
                                 onBlur=onBlur
+                                id="password"
                         }}}
                     </div>
                     <div>
+                        <div class="text-red pb-2" id="err"> 
+                            {{{ErrorComponent text=error ref="err"}}}
+                        </div>
                         {{{ ButtonConfirm 
                                 btn="Sign Up" 
                                 path="../dialog/dialog.html" 

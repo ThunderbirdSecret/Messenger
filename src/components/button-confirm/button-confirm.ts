@@ -14,6 +14,7 @@ export class ButtonConfirm extends Block{
 
    protected render() {
        return `
+
         <a href={{path}}>
             <input type="submit" 
             class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg" 

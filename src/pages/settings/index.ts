@@ -8,6 +8,7 @@ import { LinkPage } from "components/link-page/link-page"
 import { Input } from "components/input/input"
 import { ErrorComponent } from "components/error-component/error-component"
 import { ButtonConfirm } from "components/button-confirm/button-confirm"
+import { InputControlled } from "components/input-controlled/input-controlled"
 
 registerComponent(BackButton)
 registerComponent(Avatar)
@@ -17,6 +18,7 @@ registerComponent(Input)
 registerComponent(Settings)
 registerComponent(ErrorComponent)
 registerComponent(ButtonConfirm)
+registerComponent(InputControlled)
 
 document.addEventListener("DOMContentLoaded", () => {
     renderDOM(new Settings())

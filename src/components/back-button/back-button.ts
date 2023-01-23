@@ -2,6 +2,7 @@ import Block from "utils/Block";
 
 interface BackButtonProps {
     path: string;
+    onClick: ()=>void;
 }
 
 const back = new Image()
@@ -10,8 +11,8 @@ back.src = require("asserts/icon/arrow-lest.svg")
 export class BackButton extends Block {
     static cName = "BackButton"
 
-    constructor({...props}:BackButtonProps){
-        super(props);
+    constructor({ onClick, ...props}:BackButtonProps){
+        super({...props, click: onClick});
     }
 
     protected render(): string {

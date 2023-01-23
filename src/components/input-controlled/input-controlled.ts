@@ -1,5 +1,5 @@
-import Block from "utils/Block";
 import { InputValidate } from "helpers/validate";
+import Block from "utils/Block";
 
 interface InputControlledProps {
     type?: "phone" | "text" | "password" | "email";
@@ -11,6 +11,8 @@ interface InputControlledProps {
     text?: string;
     onInput?: ()=> void;
     onFocus?: ()=> void;
+    onBlur?: ()=> void;
+    id?: string;
 }
 
 export class InputControlled extends Block{
@@ -22,30 +24,28 @@ export class InputControlled extends Block{
             onBlur: (event: FocusEvent) => {
                 let el = event.target as HTMLInputElement
                 let err = this.refs.err
-                console.log(err)
-                InputValidate("blur", el, err)
-        } })
+                InputValidate("blur", el, err, this.refs)
+            },
+        })
     }
 
     protected render():string {
         return `
-        <form class="">
             {{{ Input
                 class="h-9 w-[280px] bg-transparent focus:outline-none border-b-2 border-blue text-base p-2 text-white"
                 type=type
                 name=name
                 placeholder=placeholder
-                ref="inputField"
+                ref="inputControlled"
                 value=value
-                status=status
                 onInput=onInput
                 onFocus=onFocus
                 onBlur=onBlur
+                id=id
             }}}
             <div class="text-red pt-2" id="err"> 
                 {{{ErrorComponent text=error ref="err"}}}
             </div>
-        </form>
         `;
     }
 }

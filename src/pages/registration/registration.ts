@@ -1,32 +1,33 @@
+import { SubmitBtn } from "helpers/submit";
 import Block from "utils/Block";
 
-// interface RegistrationProps {
-//     dataInput: object  {}
-// }
+// // interface RegistrationProps {
+// //     dataInput: object  {}
+// // }
 
-const dataInput: {type:string, placeholder: string, name: string, ref: string} = [
-    {
-        type: "email", placeholder: "E-mail", name: "email", ref: "emailRef"
-    },
-    {
-        type: "text", placeholder: "Login", name: "login", ref: "loginRef"
-    },
-    {
-        type: "text", placeholder: "Name", name: "first_name", ref: "nameRef"
-    },
-    {
-        type: "text", placeholder: "Second-name", name: "second-name", ref: "secondNameRef"
-    },
-    {
-        type: "tel", placeholder: "Phone", name: "phone", ref: "phoneRef"
-    },
-    {
-        type: "password", placeholder: "Password", name: "password", ref: "passwordRef"
-    },
-    {
-        type: "password", placeholder: "Password repeat", name: "password", ref: "passwordRepeatRef"
-    }
-]
+// const dataInput: {type:string, placeholder: string, name: string, ref: string} = [
+//     {
+//         type: "email", placeholder: "E-mail", name: "email", ref: "emailRef"
+//     },
+//     {
+//         type: "text", placeholder: "Login", name: "login", ref: "loginRef"
+//     },
+//     {
+//         type: "text", placeholder: "Name", name: "first_name", ref: "nameRef"
+//     },
+//     {
+//         type: "text", placeholder: "Second-name", name: "second-name", ref: "secondNameRef"
+//     },
+//     {
+//         type: "tel", placeholder: "Phone", name: "phone", ref: "phoneRef"
+//     },
+//     {
+//         type: "password", placeholder: "Password", name: "password", ref: "passwordRef"
+//     },
+//     {
+//         type: "password", placeholder: "Password repeat", name: "password", ref: "passwordRepeatRef"
+//     }
+// ]
 
 export class Registration extends Block {
     static cName = "Registration";
@@ -35,13 +36,11 @@ export class Registration extends Block {
         super()
 
         this.setProps({
-            onInput: (e: FocusEvent) => {
-                let el = e.target as HTMLInputElement
-                console.log(el.value)
+            onInput: (e: Event) => {console.log("input")},
+            onFocus: () => console.log("onFocus"),
+            onSubmit: (event: Event)=>{
+                return SubmitBtn(event, "registration", this.refs)
             },
-            onFocus: () => {
-                console.log("onFocus")
-            }
         })
     }
 
@@ -61,6 +60,7 @@ export class Registration extends Block {
                             placeholder="Login"
                             ref="login"
                             value=loginValue
+                            id="loginReg"
                         }}}
                     </div>
                     <div class="py-0.5">
@@ -73,6 +73,7 @@ export class Registration extends Block {
                             placeholder="Password"
                             ref="password"
                             value=passwordValue
+                            id="passwordReg"
                         }}}
                     </div>
                     <div class="py-0.5">
@@ -85,6 +86,7 @@ export class Registration extends Block {
                             placeholder="Password check"
                             ref="passwordCheck"
                             value=passwordCheckValue
+                            id="passwordCheckReg"
                         }}}
                     </div>
                     <div class="py-0.5">
@@ -97,6 +99,7 @@ export class Registration extends Block {
                             placeholder="Name"
                             ref="name"
                             value=nameValue
+                            id="nameReg"
                         }}}
                     </div>
                     <div class="py-0.5">
@@ -109,6 +112,7 @@ export class Registration extends Block {
                             placeholder="Second name"
                             ref="secondName"
                             value=secondNameValue
+                            id="secondNameReg"
                         }}}
                     </div>
                     <div class="py-0.5">
@@ -116,11 +120,25 @@ export class Registration extends Block {
                         onInput=onInput
                         onFocus=onFocus
                         onBlur=onBlur
-                        type="tel"
+                        type="text"
+                        name="display_name"
+                        placeholder="Display name"
+                        ref="displayName"
+                        value=displayNameValue
+                        id="displayNameReg"
+                    }}}
+                    </div>
+                    <div class="py-0.5">
+                    {{{InputControlled
+                        onInput=onInput
+                        onFocus=onFocus
+                        onBlur=onBlur
+                        type="phone"
                         name="phone"
                         placeholder="Phone"
                         ref="phone"
                         value=phoneValue
+                        id="phoneReg"
                     }}}
                     </div>
                     <div class="py-0.5">
@@ -133,13 +151,17 @@ export class Registration extends Block {
                         placeholder="E-mail"
                         ref="email"
                         value=emailValue
+                        id="emailReg"
                     }}}
                     </div>
-                    
                     <div>
+                        <div class="text-red pb-2" id="err"> 
+                            {{{ErrorComponent text=error ref="err"}}}
+                        </div>
                         {{{ ButtonConfirm
                                 btn="Create account" 
-                                path="../dialog/dialog.html" 
+                                path="../dialog/dialog.html"
+                                onSubmit=onSubmit
                         }}}
                         <div class="text-center py-2 text-blue">
                             {{{ LinkPage 
