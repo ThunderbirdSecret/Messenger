@@ -156,12 +156,13 @@ export class Registration extends Block {
                     </div>
                     <div>
                         <div class="text-red pb-2" id="err"> 
-                            {{{ErrorComponent text=error ref="err"}}}
+                            {{{ErrorComponent text=error ref="errReg"}}}
                         </div>
                         {{{ ButtonConfirm
                                 btn="Create account" 
                                 path="../dialog/dialog.html"
                                 onSubmit=onSubmit
+                                class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
                         }}}
                         <div class="text-center py-2 text-blue">
                             {{{ LinkPage 

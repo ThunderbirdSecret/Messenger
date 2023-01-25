@@ -15,7 +15,10 @@ export class EditPassword extends Block {
                             </div>
                         {{/each}}
                     <div>
-                        {{ ButtonConfirm btn="Save" path="pages/settings/settings.html"}}
+                        {{ ButtonConfirm 
+                            class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
+                            btn="Save" 
+                            path="pages/settings/settings.html"}}
                     </div>
                 </article>
             </main>

@@ -1,8 +1,9 @@
 import Block from "utils/Block";
 
 interface ButtonConfirmProps {
-    path: string;
-    btn: string;
+    path?: string;
+    btn?: string | SVGElement | null;
+    class?: string;
     onSubmit?: () => void 
 }//добавить get запрос при клике показывать данные get запроса в консоли
 
@@ -14,10 +15,9 @@ export class ButtonConfirm extends Block{
 
    protected render() {
        return `
-
         <a href={{path}}>
             <input type="submit" 
-            class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg" 
+            class="{{class}}" 
             value={{btn}} />
         </a>
         `

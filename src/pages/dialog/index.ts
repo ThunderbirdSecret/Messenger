@@ -9,6 +9,8 @@ import renderDOM from "utils/renderDOM";
 import { OtherMessage } from "components/other-message/other-messages";
 import { SelfMessage } from "components/self-message/self-message";
 import { ChatsList } from "components/chats-list/chats-list";
+import { Input } from "components/input/input";
+import { ButtonConfirm } from "components/button-confirm/button-confirm";
 
 registerComponent(HeaderListDialog)
 registerComponent(HeaderTalk)
@@ -19,6 +21,10 @@ registerComponent(Dialog)
 registerComponent(SelfMessage)
 registerComponent(OtherMessage)
 registerComponent(ChatsList)
+registerComponent(ButtonConfirm)
+registerComponent(Input)
+registerComponent(Dialog)
+
 
 document.addEventListener('DOMContentLoaded', () => {
     renderDOM(new Dialog());

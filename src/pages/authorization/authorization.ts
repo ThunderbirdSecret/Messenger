@@ -1,5 +1,4 @@
 import { SubmitBtn } from "helpers/submit"
-import { InputValidate } from "helpers/validate"
 import Block from "utils/Block"
 
 export class Authorization extends Block {
@@ -55,9 +54,10 @@ export class Authorization extends Block {
                     </div>
                     <div>
                         <div class="text-red pb-2" id="err"> 
-                            {{{ErrorComponent text=error ref="err"}}}
+                            {{{ErrorComponent text=error ref="errAuth"}}}
                         </div>
                         {{{ ButtonConfirm 
+                                class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
                                 btn="Sign Up" 
                                 path="../dialog/dialog.html" 
                                 ref="buttonConfirm"

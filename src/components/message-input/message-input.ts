@@ -1,21 +1,48 @@
 import Block from "utils/Block";
 
 interface MessageInputProps {
-    name: string;
     placeholder?: string;
+    value?: string;
+    error?: string;
+    text?: string;
+    onInput?: ()=> void;
+    onFocus?: ()=> void;
+    onBlur?: ()=> void;
 }//добавить событие на v-model с input
 
 export class MessageInput extends Block {
     static cName = "MessageInput"
     constructor({...props}:MessageInputProps){
-        super(props);
+        super({...props, 
+            onBlur: (e: FocusEvent) => {
+                let msg = (e.target as HTMLInputElement).value
+                console.log(msg)
+                if(msg != ""){
+                    return this.refs.message.setProps({ value: msg })
+                } 
+                console.log("пусто")
+           },
+           onFocus: () => {
+            console.log("focus")
+           }
+        });
     }
     protected render(): string {
         return `
             <div class="w-full">
-                <input type="text" name={{name}}
+                {{{Input 
+                    type="text" 
+                    name="message"
                     class="placeholder:white pl-[6px] h-[28px] bg-select-graphite focus:outline-none w-full rounded-lg"
-                    placeholder={{placeholder}} >
+                    placeholder=placeholder
+                    onInput=onInput
+                    onFocus=onFocus
+                    onBlur=onBlur
+                    id="message"
+                    ref="message"    
+                    value=value
+                    status=""
+                }}} 
             </div>
         `
     }

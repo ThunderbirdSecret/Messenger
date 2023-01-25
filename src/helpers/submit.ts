@@ -3,7 +3,9 @@ import { isEmpty } from "./isEmpty"
 export function SubmitBtn(event: Event, formName: string, refs: any){
     event.preventDefault()
     event.stopPropagation()
+
     if(formName === "authorization") {
+        refs.errAuth.setProps({ text: ""})
 
         let formsAuth = {
             loginAuth: refs.login.inputControlled.props.value,
@@ -18,10 +20,12 @@ export function SubmitBtn(event: Event, formName: string, refs: any){
         if((isEmpty(formsAuth)) && (!isEmpty(errAuth))) {
             console.log(formsAuth)
         } else {
-            return refs.err.setProps({ text: "Некорректно заполнены формы!"})
+            return refs.errAuth.setProps({ text: "Некорректно заполнены формы!"})
         }
     }
     if(formName === "registration") {
+        refs.errReg.setProps({ text: ""})
+
         let formsReg = {
             loginReg: refs.login.refs.inputControlled.props.value,
             passwordReg: refs.password.refs.inputControlled.props.value,
@@ -47,11 +51,12 @@ export function SubmitBtn(event: Event, formName: string, refs: any){
         if((isEmpty(formsReg)) && (!isEmpty(errReg))) {
             console.log(formsReg)
         } else {
-            return refs.err.setProps({ text: "Некорректно заполнены формы!"})
+            return refs.errReg.setProps({ text: "Некорректно заполнены формы!"})
         }
         
     }
     if(formName === "settings") {
+        refs.errSet.setProps({ text: ""})
         let formsSet = {
             loginSet: refs.login.refs.inputControlled.props.value,
             nameSet: refs.name.refs.inputControlled.props.value,
@@ -70,31 +75,56 @@ export function SubmitBtn(event: Event, formName: string, refs: any){
             emailSet: refs.email.refs.err.props.text,
         }
 
-        if((isEmpty(formsSet)) && (!isEmpty(errSet))) {
-            console.log(formsSet)
+        let plhSet = {
+            loginSet: refs.login.props.placeholder,
+            nameSet: refs.name.props.placeholder,
+            secondNameSet: refs.secondName.props.placeholder,
+            displayNameSet: refs.displayName.props.placeholder,
+            phoneSet: refs.phone.props.placeholder,
+            emailSet: refs.email.props.placeholder,
+        }
+
+        console.log("Eсли нужно поменять только одну из форм, то у остальных надо активировать onBlur")
+//добавить изменение только одного или нескольких InputEl
+        if((isEmpty(formsSet)) && (!isEmpty(errSet)) || plhSet) {
+            if(!isEmpty(formsSet)){
+               return console.log(plhSet)
+            }
+            return console.log(formsSet)
         } else {
-            return refs.err.setProps({ text: "Некорректно заполнены формы!"})
+            return refs.errSet.setProps({ text: "Некорректно заполнены формы!"})
         }
 
     }
     if(formName === "password") {
+        refs.errPass.setProps({ text: ""})
         let formsPass = {
-            passwordCheckPass: refs.passportCheck.refs.inputControlled.props.value,
+            passwordCheckPass: refs.passwordCheck.refs.inputControlled.props.value,
             passwordPass: refs.password.refs.inputControlled.props.value,
             oldPasswordPass: refs.oldPassword.refs.inputControlled.props.value
         }
 
         let errPass = {
-            passwordCheckErrPass: refs.passportCheck.refs.err.props.text,
+            passwordCheckErrPass: refs.passwordCheck.refs.err.props.text,
             passwordErrPass: refs.password.refs.err.props.text,
             oldPasswordErrPass: refs.oldPassword.refs.err.props.text
         }
 
+
         if((isEmpty(formsPass)) && (!isEmpty(errPass))) {
             console.log(formsPass)
         } else {
-            return refs.err.setProps({ text: "Некорректно заполнены формы!"})
+            return refs.errPass.setProps({ text: "Некорректно заполнены формы!"})
         }
         
+    }
+
+    if(formName === "dialog") {
+        let dialogMessage = refs.messageInput.refs.message
+        if(dialogMessage.props.value != ""){
+            console.log("submit ", dialogMessage.props.value)
+            return refs.messageInput.refs.message.setProps({value: ""})
+        }
+        return console.log("пустое сообщение")
     }
 }
