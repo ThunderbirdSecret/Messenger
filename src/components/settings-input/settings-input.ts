@@ -25,11 +25,10 @@ export class SettingInput extends Block {
             onBlur: (event: FocusEvent) => {
                 let el = event.target as HTMLInputElement
                 let err = this.refs.err
-                if(!el.value && el.placeholder) {
+                InputValidate("blur", el, err, this.refs)
+                if(el.value==="" || el.value === undefined && el.placeholder) {
                     el.value = el.placeholder
                     console.log("данные по умолчанию")
-                 } else {
-                    InputValidate("blur", el, err, this.refs)
                  }
             },
             onInput: (e: FocusEvent) => {

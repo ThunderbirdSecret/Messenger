@@ -14,14 +14,11 @@ export class Authorization extends Block {
             onSubmit: (event: Event)=>{
                 return SubmitBtn(event, "authorization", this.refs)
             },
-            onInput: () => console.log("input"),
-            onFocus: () => console.log("Focus"),
         })
     }
 
 
     protected render(): string {
-        // console.log(this.refs)
         return `
         <main class="flex justify-center items-center h-screen">
             <div class="w-[340px] h-[384px] bg-graphite rounded-md p-[20px]">
@@ -59,7 +56,7 @@ export class Authorization extends Block {
                         {{{ ButtonConfirm 
                                 class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
                                 btn="Sign Up" 
-                                path="../dialog/dialog.html" 
+                                path="#" 
                                 ref="buttonConfirm"
                                 onSubmit=onSubmit
                         }}}

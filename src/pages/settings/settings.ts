@@ -11,11 +11,9 @@ export class Settings extends Block {
             onClick: (e: Event) => {
                 e.preventDefault()  
                 e.stopPropagation()
-                console.log("begin")
                 let statusArr = [...document.querySelectorAll("input")]
                 let linkVisible = [...document.querySelectorAll("a > p")]
                 let confirm = document.getElementById("confirm")
-                console.log(confirm)
                 statusArr.map((item) => {
                     item.disabled = false
                 })
@@ -26,18 +24,17 @@ export class Settings extends Block {
             },
             onSubmit: (e: Event) => {
                 SubmitBtn(e, "settings", this.refs)
-               
+
             },
             savePassword: (e: Event) => {
                 SubmitBtn(e, "password", this.refs)
+                
             },
             editPassword: (e: Event) => {
                 e.preventDefault()  
                 e.stopPropagation()
-                console.log("Password")
                 let changePass = document.getElementById("change_password")
                 let pageSettings = document.getElementById("page_settings")
-                console.log(changePass)
                 pageSettings!.classList.add("hidden")
                 changePass!.classList.remove("hidden")
                 
@@ -52,7 +49,7 @@ export class Settings extends Block {
                 first_name: "Сабоба",
                 second_name: "Абобакевич",
                 display_name:"Собакевич",
-                phone: "+11231231212",
+                phone: "81231231212",
             }
         }) 
     }
@@ -68,17 +65,17 @@ export class Settings extends Block {
                 {{{BackButton path="../dialog/dialog.html"}}}
             </div>
             <form class="grow flex flex-col gap-y-2 justify-center items-center h-screen">
-                {{{Avatar}}}
+                {{{Avatar id="avatar_upload"}}}
                     <div>{{{SettingInput label="Login" ref="login" id="i1" value=value type="text" name="login" placeholder=placeholder.login status=status}}}</div>
                     <div>{{{SettingInput label="Name" ref="name" type="text" value=value id="i2" name="name" placeholder=placeholder.first_name status=status}}}</div>
-                    <div>{{{SettingInput label="Second-Name" ref="secondName" value=value id="i3" type="text" name="second-name" placeholder=placeholder.second_name status=status}}}</div>
-                    <div>{{{SettingInput label="Display-Name" ref="displayName" value=value id="i4" type="text" name="display-name" placeholder=placeholder.display_name status=status}}}</div>
+                    <div>{{{SettingInput label="Second-Name" ref="secondName" value=value id="i3" type="text" name="second_name" placeholder=placeholder.second_name status=status}}}</div>
+                    <div>{{{SettingInput label="Display-Name" ref="displayName" value=value id="i4" type="text" name="display_name" placeholder=placeholder.display_name status=status}}}</div>
                     <div>{{{SettingInput label="Email" ref="email" type="email" value=value id="i5" name="email" placeholder=placeholder.email status=status}}}</div>
                     <div>{{{SettingInput label="Phone" ref="phone" type="phone" value=value id="i6" name="phone" placeholder=placeholder.phone status=status}}}</div>
                 <div id="links" class="{{visiblelink}} text-blue py-10 mr-[420px]">
                   <div>{{{LinkPage linkTitle="Edit settings" href="./" onClick=onClick ref="linkSettings"}}} </div>
                   <div>{{{LinkPage linkTitle="Edit password" onClick=editPassword}}}</div>
-                  <div>{{{LinkPage linkTitle="Log out"}}}</div>
+                  <div>{{{LinkPage linkTitle="Log out" link="src/index.html"}}}</div>
                 </div>
                 <div id="confirm" class="z-40 mt-[-100px] invisible">
                     <div class="text-red pb-2" id="err"> 
@@ -93,7 +90,7 @@ export class Settings extends Block {
                 </div>
             </form>
             </div>
-            <div id="change_password" class="hidden h-screen flex px-2">
+            <div id="change_password" class="flex hidden h-screen px-2">
                 <div class="mr-auto my-auto flex-none">
                     {{{ BackButton onClick=onBack}}}
                 </div>
@@ -142,7 +139,12 @@ export class Settings extends Block {
                     <div class="text-red pb-2" id="err"> 
                         {{{ErrorComponent text=error ref="errPass"}}}
                     </div>
-                        {{{ ButtonConfirm btn="Save" path="#" onSubmit=savePassword }}}
+                        {{{ ButtonConfirm 
+                            class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
+                            btn="Save" 
+                            path="#" 
+                            onSubmit=savePassword 
+                        }}}
                     </div>
                 </form>
             </div>

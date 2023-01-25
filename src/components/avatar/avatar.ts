@@ -1,25 +1,65 @@
 import Block from "utils/Block";
 
-// interface AvatarProps {
-//     src: "string" | HTMLImageElement
-// }
+interface AvatarProps {
+    file: HTMLInputElement & EventTarget;
+    onChange?: ()=> void;
+    id?: string;
+    value?: string | HTMLInputElement | HTMLImageElement | File
+}
 
 const image = new Image()
-image.src = require("asserts/sd.png")
+const icon = new Image()
+image.src = require("asserts/images/06.jpg")
+icon.src = require("asserts/icon/Union-grey.svg")
 
-//добавить передачу размеров, чтобы можно было вставлять везде + event изменение аватара, если страница edit-settings
 export class Avatar extends Block {
     static cName = "Avatar";
 
-    // constructor({src}:AvatarProps){
-    //     super({src});
-    // }
+    constructor({onChange, ...props}:AvatarProps){
+        super({...props, 
+            onChange: (e: Event) => {
+                let file = (e.target as HTMLInputElement).files![0]
+                let reader = new FileReader()
+                
+                console.log("el: ", this.refs)
+                reader.onloadend = () => {
+                    let preview = document.getElementById("preview")
+                    preview.src = reader.result;
+                  }
+                
+                  if (file) {
+                    reader.readAsDataURL(file);
+                  } else {
+                    preview.src = "";
+                  }
+                }
+                // this.refs.image.setProps({ src: target.files![0]})
+    });
+}
 
     protected render(): string {
         return `
-            <div class="rounded-full w-[130px] h-[130px] overflow-hidden my-4 cursor-pointer">
-                <img src=${image.src} alt="Avatar" class="bg-auto w-[130px] h-[130px] hover:bg-select-graphite" />
-            </div>
+            <form method="post" enctype="multipart/form-data" class="text-center w-[130px] h-[130px] overflow-hidden my-4 cursor-pointer overflow-hidden rounded-full">
+                <label>
+                {{{Input 
+                    class="hidden"
+                    type="file"
+                    ref="avatar"
+                    value=avatarValue
+                    name="avatar"
+                    id=id
+                    accept=".png, .jpg, .jpeg"
+                    onChange=onChange
+                }}}
+                    <figure class="relative w-[130px] h-[130px] ">
+                    <img src=${image.src} id="preview" alt="Avatar" class="w-full h-full align-start object-cover" 
+                        class="bg-auto rounded-full box-border w-[130px] h-[130px] transition-all ease-linear" >
+                        <figcaption class="absolute inset-0 flex justify-center items-center z-10 opacity-0 transition-all ease-linear hover:opacity-100 hover:bg-gray-800/75">
+                            <img class="m-auto" alt="icon" src=${icon.src}>
+                        </figcaption>
+                    </figure>
+                </label>
+            </form>
         `
     }
 }

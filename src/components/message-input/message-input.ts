@@ -1,10 +1,10 @@
 import Block from "utils/Block";
 
 interface MessageInputProps {
+    type?: "text" | "search" 
     placeholder?: string;
     value?: string;
-    error?: string;
-    text?: string;
+    name?: string;
     onInput?: ()=> void;
     onFocus?: ()=> void;
     onBlur?: ()=> void;
@@ -31,14 +31,13 @@ export class MessageInput extends Block {
         return `
             <div class="w-full">
                 {{{Input 
-                    type="text" 
-                    name="message"
+                    type=type
+                    name=name
                     class="placeholder:white pl-[6px] h-[28px] bg-select-graphite focus:outline-none w-full rounded-lg"
                     placeholder=placeholder
                     onInput=onInput
                     onFocus=onFocus
                     onBlur=onBlur
-                    id="message"
                     ref="message"    
                     value=value
                     status=""

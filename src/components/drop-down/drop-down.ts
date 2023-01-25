@@ -9,47 +9,16 @@ const icon = {
  icon.file.src = require("asserts/icon/file.png")
  icon.location.src = require("asserts/icon/location.png")
 
-
-interface DropDownProps {
-    onClick: () => void;
-    onSubmit?: () => void;
-}
 //описать событие открытия drop down и передать туда компоненты
 
 export class DropDown extends Block {
     static cName = "DropDown"
 
-    constructor({ onClick, onSubmit}:DropDownProps) {
-        super( {
-            events: {
-                click: onClick,
-                submit: onSubmit
-            }
-        });
-    }
-
-   /* onClick() {
-        const element = document.getElementById("dropdown_button")
-        element!.addEventListener("click", this.onShow)
-        console.log(this)
-        
-    }
-
-    onShow = () => {
-        const el = document.getElementById("dropdown");
-        const rect = el?.getBoundingClientRect();
-        let top = rect!.top + el!.offsetHeight - 5
-        if(top < 0) {
-            top = rect!.top + el!.offsetHeight +5 
-        }
-
-
-    }*/
+    constructor() {
+        super({});
+    } 
 
     protected render(): string {
-        // const element = document.getElementById("dropdown_button")
-        // element!.addEventListener("click", this.onShow, isOpen=() => return)
-
 
         return `
         <form onSubmit={{onSubmit}}>
@@ -65,8 +34,7 @@ export class DropDown extends Block {
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M8.70092 15.0144C6.9575 16.7578 6.95122 19.5782 8.68689 21.3138C10.4225 23.0495 13.2429 23.0432 14.9863 21.2998L14.0435 20.357C12.8231 21.5774 10.8489 21.5818 9.6339 20.3668C8.41894 19.1518 8.42334 17.1776 9.64373 15.9572L8.70092 15.0144Z" />
                     </svg>
                 </a>
-                {{#if isOpen}}
-                <div id="dropdown" class="z-10  bg-select-graphite hover:divide-y-8 rounded-lg shadow w-44">
+                <div id="dropdown" class="z-10 hidden bg-select-graphite hover:divide-y-8 rounded-lg shadow w-44">
                     <ul class="py-1 text-sm text-white" aria-labelledby="dropdownDefaultButton">
                         <li>
                             <div class="block px-4 py-2 hover:bg-light-select gap-x-2">
@@ -96,7 +64,6 @@ export class DropDown extends Block {
                         </li>
                     </ul>
                 </div>
-                {{/if}}
             </div>
         </form>
 

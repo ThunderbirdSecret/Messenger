@@ -24,7 +24,6 @@ export class InputControlled extends Block{
             onBlur: (event: FocusEvent) => {
                 let el = event.target as HTMLInputElement
                 let err = this.refs.err
-                console.log(this.refs)
                 InputValidate("blur", el, err, this.refs)
             },
             onInput: (e: FocusEvent) => {
@@ -36,7 +35,7 @@ export class InputControlled extends Block{
                 } 
                 return
             }
-        })
+        }) 
     }
 
     protected render():string {

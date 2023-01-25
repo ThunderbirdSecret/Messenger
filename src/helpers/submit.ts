@@ -8,8 +8,8 @@ export function SubmitBtn(event: Event, formName: string, refs: any){
         refs.errAuth.setProps({ text: ""})
 
         let formsAuth = {
-            loginAuth: refs.login.inputControlled.props.value,
-            passwordAuth: refs.password.inputControlled.props.value,
+            loginAuth: refs.login.refs.inputControlled.props.value,
+            passwordAuth: refs.password.refs.inputControlled.props.value,
         }
 
         let errAuth = {
@@ -85,14 +85,10 @@ export function SubmitBtn(event: Event, formName: string, refs: any){
         }
 
         console.log("Eсли нужно поменять только одну из форм, то у остальных надо активировать onBlur")
-//добавить изменение только одного или нескольких InputEl
-        if((isEmpty(formsSet)) && (!isEmpty(errSet)) || plhSet) {
-            if(!isEmpty(formsSet)){
-               return console.log(plhSet)
-            }
-            return console.log(formsSet)
-        } else {
-            return refs.errSet.setProps({ text: "Некорректно заполнены формы!"})
+        if(isEmpty(formsSet)) {
+               return console.log(formsSet)
+            } else {
+            return console.log(plhSet)
         }
 
     }
@@ -121,7 +117,7 @@ export function SubmitBtn(event: Event, formName: string, refs: any){
 
     if(formName === "dialog") {
         let dialogMessage = refs.messageInput.refs.message
-        if(dialogMessage.props.value != ""){
+        if(dialogMessage.props.value){
             console.log("submit ", dialogMessage.props.value)
             return refs.messageInput.refs.message.setProps({value: ""})
         }

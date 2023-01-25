@@ -10,7 +10,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
     if(nameEvent === "blur"){
         if(el.name! === "login") {
             if(!regExpValidate.Login.test(el.value)) {
-                return err.setProps({text: "Логин кривой!"})
+                return err.setProps({text: "Логин не корректный!"})
             } else {
                 return refs.inputControlled.setProps({ value: el.value})
             }
@@ -18,7 +18,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
 
         if(el.name! === "password") {
             if(!regExpValidate.Password.test(el.value)) {
-                return err.setProps({text: "пароль не очень!"})
+                return err.setProps({text: "пароль не корректный!"})
             } else {
                 return refs.inputControlled.setProps({ value: el.value})
             }
@@ -26,7 +26,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
 
         if(el.name === "email") {
             if(!regExpValidate.Email.test(el.value)) {
-                return err.setProps({text: "email должен выглядеть не так!"})
+                return err.setProps({text: "email не корректный!"})
             } else {
                 return refs.inputControlled.setProps({ value: el.value})
             }
@@ -34,7 +34,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
 
         if(el.name === "phone") {
             if(!regExpValidate.Phone.test(el.value)) {
-                return err.setProps({text: "Номер нормально пиши!"})
+                return err.setProps({text: "Номер не корректный!"})
             } else {
                 return refs.inputControlled.setProps({ value: el.value})
             }
@@ -42,7 +42,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
 
         if(el.name === "name") {
             if(!regExpValidate.Name.test(el.value)) {
-                return err.setProps({text: "Че за знаки в Имени?!"})
+                return err.setProps({text: "В имени должны быть только буквы!"})
             } else {
                 return refs.inputControlled.setProps({ value: el.value})
             }
@@ -50,7 +50,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
 
         if(el.name === "second_name") {
             if(!regExpValidate.Name.test(el.value)) {
-                return err.setProps({text: "Че ты в фамилии написал?!"})
+                return err.setProps({text: "В фамилии должны быть только буквы!"})
             } else {
                 return refs.inputControlled.setProps({ value: el.value})
             }
@@ -58,7 +58,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
 
         if(el.name === "display_name") {
             if(!regExpValidate.Name.test(el.value)) {
-                return err.setProps({text: "Стремный дисплейнейм!"})
+                return err.setProps({text: "Не корректный дисплейнейм!"})
             } else {
                 return refs.inputControlled.setProps({ value: el.value})
             }
@@ -85,5 +85,3 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
         }
     }
 }
-
-
