@@ -1,8 +1,6 @@
 import { SubmitBtn } from "helpers/submit";
 import Block from "utils/Block";
 
-const icon = new Image;
-icon.src = require("../../asserts/icon/union.png")
 export class Dialog extends Block {
     static cName = "Dialog"
     constructor() {
