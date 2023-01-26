@@ -4,7 +4,7 @@ interface InputProps {
     type?: "phone" | "text" | "password" | "email" | "file";
     placeholder?: string;
     value?: string | HTMLInputElement | HTMLImageElement | File
-    name?: "login" | "password" | "name" | "second_name" | "display_name" | "email" | "phone";
+    name?: "login" | "password" | "first_name" | "second_name" | "display_name" | "email" | "phone";
     status?: string;
     accept?: string;
     id?: string;

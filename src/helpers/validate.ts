@@ -40,7 +40,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             }
         }
 
-        if(el.name === "name") {
+        if(el.name === "first_name") {
             if(!regExpValidate.Name.test(el.value)) {
                 return err.setProps({text: "В имени должны быть только буквы!"})
             } else {

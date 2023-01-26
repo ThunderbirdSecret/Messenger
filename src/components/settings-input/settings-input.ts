@@ -3,7 +3,7 @@ import Block from "utils/Block";
 
 interface SettingInputProps {
     type?: "phone" | "text" | "password" | "email";
-    name?: "login" | "password" | "name" | "second_name" | "display_name" | "email" | "phone";
+    name?: "login" | "password" | "first_name" | "second_name" | "display_name" | "email" | "phone";
     placeholder?: string;
     value?: string;
     error?: string;
