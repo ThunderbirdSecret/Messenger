@@ -2,26 +2,29 @@ import Block from "utils/Block";
 
 interface BackButtonProps {
     path: string;
-    onClick: ()=>void;
+    onClick?: (e: Event)=>void;
+    events?: {
+        click?: (e: Event) => void;
+      };
 }
 
 const back = new Image()
 back.src = require("asserts/icon/arrow-lest.svg")
 
-export class BackButton extends Block {
+export class BackButton extends Block<BackButtonProps> {
     static cName = "BackButton"
 
     constructor({ onClick, ...props}:BackButtonProps){
-        super({...props, click: onClick});
+        super({...props, events: { click: onClick } });
     }
 
     protected render(): string {
         return `
-        <a href={{path}} >
-            <button class="rounded-full w-[28px] h-[28px] bg-blue">
+            <button class="rounded-full w-[28px] h-[28px] bg-blue" onClick=onClick>
                 <img src=${back.src} alt="back" class="m-auto" />
             </button>
-        </a>
 `
     }
 }
+
+export default BackButton;

@@ -19,4 +19,12 @@
     background: #757677;
     border-radius: 10px;
   }
+
+  .customh {
+    height: -webkit-fill-available;
+  }
+
+  .customw {
+    width: -webkit-fill-available;
+  }
 }

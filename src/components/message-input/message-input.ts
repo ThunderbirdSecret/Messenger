@@ -5,12 +5,12 @@ interface MessageInputProps {
     placeholder?: string;
     value?: string;
     name?: string;
-    onInput?: ()=> void;
-    onFocus?: ()=> void;
-    onBlur?: ()=> void;
+    onInput?: (e: FocusEvent)=> void;
+    onFocus?: (e: FocusEvent)=> void;
+    onBlur?: (e: FocusEvent)=> void;
 }//добавить событие на v-model с input
 
-export class MessageInput extends Block {
+export class MessageInput extends Block<MessageInputProps> {
     static cName = "MessageInput"
     constructor({...props}:MessageInputProps){
         super({...props, 
@@ -46,3 +46,5 @@ export class MessageInput extends Block {
         `
     }
 }
+
+export default MessageInput;

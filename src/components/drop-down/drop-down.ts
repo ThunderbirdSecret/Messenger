@@ -9,13 +9,18 @@ const icon = {
  icon.file.src = require("asserts/icon/file.png")
  icon.location.src = require("asserts/icon/location.png")
 
+ interface DropDownProps {
+    title: string;
+    onClick: (e: Event) => void;
+    events: { click: (e: Event) => void}
+ }
 //описать событие открытия drop down и передать туда компоненты
 
-export class DropDown extends Block {
+export class DropDown extends Block<DropDownProps> {
     static cName = "DropDown"
 
-    constructor() {
-        super({});
+    constructor({...props}:DropDownProps) {
+        super({...props});
     } 
 
     protected render(): string {
@@ -70,3 +75,5 @@ export class DropDown extends Block {
         `
     }
 }
+
+export default DropDown;

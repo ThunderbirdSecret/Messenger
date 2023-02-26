@@ -1,8 +1,10 @@
+import { WithRouter } from "helpers/HOCS/WithRouter";
+import { WithStore } from "helpers/HOCS/WithStore";
 import Block from "utils/Block";
 
 interface AvatarProps {
     file: HTMLInputElement & EventTarget;
-    onChange?: ()=> void;
+    onChange?: (e: Event)=> void;
     id?: string;
     value?: string | HTMLInputElement | HTMLImageElement | File
 }
@@ -12,7 +14,7 @@ const icon = new Image()
 image.src = require("asserts/images/06.jpg")
 icon.src = require("asserts/icon/Union-grey.svg")
 
-export class Avatar extends Block {
+export class Avatar extends Block<AvatarProps> {
     static cName = "Avatar";
 
     constructor({onChange, ...props}:AvatarProps){
@@ -24,12 +26,14 @@ export class Avatar extends Block {
                 console.log("el: ", this.refs)
                 reader.onloadend = () => {
                     let preview = document.getElementById("preview")
+                    //@ts-expect-error
                     preview.src = reader.result;
                   }
                 
                   if (file) {
                     reader.readAsDataURL(file);
                   } else {
+                    //@ts-expect-error
                     preview.src = "";
                   }
                 }
@@ -39,7 +43,7 @@ export class Avatar extends Block {
 
     protected render(): string {
         return `
-            <form method="post" enctype="multipart/form-data" class="text-center w-[130px] h-[130px] overflow-hidden my-4 cursor-pointer overflow-hidden rounded-full">
+            <form method="post" enctype="multipart/form-data" class="text-center w-[130px] h-[130px] my-4 cursor-pointer overflow-hidden rounded-full">
                 <label>
                 {{{Input 
                     class="hidden"
@@ -63,3 +67,5 @@ export class Avatar extends Block {
         `
     }
 }
+//@ts-expect-errors
+export default WithStore(WithRouter(Avatar));

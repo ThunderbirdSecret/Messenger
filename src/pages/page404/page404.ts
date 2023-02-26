@@ -1,8 +1,22 @@
-import Block from "utils/Block";
+import { WithRouter } from "helpers/HOCS/WithRouter";
+import { Block } from "utils";
+import Router from "utils/Router";
+import { Store } from "utils/store/Store";
 
-export class Page404 extends Block {
+interface Page404Props {
+    router: Router;
+    store: Store<AppState>;
+    // formError?: () => string | null;
+}
+export class Page404 extends Block<Page404Props> {
+static cName = "Page404"
 
-    static cName = "Page404"
+constructor({...props}:Page404Props) {
+    super({...props});
+}
+    // componentDidUpdate() {
+    //     return window.store.getState().screen === '404';
+    // }
 
     protected render(): string {
         return `
@@ -14,3 +28,5 @@ export class Page404 extends Block {
         `
     }
 } 
+
+export default WithRouter(Page404)

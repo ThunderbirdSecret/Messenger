@@ -1,16 +1,21 @@
-import Block from "utils/Block";
+import { Block } from "utils";
 
 interface ButtonConfirmProps {
     path?: string;
     btn?: string | SVGElement | null;
     class?: string;
-    onSubmit?: () => void 
+    onSubmit?: (e: Event) => void 
+    events?: {
+        submit?: (e: Event) => void
+    }
 }//добавить get запрос при клике показывать данные get запроса в консоли
 
-export class ButtonConfirm extends Block{
+export class ButtonConfirm extends Block<ButtonConfirmProps>{
     static cName = "ButtonConfirm"
     constructor({ onSubmit, ...props}:ButtonConfirmProps) {
-        super({...props, events: {click: onSubmit}});
+        super({...props, events: {
+            submit: onSubmit
+        }});
     }
 
    protected render() {
@@ -18,8 +23,13 @@ export class ButtonConfirm extends Block{
         <a href={{path}}>
             <input type="submit" 
             class="{{class}}" 
-            value={{btn}} />
+            value={{btn}} 
+            onSubmit=onSubmit 
+            type="submit"s
+            />
         </a>
         `
    }
 }
+
+export default ButtonConfirm;

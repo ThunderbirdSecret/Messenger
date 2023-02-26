@@ -1,20 +1,37 @@
-import { SubmitBtn } from "helpers/submit";
-import Block from "utils/Block";
+// import { SubmitBtn } from "helpers/submit";
 
-export class Registration extends Block {
+import { WithRouter } from "helpers/HOCS/WithRouter";
+import { WithStore } from "helpers/HOCS/WithStore";
+import { Block } from "utils";
+import Router from "utils/Router";
+import { Store } from "utils/store/Store";
+
+type RegistrationsProps = {
+    router: Router;
+    store: Store<AppState>;
+    // formError?: () => string | null;
+}
+
+export class Registration extends Block<RegistrationsProps> {
     static cName = "Registration";
 
-    constructor(){
-        super()
+    
+    constructor({...props}:RegistrationsProps){
+        super({...props})
 
+        
         this.setProps({
-            onInput: () => {console.log("input")},
-            onFocus: () => console.log("onFocus"),
-            onSubmit: (event: Event)=>{
-                return SubmitBtn(event, "registration", this.refs)
-            },
+            // onInput: () => {console.log("input")},
+            // onFocus: () => console.log("onFocus"),
+            // onSubmit: (event: Event)=>{
+            //     return SubmitBtn(event, "registration", this.refs)
+            // },
         })
     }
+
+    // componentDidUpdate() {
+    //     return window.store.getState().screen === "sign-up";
+    // }
 
     protected render(): string {
         return `
@@ -132,13 +149,13 @@ export class Registration extends Block {
                         </div>
                         {{{ ButtonConfirm
                                 btn="Create account" 
-                                path="../dialog/dialog.html"
+                                path="#"
                                 onSubmit=onSubmit
                                 class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
                         }}}
                         <div class="text-center py-2 text-blue">
                             {{{ LinkPage 
-                                link="../authorization/authorization.html" 
+                                link="#" 
                                 linkTitle="Sign in"
                             }}}
                         </div>
@@ -149,3 +166,5 @@ export class Registration extends Block {
         `
     }
 }
+
+export default WithRouter(WithStore(Registration));

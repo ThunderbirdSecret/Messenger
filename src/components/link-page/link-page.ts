@@ -4,21 +4,26 @@ interface LinkPageProps {
     link?: string;
     linkTitle: string;
     invisibleLink?: string;
-    onClick?: ()=> void;
+    onClick?: (e: Event)=> void;
+    events?: {
+        click?: (e: Event) => void;
+    }
 }
 
-export class LinkPage extends Block {
+export class LinkPage extends Block<LinkPageProps> {
     static cName = "LinkPage";
 
     constructor({onClick, ...props}:LinkPageProps) {
-        super({...props, events:{ click: onClick}});
+        super({...props, events: {click: onClick}});
     }
 
     protected render(): string {
         return `
-        <a class="text-blue text-base py-6" href="{{link}}"> 
+        <button class="text-blue border-none text-base" type="button"> 
             <p>{{linkTitle}}</p>
-        </a>
+        </button>
         `
     }
 }
+
+export default LinkPage;

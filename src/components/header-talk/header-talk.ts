@@ -9,12 +9,12 @@ interface HeaderTalkProps {
     src: string;
 }
 //добавить пропсы для дроп дауна
-export class HeaderTalk extends Block {
+export class HeaderTalk extends Block<HeaderTalkProps> {
 
     static cName = "HeaderTalk"
 
-    constructor({login}:HeaderTalkProps) {
-        super({login})
+    constructor({...props}:HeaderTalkProps) {
+        super({...props})
     }
 
     protected render(): string {
@@ -34,7 +34,9 @@ export class HeaderTalk extends Block {
                 </div>
             </div>
             <hr class="border-t-2 border-hr-color w-12/14 mx-[15px]"/>
-            </div>
+        </div>
             `
     }
 }
+
+export default HeaderTalk;

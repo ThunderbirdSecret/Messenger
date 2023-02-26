@@ -1,6 +1,7 @@
-import Block from "utils/Block";
+import { Block } from "utils"
 
-export class Page500 extends Block {
+interface Page500Props {}
+export class Page500 extends Block<Page500Props> {
     static cName = "Page500"
     protected render(): string {
         return `

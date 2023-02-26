@@ -1,21 +1,24 @@
 import Block from "utils/Block";
 
 interface SendMessageProps {
-    onSubmit?: () => void;
+    onSubmit?: (e: Event) => void;
+    events?: {
+        submit?: (e: Event) => void;
+    }
     href?: string;
 }
 
-export class SendMessage extends Block {
+export class SendMessage extends Block<SendMessageProps> {
     static cName = "SendMessage"
-    constructor({onSubmit}:SendMessageProps){
-        super({events:{submit: onSubmit}})
+    constructor({onSubmit, ...props}:SendMessageProps){
+        super({...props, events: {submit: onSubmit}})
     }
     protected render(): string {
         return `
-            {{{ButtonConfirm class="rounded-full bg-blue">
-                <p>
-                    
-                </p>}}}
+            {{{ButtonConfirm class="rounded-full bg-blue text-white" value="➤"
+               }}}
             `
     }
 }
+
+export default SendMessage;

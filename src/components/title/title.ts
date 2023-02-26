@@ -4,7 +4,7 @@ interface TitleProps {
     title: string;
 }
 
-export class Title extends Block {
+export class Title extends Block<TitleProps> {
 
     static cName="Title"
     
@@ -20,3 +20,5 @@ export class Title extends Block {
         `   
     }
 }
+
+export default Title;

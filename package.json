@@ -14,7 +14,10 @@
     "pages": "./src/pages",
     "asserts": "./src/asserts",
     "styles": "./src/styles",
-    "helpers": "./src/helpers"
+    "helpers": "./src/helpers",
+    "services": "./src/services",
+    "api": "./src/api",
+    "constants": "./src/constants"
   },
   "keywords": [],
   "author": "",
@@ -22,13 +25,14 @@
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "1.0.9",
     "@anikin/parcel-transformer-handlebars-precompile": "1.0.1",
+    "@types/node": "18.14.1",
     "autoprefixer": "10.4.13",
     "eslint": "8.32.0",
     "parcel": "2.8.0",
     "postcss": "8.4.19",
     "postcss-import": "15.0.0",
     "stylelint": "14.16.1",
-    "stylelint-config-standard": "^29.0.0",
+    "stylelint-config-standard": "29.0.0",
     "tailwind": "4.0.0",
     "tailwindcss": "3.2.4",
     "tailwindcss-gradients": "3.0.0",
@@ -37,6 +41,7 @@
   },
   "dependencies": {
     "express": "4.18.2",
-    "handlebars": "4.7.7"
+    "handlebars": "4.7.7",
+    "nanoid": "4.0.1"
   }
 }

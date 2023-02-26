@@ -4,29 +4,38 @@ interface InputProps {
     type?: "phone" | "text" | "password" | "email" | "file";
     placeholder?: string;
     value?: string | HTMLInputElement | HTMLImageElement | File
-    name?: "login" | "password" | "first_name" | "second_name" | "display_name" | "email" | "phone";
+    name?: "login" | "password" | "first_name" | "second_name" | "display_name" | "email" | "phone" | "avatar";
     status?: string;
     accept?: string;
     id?: string;
     class?: string;
-    onInput?: () => void;
-    onBlur?: () => void;
-    onFocus?: () => void;
-    onChange?: () => void;
+    onInput?: (e: FocusEvent) => void;
+    onBlur?: (e: FocusEvent) => void;
+    onFocus?: (e: FocusEvent) => void;
+    onChange?: (e: Event) => void;
 }
 
-export class Input extends Block {
+type InputEvent = InputProps & {
+    events?: {
+      input?: (e: FocusEvent) => void;
+      focus?: (e: FocusEvent) => void;
+      blur?: (e: FocusEvent) => void;
+      change?: (e: Event) => void;
+    };
+  };
+  
+
+export class Input extends Block<InputEvent> {
     static cName = 'Input';
 
     constructor({onInput, onFocus, onBlur, onChange, ...props}: InputProps) {
         super({
             ...props,
             events: {
-                input: onInput,
-                focus: onFocus,
-                blur: onBlur,
-                change: onChange,
-            }
+            input: onInput,
+            focus: onFocus,
+            blur: onBlur,
+            change: onChange}
         });
     }
 
@@ -44,3 +53,5 @@ export class Input extends Block {
         >`
     }
 }
+
+export default Input;

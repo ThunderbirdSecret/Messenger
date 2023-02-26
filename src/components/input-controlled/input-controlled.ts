@@ -1,5 +1,11 @@
+import ErrorComponent from "components/error-component/error-component";
+import Input from "components/input/input";
 import { InputValidate } from "helpers/validate";
 import Block from "utils/Block";
+
+export type ControlledInputRefs = {
+    [key: string]: Input | ErrorComponent;
+  };
 
 interface InputControlledProps {
     type?: "phone" | "text" | "password" | "email";
@@ -9,25 +15,34 @@ interface InputControlledProps {
     error?: string;
     status?: string;
     text?: string;
-    onInput?: ()=> void;
-    onFocus?: ()=> void;
-    onBlur?: ()=> void;
+    onInput?: (event: FocusEvent)=> void;
+    onFocus?: (event: FocusEvent)=> void;
+    onBlur?: (event: FocusEvent)=> void;
     id?: string;
+    childInputRef: string;
+    events?: {
+        input?: (event: FocusEvent)=> void;
+        focus?: (event: FocusEvent)=> void;
+        blur?: (event: FocusEvent)=> void;
+    }
 }
 
-export class InputControlled extends Block{
+export class InputControlled extends Block<InputControlledProps>{
     static cName = "InputControlled";
 
-    constructor({...props}:InputControlledProps){
+    constructor({onBlur, onFocus, onInput,...props}:InputControlledProps){
         super({
             ...props,
             onBlur: (event: FocusEvent) => {
                 let el = event.target as HTMLInputElement
+                //@ts-expect-error
                 let err = this.refs.err
+                console.log("err ref ",err, "refs ", this.refs )
                 InputValidate("blur", el, err, this.refs)
             },
             onInput: (e: FocusEvent) => {
                 let inputEl = e.target as HTMLInputElement
+                //@ts-expect-error
                 let errRef = this.refs.err
                 if(errRef.props.text != "" && inputEl.value === ""){
                     let empty = errRef.setProps({ text: "" })
@@ -46,7 +61,7 @@ export class InputControlled extends Block{
                 type=type
                 name=name
                 placeholder=placeholder
-                ref="inputControlled"
+                ref=childInputRef
                 value=value
                 onInput=onInput
                 onFocus=onFocus
@@ -60,3 +75,5 @@ export class InputControlled extends Block{
         `;
     }
 }
+
+export default InputControlled;

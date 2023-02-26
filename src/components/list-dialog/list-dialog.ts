@@ -1,6 +1,9 @@
 import Block from "utils/Block";
 
-export class ListDialog extends Block{
+interface ListDialogProps{
+    emptyTitle?: string;
+}
+export class ListDialog extends Block<ListDialogProps>{
     
     static cName = "ListDialog"
 
@@ -29,3 +32,6 @@ export class ListDialog extends Block{
         `
     }
 }
+
+
+export default ListDialog;

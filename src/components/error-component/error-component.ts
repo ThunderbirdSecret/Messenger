@@ -4,7 +4,7 @@ interface ErrorComponentProps {
     text?: string;
 }
 
-export class ErrorComponent extends Block <ErrorComponentProps>{
+export class ErrorComponent extends Block<ErrorComponentProps>{
     static cName = "ErrorComponent"
 
     protected render(): string {
@@ -14,3 +14,5 @@ export class ErrorComponent extends Block <ErrorComponentProps>{
         </p>`
     }
 }
+
+export default ErrorComponent;

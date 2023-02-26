@@ -1,13 +1,13 @@
 import { isEmpty } from "./isEmpty"
 
-export function SubmitBtn(event: Event, formName: string, refs: any){
+export function SubmitBtn(event: SubmitEvent, formName: string, refs: any){
     event.preventDefault()
-    event.stopPropagation()
+    // event.stopPropagation()
 
     if(formName === "authorization") {
         refs.errAuth.setProps({ text: ""})
 
-        let formsAuth = {
+        const formsAuth = {
             loginAuth: refs.login.refs.inputControlled.props.value,
             passwordAuth: refs.password.refs.inputControlled.props.value,
         }
@@ -19,9 +19,11 @@ export function SubmitBtn(event: Event, formName: string, refs: any){
 
         if((isEmpty(formsAuth)) && (!isEmpty(errAuth))) {
             console.log(formsAuth)
-        } else {
-            return refs.errAuth.setProps({ text: "Некорректно заполнены формы!"})
-        }
+            return formsAuth
+        } 
+        // else {
+        //     return refs.errAuth.setProps({ text: "Некорректно заполнены формы!"})
+        // }
     }
     if(formName === "registration") {
         refs.errReg.setProps({ text: ""})
