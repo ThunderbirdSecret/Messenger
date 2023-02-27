@@ -10,12 +10,12 @@ export type UserProps = {
     router: Router;
     store: Store<AppState>;
     user: Nullable<UserType>;
-    userData: Array<unknown>;
+    userData: Array<any>;
     imageSrc: string;
     navigateToSet: (event: PointerEvent) => void;
     navigateToPass: (event: PointerEvent) => void;
     signout: (e: Event) => void;
-    getAvatarSrc: (path: string) => void;
+    // getAvatarSrc: (path: string) => void;
   };
   
   export class User extends Block<UserProps> {
@@ -26,9 +26,9 @@ export type UserProps = {
     constructor(props: UserProps) {
       super(props);
   
-      const data = props.user ? getUserDataArray(props.user) : [];
+      const data = props.store.getState().user ? getUserDataArray(props.store.getState().user!) : [];
       const imageSrc = props.user?.avatar;
-  
+      console.log("data", data, "props", props.store.getState().user,)
       this.setProps({
         userData: data,
         imageSrc,
@@ -57,13 +57,13 @@ export type UserProps = {
     }
   
     render() {
-      console.log(this)
+      console.log("User", )
       return `
           <div class="grow flex flex-col justify-center items-center">
-                {{{Avatar isEditable=true imageSrc=imageSrc}}}
+                {{{Avatar }}}
                   {{#each userData}}
                     {{#with this}}
-                      {{{UserDataItem title="{{title}}" data="{{data}}"}}}
+                      {{{DataItem title="{{title}}" data="{{data}}"}}}
                     {{/with}}
                   {{/each}}
               <div class="text-blue py-10 mr-auto flex flex-col items-start text-start">
@@ -76,4 +76,4 @@ export type UserProps = {
     }
   }
   
-  export default WithStore(WithRouter(User));
+  export default WithRouter(WithStore(User));

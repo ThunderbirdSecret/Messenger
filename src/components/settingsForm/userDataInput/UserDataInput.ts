@@ -1,7 +1,7 @@
 import Input from "components/input/input";
 import { ValidateType, validateForm } from "helpers/checkers and validators/validateForm";
 import { Block } from "utils";
-import { DataItemProps } from "../UserDataItem/DataItem";
+import { DataItemProps } from "../DataItem/DataItem";
 
 type IncomingUserDataInputProps = DataItemProps & {
     childRef: string;

@@ -26,7 +26,7 @@ export type ChangeSettingsProps = SettingsProps & {
   type ChangePasswordRefs = Record<string, UserDataInput>;
   
   class ChangeData extends Block<ChangeSettingsProps, ChangePasswordRefs> {
-    static cName: string = "ChangeData";
+    static cName = "ChangeData";
   
     constructor(props: ChangeSettingsProps) {
       super({ ...props, events: { submit: (event: SubmitEvent) => this.onSubmit(event) } });
@@ -73,6 +73,7 @@ export type ChangeSettingsProps = SettingsProps & {
     }
   
     render() {
+      console.log("change data: ", this)
       return `
           <main class="h-screen">
               {{{Loader}}}

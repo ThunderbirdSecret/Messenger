@@ -15,7 +15,8 @@ class ChangePassword extends Block<ChangeSettingsProps, ChangePasswordRefs> {
 
   constructor(props: ChangeSettingsProps) {
     super({ ...props, events: { 
-      submit: (event: SubmitEvent) => this.onSubmit(event) } });
+      submit: (event: SubmitEvent) => this.onSubmit(event) } 
+    });
 
       const { user } = this.props.store.getState();
       const { login, avatar } = user || {};
@@ -23,7 +24,9 @@ class ChangePassword extends Block<ChangeSettingsProps, ChangePasswordRefs> {
     this.setProps({
       userLogin: login,
       avatarSrc: avatar,
-      navigateBack: () => this.props.router.go("/settings"),
+      navigateBack: () => {
+        console.log("back")
+        window.router.go("/settings")},
     });
   }
 
@@ -64,13 +67,13 @@ class ChangePassword extends Block<ChangeSettingsProps, ChangePasswordRefs> {
   }
 
   render() {
-    console.log(this.refs)
+    console.log(this)
     return `
         <main class="h-screen">
           {{{Loader}}}
           <div class="flex px-2">
           <div class="mr-auto my-auto flex-none border-none">
-              {{{ArrowRoundButton onClick=navigateBack}}}
+              {{{BackButton onClick=navigateBack}}}
           </div>
           
           <section class="grow flex flex-col gap-y-2 justify-center items-center h-screen">
@@ -84,7 +87,7 @@ class ChangePassword extends Block<ChangeSettingsProps, ChangePasswordRefs> {
 
                         <div class="flex flex-col py-10">
                             {{{ButtonConfirm btn="Save changes" class="w-[180px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg" type="submit"}}}
-                            {{{LinkPage linkTitle="Cancel" class="border-none bg-transparent py-4 text-sm text-blue" onClick=navigateBack type="button"}}}
+                            {{{LinkPage linkTitle="Cancel" onClick=navigateBack class="border-none bg-transparent py-4 text-sm text-blue" type="button"}}}
                         </div>
                     </form>
                 </section>

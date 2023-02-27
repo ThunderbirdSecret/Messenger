@@ -3,7 +3,7 @@ import Input from "components/input/input";
 import { InputValidate } from "helpers/validate";
 import Block from "utils/Block";
 
-export type ControlledInputRefs = {
+export type InputControlledRefs = {
     [key: string]: Input | ErrorComponent;
   };
 
@@ -13,6 +13,7 @@ interface InputControlledProps {
     placeholder?: string;
     value?: string;
     error?: string;
+    childRef: string;
     status?: string;
     text?: string;
     onInput?: (event: FocusEvent)=> void;
@@ -69,7 +70,7 @@ export class InputControlled extends Block<InputControlledProps>{
                 id=id
             }}}
             <div class="text-red pt-2" id="err"> 
-                {{{ErrorComponent text=error ref="err"}}}
+                {{{ErrorComponent text=error ref="errRef"}}}
             </div>
         </div>
         `;
