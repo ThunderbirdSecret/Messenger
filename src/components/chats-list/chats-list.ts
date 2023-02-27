@@ -40,11 +40,14 @@ class ChatsList extends Block<ChatListProps> {
     const { user, selectedChat } = this.props.store.getState();
 
     if (user && selectedChat) {
+      console.log("open socket" )
+      console.log("socket id :", user.id)
+      console.log("socket select chat :", selectedChat )
       openSocket(user.id, selectedChat);
-      let openChat = document.getElementById("openChat")
+     /* let openChat = document.getElementById("openChat") на случай если не будет работать id для отображения страницы с чатами
       let defaultbg = document.getElementById("defaultbg")
       openChat?.classList.remove("hidden")
-      defaultbg?.classList.add("hidden")
+      defaultbg?.classList.add("hidden")*/
 
     }
   }

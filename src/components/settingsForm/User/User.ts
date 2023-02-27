@@ -18,7 +18,7 @@ export type UserProps = {
     getAvatarSrc: (path: string) => void;
   };
   
-  class User extends Block<UserProps> {
+  export class User extends Block<UserProps> {
     static cName = "User";
   
     avatarSrc = "";

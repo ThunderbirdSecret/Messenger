@@ -1,5 +1,4 @@
 import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithStore } from "helpers/HOCS/WithStore";
 import { WithUser } from "helpers/HOCS/WithUser";
 import { Block } from "utils";
 import Router from "utils/Router";
@@ -19,7 +18,7 @@ export interface SettingsProps {
     constructor(props: SettingsProps) {
       super(props);
   
-      this.setProps({ navigateBack: () => this.props.router.go("/messenger") });
+      this.setProps({ navigateBack: () => window.router.go("/messenger") });
     }
   
     // componentDidUpdate() {
@@ -33,7 +32,7 @@ export interface SettingsProps {
     // }
 
     render() {
-      console.log(this)
+      console.log("user внутри детей ", this.children)
       return `
           <main class="h-screen">
               {{{Loader}}}
@@ -52,4 +51,4 @@ export interface SettingsProps {
     }
   }
   
-  export default WithRouter(WithStore(WithUser(Settings)));
+  export default WithRouter(WithUser(Settings));
