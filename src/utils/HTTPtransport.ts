@@ -5,77 +5,89 @@ enum Methods {
   Get = "GET",
   Post = "POST",
   Put = "PUT",
+  Patch = "PATCH",
   Delete = "DELETE",
 }
 
 type Options = {
-  timeout?: number;
-  data?: Record<string, unknown> | FormData;
-  headers?: Record<string, string>;
-  contentType?: string;
-  responseType?: XMLHttpRequestResponseType;
+  method: Methods;
+  data?: any;
 };
 
 export default class HTTPTransport {
-  get = (url: string, queryParams?: Record<string, string>, options?: Options) => {
-    const urlWithParams = queryParams ? url + queryStringify(queryParams) : url;
-    const getRequestOptions = { responseType: options?.responseType };
 
-    return this.request(PATH.BASE + urlWithParams, Methods.Get, getRequestOptions);
-  };
+  static API_URL = 'https://ya-praktikum.tech/api/v2';
+  protected endpoint: string;
 
-  post = (url: string, options?: Options) => {
-    return this.request(PATH.BASE + url, Methods.Post, options);
-  };
+  constructor(endpoint: string) {
+    this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
+  }
 
-  put = (url: string, options: Options) => {
-    return this.request(PATH.BASE + url, Methods.Put, options);
-  };
+  public get<Response>(path = '/'): Promise<Response> {
+    return this.request<Response>(this.endpoint + path);
+  }
 
-  delete = (url: string, options: Options) => {
-    return this.request(PATH.BASE + url, Methods.Delete, options);
-  };
-
-  request = <T>(url: string, method: Methods, options?: Options): Promise<T> => {
-    const {
-      timeout = 5000,
-      responseType = "json",
-      contentType = "application/json",
+  public post<Response = void>(path: string, data?: unknown): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Methods.Post,
       data,
-    } = options || {};
+    });
+  }
+
+  public put<Response = void>(path: string, data: unknown): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Methods.Put,
+      data,
+    });
+  }
+
+  public patch<Response = void>(path: string, data: unknown): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Methods.Patch,
+      data,
+    });
+  }
+
+  public delete<Response>(path: string): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Methods.Delete,
+    });
+  }
+
+  private request<Response>(url: string, options: Options = {method: Methods.Get}): Promise<Response> {
+    const {method, data} = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-
       xhr.open(method, url);
-      xhr.responseType = responseType;
 
-      if (contentType) {
-        xhr.setRequestHeader("Content-Type", contentType);
-      }
+      xhr.onreadystatechange = (e) => {
 
-      xhr.timeout = timeout;
-      xhr.withCredentials = true;
-
-      xhr.onload = () => {
-        resolve(xhr.response);
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status < 400) {
+            resolve(xhr.response);
+          } else {
+            reject(xhr.response);
+          }
+        }
       };
 
-      xhr.onerror = reject;
-      xhr.onabort = reject;
-      xhr.ontimeout = reject;
+      xhr.onabort = () => reject({reason: 'abort'});
+      xhr.onerror = () => reject({reason: 'network error'});
+      xhr.ontimeout = () => reject({reason: 'timeout'});
+
+      if(!(data instanceof FormData)){
+        xhr.setRequestHeader('Content-Type', 'application/json');
+      }
+
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
 
       if (method === Methods.Get || !data) {
         xhr.send();
-        return;
+      } else {
+        xhr.send(JSON.stringify(data));
       }
-
-      if (data instanceof FormData) {
-        xhr.send(data);
-        return;
-      }
-
-      xhr.send(JSON.stringify(data));
     });
-  };
+  }
 }

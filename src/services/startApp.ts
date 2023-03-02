@@ -1,6 +1,6 @@
 import { hideLoader, showLoader } from "helpers/VisibleLoader";
 import { Store } from "utils/store/Store";
-import { getUserInfo } from "./authorization";
+import { getUserInfo } from "./AuthController";
 import { UserFromServer } from "api/typesAPI";
 import { getAvatar } from "./userData";
 import { getChats } from "./chats";

@@ -1,15 +1,16 @@
+import { withStore } from "helpers/HOCS/WithStore";
 import Block from "utils/Block";
 
 const icon = new Image()
 icon.src = require("asserts/threepoint.svg")
 
 interface HeaderTalkProps {
-    login: string;
-    path: string;
-    src: string;
+    login?: string;
+    path?: string;
+    src?: string;
 }
 //добавить пропсы для дроп дауна
-export class HeaderTalk extends Block<HeaderTalkProps> {
+export class HeaderTalk extends Block {
 
     static cName = "HeaderTalk"
 
@@ -39,4 +40,7 @@ export class HeaderTalk extends Block<HeaderTalkProps> {
     }
 }
 
-export default HeaderTalk;
+
+const withUser = withStore((state) => ({ ...state.user }))
+
+export default withUser(HeaderTalk);

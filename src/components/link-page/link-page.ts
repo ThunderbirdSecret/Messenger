@@ -1,10 +1,11 @@
+import withRouter, { PropsWithRouter } from "helpers/HOCS/WithRouter";
 import Block from "utils/Block";
 
-interface LinkPageProps {
+interface LinkPageProps extends PropsWithRouter {
     link?: string;
+    to: string;
     linkTitle: string;
     invisibleLink?: string;
-    onClick?: (e: Event)=> void;
     events?: {
         click?: (e: Event) => void;
     }
@@ -13,9 +14,13 @@ interface LinkPageProps {
 export class LinkPage extends Block<LinkPageProps> {
     static cName = "LinkPage";
 
-    constructor({onClick, ...props}:LinkPageProps) {
-        super({...props, events: {click: onClick}});
+    constructor({...props}:LinkPageProps) {
+        super({...props, events: {click: ()=> this.navigate()}});
     }
+
+    navigate() {
+        this.props.router.go(this.props.to);
+      }
 
     protected render(): string {
         return `
@@ -26,4 +31,4 @@ export class LinkPage extends Block<LinkPageProps> {
     }
 }
 
-export default LinkPage;
+export default withRouter(LinkPage);

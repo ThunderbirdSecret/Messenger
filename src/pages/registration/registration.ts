@@ -1,32 +1,48 @@
 // import { SubmitBtn } from "helpers/submit";
-
-import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithStore } from "helpers/HOCS/WithStore";
 import { Block } from "utils";
-import Router from "utils/Router";
-import { Store } from "utils/store/Store";
+import AuthController from "services/AuthController";
+import { SubmitBtn } from "helpers/submit";
+import { isEmpty } from "helpers/isEmpty";
 
-type RegistrationsProps = {
-    router: Router;
-    store: Store<AppState>;
-    // formError?: () => string | null;
-}
 
-export class Registration extends Block<RegistrationsProps> {
+// type Entry<T> = {
+//     [K in keyof T]: [K, T[K]]
+//   }[keyof T]
+  
+//   function filterObject<T extends object>(
+//     obj: T,
+//     fn: (entry: Entry<T>, i: number, arr: Entry<T>[]) => boolean
+//   ) {
+//     return Object.fromEntries(
+//       (Object.entries(obj) as Entry<T>[]).filter(fn)
+//     ) as Partial<T>
+//   }
+
+type RegistrationsProps = {}
+export default class Registration extends Block{
     static cName = "Registration";
 
     
     constructor({...props}:RegistrationsProps){
-        super({...props})
-
-        
-        this.setProps({
-            // onInput: () => {console.log("input")},
-            // onFocus: () => console.log("onFocus"),
-            // onSubmit: (event: Event)=>{
-            //     return SubmitBtn(event, "registration", this.refs)
-            // },
+        super({...props,
+            events:{
+                submit: (e: SubmitEvent) => this.onSubmit(e),
+            }
         })
+    }
+
+    onSubmit(e: SubmitEvent) {
+        e.preventDefault()
+        let err = document.querySelectorAll("#err")
+        let allInput = document.querySelectorAll("div > input")
+
+        let data = SubmitBtn(e, "registration", allInput, this.refs, err)
+        console.log(isEmpty(data))
+        
+        if(isEmpty(data)){
+            return AuthController.signup(data)
+        }
+        return console.log("не все поля заполнены")
     }
 
     // componentDidUpdate() {
@@ -34,6 +50,7 @@ export class Registration extends Block<RegistrationsProps> {
     // }
 
     protected render(): string {
+        console.log(this)
         return `
         <main class="flex justify-center items-center h-screen">
             <div class="w-[340px] h-[615px] bg-graphite rounded-md p-[20px] overflow-y-scroll scrollbar">
@@ -167,4 +184,3 @@ export class Registration extends Block<RegistrationsProps> {
     }
 }
 
-export default WithRouter(WithStore(Registration));

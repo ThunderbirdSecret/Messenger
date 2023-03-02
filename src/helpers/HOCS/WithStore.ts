@@ -1,53 +1,35 @@
 import { deepEqual } from "helpers/checkers and validators/deepEqual";
-import { BlockClass } from "utils/Block";
-import { Store } from "utils/store/Store";
+import { Block } from "utils";
+import store, { StoreEvents } from "utils/store/Store";
 
-type WithStateProps = { store: Store<AppState> };
+export function withStore(mapStateToProps: (state: any) => any) {
 
-export type MapStateToProps<S> = (state: AppState) => S;
+  return function wrap(Component: typeof Block){
+    let currentState: any;
 
-export function WithStore<P extends WithStateProps, S = Indexed<unknown>>(
-  WrappedBlock: BlockClass<P>,
-  mapStateToProps?: MapStateToProps<S>
-) {
-  // @ts-expect-error No base constructor has the specified
-  return class BlockWithStore extends WrappedBlock<P> {
-    public static cName = WrappedBlock.cName || WrappedBlock.name;
 
-    public static mapStateToProps = (state: AppState) => {
-      return state;
-    };
+    return class WithStore extends Component {
 
-    constructor(props: P) {
-      // TODO: прокидывать свойства через mapStateToProps
-      super({ ...props, store: window.store });
-    }
+      constructor(props: any) {
+        const state = store.getState()
+        currentState = mapStateToProps(state);
 
-    private __onChangeStoreCallback = (prev: AppState, next: AppState) => {
-      if (typeof mapStateToProps === "function") {
-        const prevPropFromState = mapStateToProps(prev) as Indexed<unknown>;
-        const nextPropFromState = mapStateToProps(next) as Indexed<unknown>;
+        super({ ...props, ...currentState });
 
-        if (deepEqual(prevPropFromState, nextPropFromState)) {
-          return;
-        }
+        store.on(StoreEvents.Updated, () => {
+          const stateProps = mapStateToProps(state);
 
-        // @ts-expect-error this is not typed
-        this.setProps(nextPropFromState);
-        return;
+          if(deepEqual(currentState, stateProps)){
+            return
+          }
+
+          // currentState = stateProps;
+
+          this.setProps({ ...stateProps });
+        });
       }
-      // @ts-expect-error this is not typed
-      this.setProps({ ...this.props, store: window.store });
-    };
-
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
-      window.store.on("updated", this.__onChangeStoreCallback);
     }
 
-    componentWillUnmount() {
-      super.componentWillUnmount();
-      window.store.off("updated", this.__onChangeStoreCallback);
-    }
-  } as BlockClass<Omit<P, "store">>;
+  }
+
 }

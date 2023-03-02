@@ -13,14 +13,13 @@ interface InputControlledProps {
     placeholder?: string;
     value?: string;
     error?: string;
-    childRef: string;
     status?: string;
     text?: string;
     onInput?: (event: FocusEvent)=> void;
     onFocus?: (event: FocusEvent)=> void;
     onBlur?: (event: FocusEvent)=> void;
     id?: string;
-    childInputRef: string;
+    // childInputRef: string;
     events?: {
         input?: (event: FocusEvent)=> void;
         focus?: (event: FocusEvent)=> void;
@@ -36,23 +35,35 @@ export class InputControlled extends Block<InputControlledProps>{
             ...props,
             onBlur: (event: FocusEvent) => {
                 let el = event.target as HTMLInputElement
-                //@ts-expect-error
-                let err = this.refs.err
-                console.log("err ref ",err, "refs ", this.refs )
-                InputValidate("blur", el, err, this.refs)
+                let err = this.refs.errRef
+                InputValidate("blur", el, err, this)
             },
-            onInput: (e: FocusEvent) => {
-                let inputEl = e.target as HTMLInputElement
-                //@ts-expect-error
-                let errRef = this.refs.err
-                if(errRef.props.text != "" && inputEl.value === ""){
-                    let empty = errRef.setProps({ text: "" })
-                    return empty
-                } 
-                return
-            }
-        }) 
-    }
+            onInput: (event: FocusEvent) => {
+                let inputEl = (event.target as HTMLInputElement).value
+                //@ts-ignore
+                if(!this.refs.errRef.props.text){
+                    return
+                }
+                //@ts-ignore
+                if(!inputEl && this.refs.errRef.props.text)
+                    this.setProps({value: ""})
+                    this.refs.errRef.setProps({text: ""})
+                }
+            }) 
+        }
+
+        // public setValue(value: string) {
+        //   return (this.element as HTMLInputElement).value = value;
+        // }
+        
+        // public getName() {
+        //   return (this.element as HTMLInputElement).name;
+        // }
+        
+        // public getValue() {
+        //   return (this.element as HTMLInputElement).value;
+        // }
+          
 
     protected render():string {
         return `
@@ -62,7 +73,6 @@ export class InputControlled extends Block<InputControlledProps>{
                 type=type
                 name=name
                 placeholder=placeholder
-                ref=childInputRef
                 value=value
                 onInput=onInput
                 onFocus=onFocus

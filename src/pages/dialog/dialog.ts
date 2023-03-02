@@ -1,7 +1,6 @@
 import { Input, MessageInput } from "components"
 import { WithRouter } from "helpers/HOCS/WithRouter"
 import { WithStore } from "helpers/HOCS/WithStore"
-import { ValidateType, validateForm } from "helpers/checkers and validators/validateForm"
 import { sendMessage } from "services/chats"
 import { Block } from "utils"
 import Router from "utils/Router"
@@ -34,10 +33,9 @@ icon.src = require("asserts/threepoint.svg")
 
 export class Dialog extends Block<DialogProps, Refs> {
     static cName = "Dialog"
-    constructor({...props}: DialogProps) {
+    constructor(props: DialogProps) {
       super({...props, events: { submit: (event: SubmitEvent) => this.onSubmit(event) } });
       
-  
       this.setProps({
         chats: window.store.getState().chats,
   
@@ -61,15 +59,14 @@ export class Dialog extends Block<DialogProps, Refs> {
         },
 
       });
+      console.log("props", this.props)
     }
   
     componentDidUpdate() {
       if (window.store.getState().currentRoutePathname !== "/messenger") {
         return false;
       }
-  
       this.children = {};
-  
       return true;
     }
   
@@ -83,15 +80,14 @@ export class Dialog extends Block<DialogProps, Refs> {
   
       const { messageRef } = refs;
   
-      const errors = validateForm([{ name: ValidateType.Message, input: messageRef }]);
+      const errors = ""
   
       if (Object.keys(errors).length === 0) {
         const chat = window.store.getState().selectedChat;
-  
         if (chat) {
           sendMessage(messageRef.value, chat);
         }
-  
+      console.log("message ref", messageRef.value)
         messageRef.value = '';
       }
     }
@@ -100,21 +96,20 @@ export class Dialog extends Block<DialogProps, Refs> {
     // {{{DeleteUserFromChatForm onCancel=toggleShowDeleteUserForm}}}
   
     render() {
-      console.log("this dialog", this)
-      // this.props ={...this.props, ...window.store}
+      console.log("this", this)
       const { selectedChat } = window.store.getState();
       const { id, title = [] } = selectedChat || {};
   
         return `
             <main class="h-[760px] w-cover flex flex-row overflow-hidden">
             {{{ Loader }}}
-                <div class="basis-1/4 bg-graphite h-screen">
+                <div class="basis-1/4 bg-graphite h-screen  overflow-y-scroll scrollbar">
                     {{{ HeaderListDialog }}}
 
                     <div class="chat-list">
                     {{#each chats}}
-                      <article class="h-content overflow-auto scrollbar">
-                        {{{ ChatsList chat=this onClick=onClick}}}
+                      <article class="h-content">
+                        {{{ ChatsList chat=this }}}
                       </article>
                     {{/each}}
                     </div>

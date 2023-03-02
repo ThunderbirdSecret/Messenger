@@ -1,4 +1,4 @@
-import Block from "utils/Block";
+import { Block } from "utils";
 
 interface InputProps {
     type?: "phone" | "text" | "password" | "email" | "file";
@@ -25,10 +25,10 @@ type InputEvent = InputProps & {
   };
   
 
-export class Input extends Block<InputEvent> {
+export class Input extends Block{
     static cName = 'Input';
 
-    constructor({onInput, onFocus, onBlur, onChange, ...props}: InputProps) {
+    constructor({onInput, onFocus, onBlur, onChange, ...props}: InputEvent) {
         super({
             ...props,
             events: {

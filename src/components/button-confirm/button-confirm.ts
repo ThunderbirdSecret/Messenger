@@ -4,18 +4,15 @@ interface ButtonConfirmProps {
     path?: string;
     btn?: string | SVGElement | null;
     class?: string;
-    onSubmit?: (e: Event) => void 
     events?: {
-        submit?: (e: Event) => void
+        submit: (e: Event) => void;
     }
 }//добавить get запрос при клике показывать данные get запроса в консоли
 
 export class ButtonConfirm extends Block<ButtonConfirmProps>{
     static cName = "ButtonConfirm"
-    constructor({ onSubmit, ...props}:ButtonConfirmProps) {
-        super({...props, events: {
-            submit: onSubmit
-        }});
+    constructor({ ...props}:ButtonConfirmProps) {
+        super({...props});
     }
 
    protected render() {

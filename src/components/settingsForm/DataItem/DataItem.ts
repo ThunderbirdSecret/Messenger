@@ -6,7 +6,7 @@ export interface DataItemProps {
     type: string;
   }
   
-  export default class DataItem extends Block<DataItemProps> {
+  export default class DataItem extends Block {
     static cName = "DataItem";
   
     render() {

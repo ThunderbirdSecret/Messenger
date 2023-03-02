@@ -1,28 +1,27 @@
+import withRouter, { PropsWithRouter } from "helpers/HOCS/WithRouter";
 import Block from "utils/Block";
 
-type HeaderListDialogProps = {
+interface HeaderListDialogProps extends PropsWithRouter {
     src?: string;
-    onClick?: (e: Event) => void;
+    events?: {
+        click?: () => void;
+      };
 } 
 
-type HeaderListDialogEvents = HeaderListDialogProps &{
-    events?: {
-        click?: (e: Event) => void;
-    }
-}
 
-export class HeaderListDialog extends Block<HeaderListDialogEvents> {
+
+export class HeaderListDialog extends Block<HeaderListDialogProps> {
     static cName = "HeaderListDialog"
-    constructor({src, onClick}:HeaderListDialogEvents){
-        super({src, events: {
-                click: onClick}}
-            )
-        this.setProps({
-           onClick: (e: Event) => {
-            e.stopPropagation()
-            window.router.go("/settings")
-           }
+    constructor(props:HeaderListDialogProps){
+        super({...props, 
+            events: {
+                click:() => this.navigate()
+            }
         })
+        
+      }
+      navigate() {
+        this.props.router.go("/settings");
       }
 
     protected render(): string {
@@ -40,4 +39,4 @@ export class HeaderListDialog extends Block<HeaderListDialogEvents> {
     }
 }
 
-export default HeaderListDialog;
+export default withRouter(HeaderListDialog);

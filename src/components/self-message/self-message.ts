@@ -5,7 +5,7 @@ interface SelfMessagesProps {
     time?: string;
 }
 
-
+//обертка для своих сообщений
 export class SelfMessage extends Block<SelfMessagesProps> {
     
     static cName="SelfMessage"
@@ -16,7 +16,7 @@ export class SelfMessage extends Block<SelfMessagesProps> {
 
     protected render(): string {
         return `
-        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end" id="my_message">
+        <div id="my-message" class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end" id="my_message">
             <div>
                 <div class="bg-select-graphite text-white p-3 rounded-l-lg rounded-br-lg">
                     <p class="text-sm">{{message}}</p>

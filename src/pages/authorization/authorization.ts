@@ -1,71 +1,40 @@
-import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithStore } from "helpers/HOCS/WithStore";
-import { SubmitBtn } from "helpers/submit";
+import { LoginRequestData } from "api/typesAPI";
+import AuthController from "services/AuthController";
 import { Block } from "utils";
-import Router from "utils/Router";
-import { Store } from "utils/store/Store";
 
 interface AuthProps {
-    router: Router;
-    store: Store<AppState>;
-    events?: Record<string, unknown>,
-    navigateToReg: () => void;
-    onSubmit: (e: SubmitEvent) => void;
+    navigateToReg?: () => void;
+    events?:{
+        submit: (e: SubmitEvent) => void;
+    }
 }
 
-interface SubmitEvent extends Event {
-    submitter: any;
-  }
-
-export class Authorization extends Block<AuthProps> {
+export default class Authorization extends Block {
     static cName = "Authorization"
 
     constructor({...props}:AuthProps){
         super({...props,
-            onSubmit: (event: SubmitEvent)=> {
-                SubmitBtn(event, "authrization", this.refs)
-            }})
-    
-        this.setProps({
-            navigateToReg: () => {
-                this.props.store.setState({ errorMessage: ""})
-                // let inputs = {...this.refs }
+            events:{
+                submit: (e: SubmitEvent) => this.onSubmit(e)
             }
-            // password: "",
-            // error: "",
-            
         })
     }
 
-
-
-   /* protected getStateFromProps(props: any): void {
-        this.state = {
-            onSubmit: (event: Event)=>{
-                let errText = this.refs.errAuth.props.text
-                let formData = SubmitBtn(event, "authorization", this.refs)
-                if(!errText || errText === "") {
-                   return window.store.dispatch(login, formData)
-                }
-                return authAPI.signIn(formData)
-            },
-            signUpLink: (e: Event) => {
-                e.preventDefault()
-                window.router.go("/sign-up")
-            }
-
-        }
+    onSubmit(e: SubmitEvent){
+    e.preventDefault()
+    let loginValue = document.getElementById("login") as HTMLInputElement
+    let passVal = document.getElementById("password") as HTMLInputElement
+    const data = {
+        login: loginValue.value,
+        password: passVal.value
+    };
+    console.log(data)
+      AuthController.signin(data as LoginRequestData);
     }
-*/
     
 
     protected render(): string {
-        const { errorMessage } = this.props.store.getState();
-
-        console.log("refs ", this.refs)
-        console.log("store   ", window.store)
-        console.log("router wrap ", WithRouter(Authorization))
-        console.log("PROPS", this.props)
+        console.log("PROPS", this)
 
         return `
 
@@ -102,7 +71,7 @@ export class Authorization extends Block<AuthProps> {
                     </div>
                     <div>
                         <div class="text-red pb-2" id="err"> 
-                            {{{ErrorComponent text=${errorMessage} ref="errAuth"}}}
+                            {{{ErrorComponent text=error ref="errAuth"}}}
                         </div>
                         {{{ ButtonConfirm 
                                 class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
@@ -110,9 +79,11 @@ export class Authorization extends Block<AuthProps> {
                                 path="#" 
                                 ref="buttonConfirm"
                                 onSubmit=onSubmit
+                                type="submit"
                         }}}
                         <div class="text-center py-2">
                             {{{ LinkPage
+                                to="/signup"
                                 ref="link"
                                 onClick=signUpLink
                                 linkTitle="Create account" 
@@ -124,6 +95,3 @@ export class Authorization extends Block<AuthProps> {
         </main>`
     }
 }
-
-
-export default WithRouter(WithStore(Authorization))

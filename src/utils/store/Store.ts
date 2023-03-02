@@ -1,32 +1,24 @@
+import { set } from "helpers/set";
 import EventBus from "utils/EventBus";
-import { defaultState } from "./defaultState";
-import { deepEqual } from "helpers/checkers and validators/deepEqual";
 
-export type Action<State> = (state: State, payload: Record<string, unknown>) => void;
+export enum StoreEvents {
+  Updated = 'updated'
+}
 
-export class Store<State extends Record<string, unknown>> extends EventBus {
-  private state = {} as State;
+export class Store extends EventBus {
+  private state: any = {};
 
-  constructor(incomingState: State) {
-    super();
+  public set(keypath: string, data: unknown) {
+    set(this.state, keypath, data);
 
-    this.state = incomingState;
+    this.emit(StoreEvents.Updated, this.getState());//сообщает когда стор обновлен
   }
 
   public getState() {
     return this.state;
   }
-
-  public setState(newState: Partial<State>) {
-    const nextState = { ...this.state, ...newState };
-
-    if (!deepEqual(this.state, nextState)) {
-      const prevState = this.state;
-
-      this.state = { ...nextState };
-      this.emit("updated", prevState, nextState);
-    }
-  }
 }
 
-export default new Store(defaultState);
+const store = new Store();
+
+export default store;

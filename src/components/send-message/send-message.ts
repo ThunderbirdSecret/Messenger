@@ -1,3 +1,4 @@
+import { withStore } from "helpers/HOCS/WithStore";
 import Block from "utils/Block";
 
 interface SendMessageProps {
@@ -8,7 +9,7 @@ interface SendMessageProps {
     href?: string;
 }
 
-export class SendMessage extends Block<SendMessageProps> {
+export class SendMessage extends Block{
     static cName = "SendMessage"
     constructor({onSubmit, ...props}:SendMessageProps){
         super({...props, events: {submit: onSubmit}})
@@ -21,4 +22,6 @@ export class SendMessage extends Block<SendMessageProps> {
     }
 }
 
-export default SendMessage;
+const withUser = withStore((state) => ({ ...state.user }))
+
+export default withUser(SendMessage);

@@ -6,13 +6,16 @@ const regExpValidate = {
     Phone: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
 }
 
-export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any, refs: any) {
+export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any, context: any) {
     if(nameEvent === "blur"){
+        if(el.name === "chatName") {
+            return console.log("Допустим")
+        }
         if(el.name! === "login") {
             if(!regExpValidate.Login.test(el.value)) {
                 return err.setProps({text: "Логин не корректный!"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -20,7 +23,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             if(!regExpValidate.Password.test(el.value)) {
                 return err.setProps({text: "пароль не корректный!"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -28,7 +31,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             if(!regExpValidate.Email.test(el.value)) {
                 return err.setProps({text: "email не корректный!"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -36,7 +39,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             if(!regExpValidate.Phone.test(el.value)) {
                 return err.setProps({text: "Номер не корректный!"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -44,7 +47,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             if(!regExpValidate.Name.test(el.value)) {
                 return err.setProps({text: "В имени должны быть только буквы!"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -52,7 +55,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             if(!regExpValidate.Name.test(el.value)) {
                 return err.setProps({text: "В фамилии должны быть только буквы!"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -60,7 +63,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             if(!regExpValidate.Name.test(el.value)) {
                 return err.setProps({text: "Не корректный дисплейнейм!"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -68,7 +71,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
             if(!el.value) {
                 return err.setProps({text: "что-нибудь напиши"})
             } else {
-                return refs.inputControlled.setProps({ value: el.value})
+                return context.setProps({ value: el.value})
             }
         }
 
@@ -79,7 +82,7 @@ export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any,
                     if(el.value !== password || el.value === '') {
                         return err.setProps({text: "пароли не совпадают!"})
                     } else {
-                        return refs.inputControlled.setProps({ value: el.value})
+                        return context.setProps({ value: el.value})
                     }
                 }
         }

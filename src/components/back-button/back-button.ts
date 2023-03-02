@@ -1,21 +1,25 @@
+import withRouter, { PropsWithRouter } from "helpers/HOCS/WithRouter";
 import Block from "utils/Block";
 
-interface BackButtonProps {
+interface BackButtonProps extends PropsWithRouter {
     path: string;
-    onClick?: (e: Event)=>void;
     events?: {
-        click?: (e: Event) => void;
+        click: () => void;
       };
 }
 
 const back = new Image()
 back.src = require("asserts/icon/arrow-lest.svg")
 
-export class BackButton extends Block<BackButtonProps> {
+class BackButton extends Block<BackButtonProps> {
     static cName = "BackButton"
 
-    constructor({ onClick, ...props}:BackButtonProps){
-        super({...props, events: { click: onClick } });
+    constructor(props:BackButtonProps){
+        super({...props, events: { click: ()=> this.navigate() } });
+    }
+
+    navigate() {
+      this.props.router.go(this.props.path);
     }
 
     protected render(): string {
@@ -27,4 +31,4 @@ export class BackButton extends Block<BackButtonProps> {
     }
 }
 
-export default BackButton;
+export default withRouter(BackButton)

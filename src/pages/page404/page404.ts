@@ -1,18 +1,11 @@
-import { WithRouter } from "helpers/HOCS/WithRouter";
 import { Block } from "utils";
-import Router from "utils/Router";
-import { Store } from "utils/store/Store";
 
-interface Page404Props {
-    router: Router;
-    store: Store<AppState>;
-    // formError?: () => string | null;
-}
-export class Page404 extends Block<Page404Props> {
+
+export default class Page404 extends Block {
 static cName = "Page404"
 
-constructor({...props}:Page404Props) {
-    super({...props});
+constructor({}) {
+    super({});
 }
     // componentDidUpdate() {
     //     return window.store.getState().screen === '404';
@@ -23,10 +16,8 @@ constructor({...props}:Page404Props) {
             <main class="flex justify-center flex-col gap-5 items-center h-screen">
                 {{{ Title title="404"}}}
                 <p>You got lost.</p>
-                {{{LinkPage link="../dialog/dialog.html" linkTitle="Back to chats"}}}
+                {{{LinkPage linkTitle="Back to chats" to="/"}}}
             </main>
         `
     }
 } 
-
-export default WithRouter(Page404)

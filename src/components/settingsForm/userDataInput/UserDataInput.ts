@@ -1,29 +1,26 @@
-import Input from "components/input/input";
 import { ValidateType, validateForm } from "helpers/checkers and validators/validateForm";
 import { Block } from "utils";
 import { DataItemProps } from "../DataItem/DataItem";
 
 type IncomingUserDataInputProps = DataItemProps & {
-    childRef: string;
     name: string;
     error?: string;
   };
   
-  type UserDataInputProps = IncomingUserDataInputProps & {
-    onInputEvent?: (event: FocusEvent) => void;
-  };
+  // type UserDataInputProps = IncomingUserDataInputProps & {
+  //   onInputEvent?: (event: FocusEvent) => void;
+  // };
   
-  type UserDataInputRefs = Record<string, Input | undefined>;
+  // type UserDataInputRefs = Record<string, Input | undefined>;
   
-  export default class UserDataInput extends Block<UserDataInputProps, UserDataInputRefs> {
+  export default class UserDataInput extends Block {
     static cName = "UserDataInput";
   
-    constructor({ title, data, type, childRef, error = '', name: inputName }: IncomingUserDataInputProps) {
+    constructor({ title, data, type, error = '', name: inputName }: IncomingUserDataInputProps) {
       super({
         title,
         data,
         type,
-        childRef,
         error,
         name: inputName,
         onInputEvent: (event: FocusEvent) => {

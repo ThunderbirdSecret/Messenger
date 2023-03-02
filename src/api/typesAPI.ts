@@ -86,6 +86,17 @@ export type WebSocketMessage = {
   };
 };
 
+export interface UserApi {
+  id: number;
+  first_name: string;
+  second_name: string;
+  login: string;
+  email: string;
+  password: string;
+  phone: string;
+  avatar: string;
+};
+
 export type UserKeys =
   | "login" | "firstName" | "secondName" | "avatar" | "phone" | "email" | "displayName";
 

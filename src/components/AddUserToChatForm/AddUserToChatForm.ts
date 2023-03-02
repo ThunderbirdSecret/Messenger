@@ -1,58 +1,46 @@
-import InputControlled from "components/input-controlled/input-controlled";
-import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithStore } from "helpers/HOCS/WithStore";
-import { getChildInputRefs } from "helpers/getChildInputRefs";
-import { getErrorsObject } from "helpers/getErrorsObject";
-import { setChildErrorsProps } from "helpers/setChildErrorsProps";
-import { addUserToChat } from "services/chats";
+import { withStore } from "helpers/HOCS/WithStore";
 import { Block } from "utils";
-import Router from "utils/Router";
-import { Store } from "utils/store/Store";
 
-type AddUserToChatFormProps = {
-  router: Router;
-  store: Store<AppState>;
-  events: Record<string, unknown>;
-  onCancel: () => void;
-  onSubmit: (event: SubmitEvent) => void;
-  onInput: (event: FocusEvent) => void;
-  onFocus: (event: FocusEvent) => void;
+interface AddUserToChatFormProps {
+  events?: {
+    // click: () => void;
+    submit?: (e: Event) => void;
+    // input: (e: FocusEvent) => void
+    // focus: (event: FocusEvent) => void;
+  }
 };
 
 
-interface SubmitEvent extends Event {
-  submitter: HTMLElement;
-}
-
-type AddUserToChatFormRefs = Indexed<InputControlled>;
-
-class AddUserToChatForm extends Block<AddUserToChatFormProps, AddUserToChatFormRefs> {
+// interface SubmitEvent extends Event {
+//   submitter: HTMLElement;
+// }
+class AddUserToChatForm extends Block {
   static cName: string = "AddUserToChatForm";
 
-  constructor(props: AddUserToChatFormProps) {
-    super({ ...props, events: { submit: (event: SubmitEvent) => this.onSubmit(event) } });
+  constructor( props: AddUserToChatFormProps) {
+    super({props, events: {
+        submit: (e: Event) => this.onSubmit(e)
+    }});
   }
 
-  async onSubmit(event: SubmitEvent) {
+  async onSubmit(event:Event) {
     event.preventDefault();
+    console.log("submit worked!")}
+    // const refs = getChildInputRefs(this.refs);
+    // const errors = getErrorsObject(refs);
+    // const { login } = refs;
 
-    const refs = getChildInputRefs(this.refs);
-    const errors = getErrorsObject(refs);
-    const { login } = refs;
+    // setChildErrorsProps(errors, this.refs);
 
-    setChildErrorsProps(errors, this.refs);
+    // if (Object.keys(errors).length === 0) {
+    //   const chat = this.props.store.getState().selectedChat;
 
-    if (Object.keys(errors).length === 0) {
-      const chat = this.props.store.getState().selectedChat;
-
-      if (chat) {
-        await addUserToChat({ login: login.value, chat });
-      }
-    }
-  }
+    //   if (chat) {
+    //     await addUserToChat({ login: login.value, chat });
+    //   }
+    // }
 
   render() {
-    const { errorMessage } = this.props.store.getState();
     return `
       <div class="hidden" id="addUser">
       <form class="flex flex-col gap-y-[18px] p-[20px] items-center bg-zinc-700 rounded-lg z-10 absolute inset-60 w-[350px] h-[300px] shadow-lg" action="#">
@@ -74,7 +62,7 @@ class AddUserToChatForm extends Block<AddUserToChatFormProps, AddUserToChatFormR
                 }}}
                 
                 <div class="flex text-sm">
-                  <p class="text-red">${errorMessage}</p>
+                  <p class="text-red"></p>
 
                     {{{ LinkPage linkTitle="Add user" class="px-2 bg-button-color w-[60px] h-[30px]" onClick=onSubmit type="submit"}}}
                     {{{ LinkPage linkTitle="Cancel" class="px-2" onClick=onCancel type="button"}}}
@@ -85,5 +73,6 @@ class AddUserToChatForm extends Block<AddUserToChatFormProps, AddUserToChatFormR
         `;
   }
 }
+const withUser = withStore((state) => ({ ...state.user }))
 
-export default WithStore(WithRouter(AddUserToChatForm));
+export default withUser(AddUserToChatForm);

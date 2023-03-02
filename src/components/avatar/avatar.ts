@@ -1,5 +1,4 @@
-import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithStore } from "helpers/HOCS/WithStore";
+
 import Block from "utils/Block";
 
 interface AvatarProps {
@@ -14,7 +13,7 @@ const icon = new Image()
 image.src = require("asserts/images/06.jpg")
 icon.src = require("asserts/icon/Union-grey.svg")
 
-export class Avatar extends Block<AvatarProps> {
+export default class Avatar extends Block {
     static cName = "Avatar";
 
     constructor({onChange, ...props}:AvatarProps){
@@ -67,5 +66,3 @@ export class Avatar extends Block<AvatarProps> {
         `
     }
 }
-//@ts-expect-errors
-export default WithStore(WithRouter(Avatar));

@@ -1,27 +1,21 @@
-import InputControlled from "components/input-controlled/input-controlled";
-import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithStore } from "helpers/HOCS/WithStore";
+import { withStore } from "helpers/HOCS/WithStore";
 import { getChildInputRefs } from "helpers/getChildInputRefs";
 import { getErrorsObject } from "helpers/getErrorsObject";
 import { createChat } from "services/chats";
 import { Block } from "utils";
-import Router from "utils/Router";
-import { Store } from "utils/store/Store";
+
 
 type NewChatProps = {
-  router: Router;
-  store: Store<AppState>;
-  events: Record<string, unknown>;
-  onCancel: () => void;
+  events?: Record<string, unknown>;
 };
 
-type NewChatRefs = Indexed<InputControlled>;
+// type NewChatRefs = Indexed<InputControlled>;
 
-interface SubmitEvent extends Event {
-  submitter: HTMLElement;
-}
+// interface SubmitEvent extends Event {
+//   submitter: HTMLElement;
+// }
 
-class NewChat extends Block<NewChatProps, NewChatRefs> {
+class NewChat extends Block {
   static cName = "NewChat";
 
   constructor(props: NewChatProps) {
@@ -29,19 +23,23 @@ class NewChat extends Block<NewChatProps, NewChatRefs> {
       ...props,
       events: {
         submit: (event: SubmitEvent) => this.onSubmit(event),
+        click: () => this.onCancel()
       },
     });
 
-    this.setProps({
-      onCancel: () => {
-        document.querySelector('#createChat')?.classList.remove("hidden");
-      },
-    });
+    // this.setProps({
+
+    // });
+  }
+
+  onCancel() {
+    document.querySelector("#createChat")?.classList.remove("hidden");
   }
 
   onSubmit(event: SubmitEvent) {
     event.preventDefault();
-
+    //@ts-ignore
+    console.log("Event", event.target.value)
     const refs = getChildInputRefs(this.refs);
     console.log(refs)
     const errors = getErrorsObject(refs);
@@ -57,10 +55,10 @@ class NewChat extends Block<NewChatProps, NewChatRefs> {
   }
 
   render() {
-    const { errorMessage } = this.props.store.getState();
+    console.log("NEW CHATS", this.props)
     return `
       <div class="hidden" id="createChat">
-          <form class="flex flex-col gap-y-10 p-[20px] items-center bg-zinc-700 rounded-lg z-10 absolute inset-60 w-[350px] h-[300px] shadow-lg"  onSubmit={{onSubmit}}>
+        <form class="flex flex-col gap-y-10 p-[20px] items-center bg-zinc-700 rounded-lg z-10 absolute inset-60 w-[350px] h-[300px] shadow-lg"  onSubmit={{onSubmit}}>
           <div class="ml-auto text-white">
           {{{LinkPage onClick=onCancel linkTitle="x" type="button"}}}
           </div>
@@ -70,7 +68,7 @@ class NewChat extends Block<NewChatProps, NewChatRefs> {
               onFocus=onFocus 
               onBlur=onBlur
               type="text"
-              inputName="chatName"
+              name="chatName"
               error=error
               value=""
               ref="chatName"
@@ -79,14 +77,15 @@ class NewChat extends Block<NewChatProps, NewChatRefs> {
           }}}
           
           <div class="flex text-sm">
-              <p class='ext-red'>${errorMessage}</p>
               {{{ButtonConfirm btn="Create chat" class="px-6 text-lg" type='submit'}}}
               {{{LinkPage linkTitle='Cancel' class="px-6" onClick=onCancel type='button'}}}
           </div>
-      </form>
+        </form>
       </div>
      `;
   }
 }
 
-export default WithStore(WithRouter(NewChat));
+const withUser = withStore((state) => ({ ...state.user }))
+
+export default withUser(NewChat);

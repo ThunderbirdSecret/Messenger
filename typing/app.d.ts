@@ -11,13 +11,13 @@ declare global {
 
   export type UserType = {
     id: number;
-    displayName: string;
+    first_name: string;
+    second_name: string;
     login: string;
-    firstName: string;
-    secondName: string;
-    avatar: string;
-    phone: string;
     email: string;
+    password: string;
+    phone: string;
+    avatar?: string;
   };
 
   export type ChatType = {
