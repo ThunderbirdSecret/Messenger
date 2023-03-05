@@ -1,4 +1,3 @@
-import { ValidateType, validateForm } from "helpers/checkers and validators/validateForm";
 import { Block } from "utils";
 import { DataItemProps } from "../DataItem/DataItem";
 
@@ -23,13 +22,13 @@ type IncomingUserDataInputProps = DataItemProps & {
         type,
         error,
         name: inputName,
-        onInputEvent: (event: FocusEvent) => {
-          const target = event.target as HTMLInputElement;
-          const errorObject = validateForm([{ name: inputName as ValidateType, input: target }])[
-            inputName
-          ];
-          this.refs.errorRef?.setProps({ error: errorObject });
-        },
+        // onInputEvent: (event: FocusEvent) => {
+        //   const target = event.target as HTMLInputElement;
+        //   const errorObject = validateForm([{ name: inputName as ValidateType, input: target }])[
+        //     inputName
+        //   ];
+        //   this.refs.errorRef?.setProps({ error: errorObject });
+        // },
       });
     }
   
@@ -44,7 +43,7 @@ type IncomingUserDataInputProps = DataItemProps & {
                       placeholder=""
                       name=inputName
                       value=data
-                      class="ml-auto bg-transparent text-end focus:outline-none"
+                      class="input-setting"
                       onInput=onInputEvent
                       onFocus=onInputEvent
                       onBlur=onInputEvent

@@ -1,97 +1,104 @@
-import { LoginRequestData } from "api/typesAPI";
+import Block from "utils/Block";
+import template from "./auth.hbs"
+import { Link } from "components/navigate-button/navigate-button";
+import Title from "components/title/title";
+import Input from "components/input/input";
+import ErrorComponent from "components/error-component/error-component";
+import ButtonConfirm from "components/button-confirm/button-confirm";
 import AuthController from "services/AuthController";
-import { Block } from "utils";
+import { LoginRequestData } from "api/typesAPI";
+import { InputValidate } from "helpers/validate";
 
-interface AuthProps {
-    navigateToReg?: () => void;
-    events?:{
-        submit: (e: SubmitEvent) => void;
-    }
-}
+
+
 
 export default class Authorization extends Block {
-    static cName = "Authorization"
 
-    constructor({...props}:AuthProps){
-        super({...props,
-            events:{
-                submit: (e: SubmitEvent) => this.onSubmit(e)
+    constructor() {
+        super({});
+      }
+
+    init() {
+        this.children.title = new Title({
+            title: "Authorization"
+        })
+
+        this.children.login = new Input({
+            name: "login",
+            type: "text",
+            class: "input-controlled",
+            placeholder: "Login",
+            id: "login",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+                // input: (e: FocusEvent) => this.onInput(e)
             }
         })
+
+        this.children.password = new Input({
+            name: "password",
+            type: "password",
+            class: "input-controlled",
+            placeholder: "password",
+            id: "password",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+                // input: (e: FocusEvent) => this.onInput(e)
+            }
+        })
+
+        this.children.error = new ErrorComponent({
+            id: "err",
+            text: this.props.textErr
+        })
+
+        this.children.button = new ButtonConfirm({
+            title: "Sign in",
+            class: "button-confirm",
+            events: {
+              click: () => this.onSubmit()
+            },
+          })
+
+      //@ts-expect-error
+        this.children.link = new Link({
+          title: "Sign Up",
+          path: "/signup",
+          class: "link-page",
+          type: "button",
+        });
     }
 
-    onSubmit(e: SubmitEvent){
-    e.preventDefault()
+    onBlur(e: FocusEvent) {
+        let ev = (e.target as HTMLInputElement)
+        let err = document.getElementById("err") as HTMLElement
+        
+        return InputValidate("Authorization", ev, err)
+    }
+
+    onSubmit(){
     let loginValue = document.getElementById("login") as HTMLInputElement
     let passVal = document.getElementById("password") as HTMLInputElement
-    const data = {
-        login: loginValue.value,
-        password: passVal.value
-    };
-    console.log(data)
-      AuthController.signin(data as LoginRequestData);
-    }
-    
+    const err = document.getElementById("err")
 
-    protected render(): string {
-        console.log("PROPS", this)
+    if(err!.innerText === "" && loginValue.value !== "" && passVal.value !== ""){
+            const data = {
+                login: loginValue.value,
+                password: passVal.value
+            };
 
-        return `
-
-        <main class="flex justify-center items-center h-screen">
-        {{{ Loader }}}
-            <div class="w-[340px] h-[384px] bg-graphite rounded-md p-[20px]">
-                {{{ Title title="Autorization" }}}
-                <form class="flex flex-col gap-y-10 justify-center items-center">
-                    <div>
-                            {{{ InputControlled
-                                    type="text"
-                                    name="login"
-                                    placeholder="Login"
-                                    ref="login"
-                                    onBlur=onBlur
-                                    onInput=onInput
-                                    onFocus=onFocus
-                                    value=""
-                                    id="login"
-                            }}}
-                    </div>
-                    <div>
-                        {{{ InputControlled
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                ref="password"
-                                onInput=onInput
-                                onFocus=onFocus
-                                onBlur=onBlur
-                                value=""
-                                id="password"
-                        }}}
-                    </div>
-                    <div>
-                        <div class="text-red pb-2" id="err"> 
-                            {{{ErrorComponent text=error ref="errAuth"}}}
-                        </div>
-                        {{{ ButtonConfirm 
-                                class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
-                                btn="Sign Up" 
-                                path="#" 
-                                ref="buttonConfirm"
-                                onSubmit=onSubmit
-                                type="submit"
-                        }}}
-                        <div class="text-center py-2">
-                            {{{ LinkPage
-                                to="/signup"
-                                ref="link"
-                                onClick=signUpLink
-                                linkTitle="Create account" 
-                            }}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </main>`
+            AuthController.signin(data as LoginRequestData);
+            return
+    } else {
+        return err!.innerText = "Не все поля заполнены"
     }
 }
+    
+
+     render() {
+        console.log(this)
+        return this.compile(template, {...this.props});
+     }
+    }

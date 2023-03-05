@@ -1,5 +1,9 @@
 import Block from "./Block";
 
+interface BlockConstructable<P = any> {
+  new(props: P): Block;
+}
+
 function isEqual(lhs: string, rhs: string): boolean {
   return lhs === rhs;
 }
@@ -11,7 +15,7 @@ function render(query: string, block: Block) {
     throw new Error(`root not found by selector "${query}"`);
   }
 
-  root.innerHTML = "";
+  root.innerHTML = '';
 
   root.append(block.getContent()!);
 
@@ -23,7 +27,7 @@ class Route {
 
   constructor(
     private pathname: string,
-    private readonly blockClass: typeof Block,
+    private readonly blockClass: BlockConstructable,
     private readonly query: string) {
   }
 
@@ -61,7 +65,7 @@ class Router {
     Router.__instance = this;
   }
 
-  public use(pathname: string, block: typeof Block) {
+  public use(pathname: string, block: BlockConstructable) {
     const route = new Route(pathname, block, this.rootQuery);
     this.routes.push(route);
 
@@ -95,7 +99,7 @@ class Router {
   }
 
   public go(pathname: string) {
-    this.history.pushState({}, "", pathname);
+    this.history.pushState({}, '', pathname);
 
     this._onRoute(pathname);
   }
@@ -113,4 +117,4 @@ class Router {
   }
 }
 
-export default new Router("#app");
+export default new Router('#app');

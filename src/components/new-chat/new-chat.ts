@@ -1,19 +1,10 @@
-import { withStore } from "helpers/HOCS/WithStore";
-import { getChildInputRefs } from "helpers/getChildInputRefs";
-import { getErrorsObject } from "helpers/getErrorsObject";
-import { createChat } from "services/chats";
+import controller from "services/ChatsController";
 import { Block } from "utils";
 
 
 type NewChatProps = {
   events?: Record<string, unknown>;
 };
-
-// type NewChatRefs = Indexed<InputControlled>;
-
-// interface SubmitEvent extends Event {
-//   submitter: HTMLElement;
-// }
 
 class NewChat extends Block {
   static cName = "NewChat";
@@ -23,69 +14,39 @@ class NewChat extends Block {
       ...props,
       events: {
         submit: (event: SubmitEvent) => this.onSubmit(event),
-        click: () => this.onCancel()
       },
     });
-
-    // this.setProps({
-
-    // });
   }
 
-  onCancel() {
-    document.querySelector("#createChat")?.classList.remove("hidden");
-  }
-
+ 
   onSubmit(event: SubmitEvent) {
     event.preventDefault();
-    //@ts-ignore
-    console.log("Event", event.target.value)
-    const refs = getChildInputRefs(this.refs);
-    console.log(refs)
-    const errors = getErrorsObject(refs);
-
-    const { chatName } = refs;
-
-    // setChildErrorsProps(errors, this.refs);
-
-    if (Object.keys(errors).length === 0) {
-      createChat({ title: chatName.value });
-      document.querySelector('#createChat')?.classList.remove("hidden");
-    }
+    let inputEl = document.getElementById("input-chat") as HTMLInputElement
+    controller.create(inputEl.value)
+      document.querySelector('#createChat')?.classList.toggle("hidden");
   }
 
   render() {
-    console.log("NEW CHATS", this.props)
+    console.log("NEW CHATS", this)
     return `
-      <div class="hidden" id="createChat">
-        <form class="flex flex-col gap-y-10 p-[20px] items-center bg-zinc-700 rounded-lg z-10 absolute inset-60 w-[350px] h-[300px] shadow-lg"  onSubmit={{onSubmit}}>
+        <form id="createChat" class="hidden flex flex-col gap-y-10 p-[20px] items-center bg-zinc-700 rounded-lg z-10 absolute inset-60 w-[350px] h-[300px] shadow-lg" onSubmit={{onSubmit}}>
           <div class="ml-auto text-white">
-          {{{LinkPage onClick=onCancel linkTitle="x" type="button"}}}
+          {{{CloseModal }}}
           </div>
           <h3>Enter the name for the new chat</h3>
-          {{{InputControlled
-              onInput=onInput 
-              onFocus=onFocus 
-              onBlur=onBlur
-              type="text"
-              name="chatName"
-              error=error
-              value=""
-              ref="chatName"
-              childInputRef="chatName"
-              placeholder="Enter any name"
+          {{{Input
+             class="h-9 w-[280px] bg-transparent focus:outline-none border-b-2 border-blue text-base p-2 text-white"
+             name="new_chat"
+             value=""
+             id="input-chat"
           }}}
           
           <div class="flex text-sm">
-              {{{ButtonConfirm btn="Create chat" class="px-6 text-lg" type='submit'}}}
-              {{{LinkPage linkTitle='Cancel' class="px-6" onClick=onCancel type='button'}}}
+              {{{ButtonConfirm btn="Create chat" class="px-6 text-lg" type="submit"}}}
           </div>
         </form>
-      </div>
      `;
   }
 }
 
-const withUser = withStore((state) => ({ ...state.user }))
-
-export default withUser(NewChat);
+export default NewChat;

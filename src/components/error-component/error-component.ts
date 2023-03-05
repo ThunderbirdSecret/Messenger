@@ -1,18 +1,20 @@
 import Block from "utils/Block";
+import template from "./error-component.hbs"
 
 interface ErrorComponentProps {
     text?: string;
+    id?: string;
 }
 
-export class ErrorComponent extends Block<ErrorComponentProps>{
-    static cName = "ErrorComponent"
+class ErrorComponent extends Block<ErrorComponentProps>{
+ constructor(props:ErrorComponentProps){
+    super(props)
+ }
 
-    protected render(): string {
-        return `
-        <p class="text-center text-xs id="err">
-            {{text}}
-        </p>`
-    }
+render() {
+    return this.compile(template, {...this.props});
+ }
 }
+
 
 export default ErrorComponent;

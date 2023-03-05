@@ -1,0 +1,20 @@
+<main class="h-screen">
+    {{{Loader}}}
+    <div class="flex px-2">
+      <div class="mr-auto my-auto flex-none border-none">
+        {{{back}}}
+      </div>
+      
+      <section class="grow flex flex-col justify-center items-center">
+        {{{avatar}}}
+            {{#each fields}}
+                {{{this}}}
+            {{/each}}
+            <div class="text-blue py-10 mr-auto flex flex-col items-start text-start">
+                {{{datachange}}} 
+                {{{datapass}}} 
+                {{{logout}}} 
+            </div>
+      </section>
+    </div>
+</main>

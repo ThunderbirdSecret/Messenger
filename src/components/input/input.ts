@@ -1,57 +1,43 @@
-import { Block } from "utils";
+import Block from "utils/Block";
+import template from "./input.hbs"
 
 interface InputProps {
     type?: "phone" | "text" | "password" | "email" | "file";
     placeholder?: string;
     value?: string | HTMLInputElement | HTMLImageElement | File
-    name?: "login" | "password" | "first_name" | "second_name" | "display_name" | "email" | "phone" | "avatar";
+    name?: string;
     status?: string;
     accept?: string;
-    id?: string;
+    id: string;
     class?: string;
-    onInput?: (e: FocusEvent) => void;
-    onBlur?: (e: FocusEvent) => void;
-    onFocus?: (e: FocusEvent) => void;
-    onChange?: (e: Event) => void;
-}
-
-type InputEvent = InputProps & {
     events?: {
-      input?: (e: FocusEvent) => void;
-      focus?: (e: FocusEvent) => void;
-      blur?: (e: FocusEvent) => void;
-      change?: (e: Event) => void;
-    };
-  };
+        input?: (e: FocusEvent) => void;
+        focus?: (e: FocusEvent) => void;
+        blur?: (e: FocusEvent) => void;
+        change?: (e: Event) => void;
+      };
+}
   
-
-export class Input extends Block{
-    static cName = 'Input';
-
-    constructor({onInput, onFocus, onBlur, onChange, ...props}: InputEvent) {
-        super({
-            ...props,
-            events: {
-            input: onInput,
-            focus: onFocus,
-            blur: onBlur,
-            change: onChange}
-        });
+class Input extends Block<InputProps>{
+    constructor(props: InputProps) {
+        super(props);
     }
 
-    protected render(): string {
-        return `
-        <input
-            class="{{class}}"
-            type="{{type}}"
-            placeholder="{{placeholder}}"
-            value="{{value}}"
-            name="{{name}}"
-            {{status}}
-            id="{{id}}"
-            accept="{{accept}}"
-        >`
-    }
+    public setValue(value: string) {
+        return (this.element as HTMLInputElement).value = value;
+      }
+    
+      public getName() {
+        return (this.element as HTMLInputElement).name;
+      }
+    
+      public getValue() {
+        return (this.element as HTMLInputElement).value;
+      }
+
+    render() {
+        return this.compile(template, { ...this.props });
+      }
 }
 
 export default Input;

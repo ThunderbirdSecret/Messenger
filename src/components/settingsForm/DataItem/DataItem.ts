@@ -1,24 +1,15 @@
-import { Block } from "utils";
+import Block from "utils/Block";
+import template from "./data-item.hbs"
 
 export interface DataItemProps {
-    title: string;
-    data: string;
-    type: string;
+    name: string;
+    value?: string;
+}
+export default class DataItem extends Block {
+  constructor(props:DataItemProps){
+    super(props)
   }
-  
-  export default class DataItem extends Block {
-    static cName = "DataItem";
-  
-    render() {
-      return `
-          <div class="flex flex-wrap justify-between my-1 gap-x-52 w-[510px]">
-            <div>
-              <div class="text-start text-bold">{{title}}</div>
-            </div>
-            <div>
-              <div class="text-end">{{data}}</div>
-            <div>
-          </div>
-          `;
-    }
+  render() {
+    return this.compile(template, {...this.props})
   }
+}

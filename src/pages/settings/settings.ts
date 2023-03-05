@@ -1,54 +1,80 @@
-import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithUser } from "helpers/HOCS/WithUser";
-import { Block } from "utils";
-import Router from "utils/Router";
-import { Store } from "utils/store/Store";
+import Block from "utils/Block";
+import template from "./settings.hbs"
+import DataItem from "components/settingsForm/DataItem/DataItem";
+import { Link } from "components/navigate-button/navigate-button";
+import ButtonConfirm from "components/button-confirm/button-confirm";
+import AuthController from "services/AuthController";
+import { withStore } from "utils/store/Store";
+import Avatar from "components/avatar/avatar";
+import { DEFAULT_AVATAR } from "constants/imagesPaths";
 
+export interface SettingsProps extends UserType{}
 
-export interface SettingsProps {
-    user: Nullable<UserType>;
-    router: Router;
-    store: Store<AppState>;
-    navigateBack?: () => void;
-  }
+  const userFields = ["first_name", "second_name", "display_name", "login", "email", "phone"] as Array<keyof UserType>;
   
-  export class Settings extends Block<SettingsProps> {
-    static cName = "Settings";
+
+  export class Settings extends Block<SettingsProps>{
   
-    constructor(props: SettingsProps) {
-      super(props);
+    constructor() {
+      super({});
+      }
+
+      init() {
+
+        //@ts-expect-error
+        this.children.back = new Link({
+          title: "🡐",
+          path: "/messenger",
+          class: "back-button",
+          type: "button"
+        })
+
+        this.children.avatar = new Avatar({
+          avatarValue: DEFAULT_AVATAR
+        })
+
+        this.children.fields = userFields.map(name => {
+          return new DataItem({ name, value: this.props[name] });
+        });
+
+        //@ts-expect-error
+        this.children.datachange = new Link({
+          title: "Change profile",
+          path: "/changedata",
+          class: "link-page",
+          type: "button",
+        });
+
+        //@ts-expect-error
+        this.children.datapass = new Link({
+          title: "Change password",
+          path: "/changepassword",
+          class: "link-page",
+          type: "button",
+        });
+
+        this.children.logout = new ButtonConfirm({
+          title: "Sign out",
+          class: "link-page",
+          events: {
+            click:() => AuthController.logout()
+          }
+        })
+      }
   
-      this.setProps({ navigateBack: () => window.router.go("/messenger") });
-    }
-  
-    // componentDidUpdate() {
-    //   if (this.props.store.getState().currentRoutePathname !== "/settings") {
-    //     return false;
-    //   }
-  
-    //   this.children = {};
-  
-    //   return true;
-    // }
+      protected componentDidUpdate(oldProps: SettingsProps, newProps: SettingsProps): boolean {
+
+        (this.children.fields as DataItem[]).forEach((field, i) => {
+          field.setProps({  value: newProps[userFields[i]] });
+        });
+        return false;
+      }
 
     render() {
-      console.log("user внутри детей ", this.children)
-      return `
-          <main class="h-screen">
-              {{{Loader}}}
-              <div class="flex px-2">
-                <div class="mr-auto my-auto flex-none border-none">
-                  {{{BackButton onClick=navigateBack}}}
-                </div>
-                
-                <section class="grow flex flex-col gap-y-2 justify-center items-center h-screen">
-                  {{{ChangeAvatar}}}
-                  {{{User user=user}}}
-                </section>
-              </div>
-          </main>
-          `;
+      return this.compile(template, {...this.props})
     }
   }
   
-  export default WithRouter(WithUser(Settings));
+  const withUser = withStore((state) => ({ ...state.user }))
+
+  export const ProfilePage = withUser(Settings);

@@ -52,37 +52,9 @@ export class InputControlled extends Block<InputControlledProps>{
             }) 
         }
 
-        // public setValue(value: string) {
-        //   return (this.element as HTMLInputElement).value = value;
-        // }
-        
-        // public getName() {
-        //   return (this.element as HTMLInputElement).name;
-        // }
-        
-        // public getValue() {
-        //   return (this.element as HTMLInputElement).value;
-        // }
-          
-
     protected render():string {
         return `
-        <div>
-            {{{ Input
-                class="h-9 w-[280px] bg-transparent focus:outline-none border-b-2 border-blue text-base p-2 text-white"
-                type=type
-                name=name
-                placeholder=placeholder
-                value=value
-                onInput=onInput
-                onFocus=onFocus
-                onBlur=onBlur
-                id=id
-            }}}
-            <div class="text-red pt-2" id="err"> 
-                {{{ErrorComponent text=error ref="errRef"}}}
-            </div>
-        </div>
+        
         `;
     }
 }

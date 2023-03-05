@@ -1,0 +1,16 @@
+<div>
+            {{{ Input
+                class="h-9 w-[280px] bg-transparent focus:outline-none border-b-2 border-blue text-base p-2 text-white"
+                type=type
+                name=name
+                placeholder=placeholder
+                value=value
+                onInput=onInput
+                onFocus=onFocus
+                onBlur=onBlur
+                id=id
+            }}}
+            <div class="text-red pt-2" id="err"> 
+                {{{ErrorComponent text=error ref="errRef"}}}
+            </div>
+</div>

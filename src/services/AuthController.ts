@@ -1,56 +1,55 @@
-import AuthApi from "api/AuthApi";
+import API, { AuthApi } from "api/AuthApi";
 import { LoginRequestData, SignupRequestData } from "api/typesAPI";
 import Router from "utils/Router";
 import store from "utils/store/Store";
+import MessagesController from "./MessageController"
 
 
 export class AuthController {
-  private api = AuthApi
+  private readonly api: AuthApi;
 
-  // constructor() {
-  //   this.api = API;
-  // }
+  constructor() {
+    this.api = API;
+  }
+  async signin(data: LoginRequestData) {
+    try {
+      await this.api.signin(data);
 
-    async signin(LoginRequestData: LoginRequestData) {
-        try{
-          await this.api.signin(LoginRequestData)
-          await this.getUser()
-          store.set("user.error", undefined)
+      await this.getUser();
 
-          Router.go("/messenger")
-      } catch(e) {
-          console.log("Error in SIGN IN")
-      }
+      Router.go('/messenger');
+    } catch (e: any) {
+      console.error(e);
     }
-  
-    async signup(SignupRequestData: SignupRequestData) {
-      try{
-        await this.api.signup(SignupRequestData)
-        await this.getUser()
+  }
 
-        store.set("user.error", undefined)
-        Router.go("/messenger")
-      } catch(e) {
-        console.log("Error in SIGN UP")
-      }
-    }
-  
-    async getUser() {
-      store.set(`Loading is user`, true)
-  
-      const user = await this.api.reading()
+  async signup(data: SignupRequestData) {
+    try {
+      await this.api.signup(data);
 
-      store.set("user", user)//нужно уменьшить связанность
-      store.set(`Loading is user`, false)
+      await this.getUser();
+
+      Router.go("/messenger");
+    } catch (e: any) {
+      console.error(e.message);
     }
-  
-    async logout() {
-      try{
-        await this.api.logout()
-        store.set("user.error", undefined)
-        Router.go("/")
-    } catch(e) {
-      console.log("Error in read user");
+  }
+
+  async getUser() {
+    const user = await this.api.reading();
+
+    store.set("user", user);
+  }
+
+  async logout() {
+    try {
+      MessagesController.closeAll();
+
+      await this.api.logout();
+
+      Router.go("/");
+    } catch (e: any) {
+      console.error(e.message);
     }
   }
 }

@@ -6,85 +6,96 @@ const regExpValidate = {
     Phone: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
 }
 
-export function InputValidate(nameEvent: string, el: HTMLInputElement, err: any, context: any) {
-    if(nameEvent === "blur"){
-        if(el.name === "chatName") {
-            return console.log("Допустим")
-        }
-        if(el.name! === "login") {
-            if(!regExpValidate.Login.test(el.value)) {
-                return err.setProps({text: "Логин не корректный!"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
-        }
+export function InputValidate(pageName: string, el: HTMLInputElement, err: HTMLElement) {
+    err.innerText = ""
+    if(el.name === "chatName") {
+        return console.log("Допустим")
+    }
 
-        if(el.name! === "password") {
-            if(!regExpValidate.Password.test(el.value)) {
-                return err.setProps({text: "пароль не корректный!"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
+    if(pageName === "Authorization"){
+        err.innerText = ""
+        if(el.value.trim() === "") {
+            return err!.innerText = "Заполните формы!"
         }
+        return
+    }
+    if(pageName === "Registration"){
 
-        if(el.name === "email") {
-            if(!regExpValidate.Email.test(el.value)) {
-                return err.setProps({text: "email не корректный!"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
-        }
-
-        if(el.name === "phone") {
-            if(!regExpValidate.Phone.test(el.value)) {
-                return err.setProps({text: "Номер не корректный!"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
-        }
-
-        if(el.name === "first_name") {
-            if(!regExpValidate.Name.test(el.value)) {
-                return err.setProps({text: "В имени должны быть только буквы!"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
-        }
-
-        if(el.name === "second_name") {
-            if(!regExpValidate.Name.test(el.value)) {
-                return err.setProps({text: "В фамилии должны быть только буквы!"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
-        }
-
-        if(el.name === "display_name") {
-            if(!regExpValidate.Name.test(el.value)) {
-                return err.setProps({text: "Не корректный дисплейнейм!"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
-        }
-
-        if(el.name === "old_password") {
-            if(!el.value) {
-                return err.setProps({text: "что-нибудь напиши"})
-            } else {
-                return context.setProps({ value: el.value})
-            }
-        }
-
-        if(el.name === "password_check") {
-            let target = document.querySelector('input[name="password"]') as HTMLInputElement;
-                if (target) {
-                    let password = target.value;
-                    if(el.value !== password || el.value === '') {
-                        return err.setProps({text: "пароли не совпадают!"})
-                    } else {
-                        return context.setProps({ value: el.value})
-                    }
-                }
+    if(el.name! === "login") {
+        if(!regExpValidate.Login.test(el.value)) {
+            return err.innerText = "Логин не корректный!"
+        } else {
+           return
         }
     }
+
+    if(el.name! === "password") {
+        if(!regExpValidate.Password.test(el.value)) {
+            return err.innerText = "Пароль не корректный!"
+        } else {
+            return
+        }
+    }
+
+    if(el.name === "email") {
+        if(!regExpValidate.Email.test(el.value)) {
+            return err.innerText= "email не корректный!"
+        } else {
+            return
+        }
+    }
+
+    if(el.name === "phone") {
+        if(!regExpValidate.Phone.test(el.value)) {
+            return err.innerText = "Номер не корректный!"
+        } else {
+            return
+        }
+    }
+
+    if(el.name === "first_name") {
+        if(!regExpValidate.Name.test(el.value)) {
+            return err.innerText = "В имени должны быть только буквы!"
+        } else {
+            return
+        }
+    }
+
+    if(el.name === "second_name") {
+        if(!regExpValidate.Name.test(el.value)) {
+            return err.innerText = "В фамилии должны быть только буквы!"
+        } else {
+            return 
+        }
+    }
+
+    if(el.name === "display_name") {
+        if(!regExpValidate.Name.test(el.value)) {
+            return err.innerText = "Не корректный дисплейнейм!"
+        } else {
+            return
+        }
+    }
+
+    if(el.name === "password_check") {
+        let target = document.querySelector('input[name="password"]') as HTMLInputElement;
+            if (target) {
+                let password = target.value;
+                if(el.value !== password || el.value === '') {
+                    return err.innerText = "пароли не совпадают!"
+                } else {
+                    return
+                }
+            }
+    }
+}
+
+// if(el.name === "old_password") {
+//     if(!el.value) {
+//         return err.innerText = "что-нибудь напиши"
+//     } else {
+//         return
+//     }
+// }
+
 }

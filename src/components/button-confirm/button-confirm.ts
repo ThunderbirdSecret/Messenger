@@ -1,32 +1,18 @@
-import { Block } from "utils";
-
+import Block from "utils/Block";
+import template from "./button-confirm.hbs"
 interface ButtonConfirmProps {
-    path?: string;
-    btn?: string | SVGElement | null;
-    class?: string;
+    title: string;
+    class: string;
     events?: {
-        submit: (e: Event) => void;
+        click: ()=> void;
     }
-}//добавить get запрос при клике показывать данные get запроса в консоли
-
-export class ButtonConfirm extends Block<ButtonConfirmProps>{
-    static cName = "ButtonConfirm"
-    constructor({ ...props}:ButtonConfirmProps) {
-        super({...props});
-    }
-
-   protected render() {
-       return `
-        <a href={{path}}>
-            <input type="submit" 
-            class="{{class}}" 
-            value={{btn}} 
-            onSubmit=onSubmit 
-            type="submit"s
-            />
-        </a>
-        `
-   }
 }
+export default class ButtonConfirm extends Block<ButtonConfirmProps>{
+    constructor(props:ButtonConfirmProps){
+        super(props)
+    }
 
-export default ButtonConfirm;
+    render(){
+        return this.compile(template, {...this.props});
+    }
+}

@@ -1,47 +1,22 @@
 import { SignupRequestData } from "api/typesAPI"
-import { isEmpty } from "./isEmpty"
 
-export function SubmitBtn(event: SubmitEvent, formName: string, allInput: NodeListOf<Element>, refs: any, err: NodeListOf<Element>){
-    event.preventDefault()
-    event.stopPropagation()
-    
+export function SubmitBtn(formName: string, allInput: NodeListOf<Element>, err: HTMLElement){
 
-    // if(formName === "authorization") {
-    //     refs.errAuth.setProps({ text: ""})
-
-    //     const formsAuth = {
-    //         loginAuth: refs.login.refs.inputControlled.props.value,
-    //         passwordAuth: refs.password.refs.inputControlled.props.value,
-    //     }
-
-    //     let errAuth = {
-    //         loginErrAuth: refs.login.refs.err.props.text,
-    //         passwordErrAuth: refs.password.refs.err.props.text
-    //     }
-
-    //     if((isEmpty(formsAuth)) && (!isEmpty(errAuth))) {
-    //         console.log(formsAuth)
-    //         return formsAuth
-    //     } 
-    //     // else {
-    //     //     return refs.errAuth.setProps({ text: "Некорректно заполнены формы!"})
-    //     // }
-    // }
     if(formName === "registration") {
-        
-        if(isEmpty(err)){
+
+        if(err.innerText.trim() === ""){
             const user = {}
             allInput.forEach(elem =>{
                 let name = elem.getAttribute("name")
                 let value = elem.getAttribute("value")
-                if(value === "" || value === undefined){
-                    refs.errReg.setProps({ text: "Некорректно заполнены формы!"})
+                console.log(value)
+                if(value!.trim() === "" || value === undefined){
+                    err.innerText = "Не все формы заполнены!"
+                    return
                 }
                 //@ts-expect-error
                 user[name] = value
             })
-            console.log(user)
-
         if(user){
 
             const data: SignupRequestData = {
@@ -55,6 +30,9 @@ export function SubmitBtn(event: SubmitEvent, formName: string, allInput: NodeLi
 
             return data
         } 
+    } else {
+        err.innerText = "Некорректно заполнены формы!"
+        return
     }
 }
 

@@ -1,38 +1,39 @@
-import HTTPTransport from "utils/HttpTransport";
-import { APIError, ChatFromServer, ChatUsersRequestData, CreateChatRequestData, DeleteChatRequestData, DeleteChatResponseData, ResponseStatus, UnreadCountResponseData, UserFromServer, UserToChatRequestData } from "api/typesAPI";
+import BaseApi from "./BaseApi"
 
-export default class ChatsAPI extends HTTPTransport {
-  createChat = async (data: CreateChatRequestData): Promise<ResponseStatus | APIError> =>
-    this.post("chats", { data }) as Promise<ResponseStatus | APIError>;
+export class ChatsApi extends BaseApi {
+  constructor() {
+    super("/chats")
+  }
 
-  deleteChat = async (data: DeleteChatRequestData): Promise<DeleteChatResponseData> =>
-    this.delete("chats", { data }) as Promise<DeleteChatResponseData>;
+  create(title: string) {
+    return this.http.post("/", {title})
+  }
 
-  getChats = async (): Promise<Array<ChatFromServer> | APIError> =>
-    this.get("chats") as Promise<Array<ChatFromServer> | APIError>;
+  delete(id: number): Promise<unknown> {
+    //@ts-expect-error
+    return this.http.delete('/', { chatId: id });
+  }
 
-  getChatToken = async (chatId: number): Promise<{ token: string }> =>
-    this.post(`chats/token/${chatId}`) as Promise<{ token: string }>;
 
-  addUserToChat = async (data: UserToChatRequestData): Promise<ResponseStatus | APIError> => {
-    return this.put("chats/users", {
-      data: { users: data.users, chatId: data.chat.id },
-    }) as Promise<ResponseStatus | APIError>;
-  };
+  reading(): Promise<ChatType[]> {
+    return this.http.get('/');
+  }
 
-  deleteUserFromChat = async (data: UserToChatRequestData): Promise<ResponseStatus | APIError> => {
-    return this.delete("chats/users", {
-      data: { users: data.users, chatId: data.chat.id },
-    }) as Promise<ResponseStatus | APIError>;
-  };
+  getUsers(id: number): Promise<Array<UserType & { role: string }>> {
+    return this.http.get(`/${id}/users`)
+  }
 
-  getChatUsers = async (data: ChatUsersRequestData): Promise<Array<UserFromServer> | APIError> => {
-    return this.get(`chats/${data.chatId}/users`) as Promise<Array<UserFromServer> | APIError>;
-  };
+  addUsers(id: number, users: number[]): Promise<unknown> {
+    return this.http.put('/users', { users, chatId: id });
+  }
 
-  getUnreadMessagesCount = async (
-    data: ChatUsersRequestData
-  ): Promise<UnreadCountResponseData | APIError> => {
-    return this.get(`/chats/new/${data.chatId}`) as Promise<UnreadCountResponseData | APIError>;
-  };
+  async getToken(id: number): Promise<string> {
+    const response = await this.http.post<{ token: string }>(`/token/${id}`);
+
+    return response.token;
+  }
+
+  update = undefined;
 }
+
+export default new ChatsApi();

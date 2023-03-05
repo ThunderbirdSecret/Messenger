@@ -27,4 +27,27 @@
   .customw {
     width: -webkit-fill-available;
   }
+
+}
+
+@layer components {
+  .back-button {
+    @apply rounded-full w-7 h-7 bg-blue text-white;
+  }
+
+  .button-confirm {
+    @apply w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg;
+  }
+
+  .link-page {
+    @apply text-blue border-none text-base py-4;
+  }
+
+  .input-controlled {
+    @apply h-9 w-[280px] bg-transparent focus:outline-none border-b-2 border-blue text-base p-2 text-white;
+  }
+
+  .input-setting {
+    @apply ml-auto bg-transparent text-end focus:outline-none;
+  }
 }

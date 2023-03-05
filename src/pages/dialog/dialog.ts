@@ -1,104 +1,88 @@
-import { Input, MessageInput } from "components"
-import { WithRouter } from "helpers/HOCS/WithRouter"
-import { WithStore } from "helpers/HOCS/WithStore"
-import { sendMessage } from "services/chats"
+// import { Input, MessageInput } from "components"
 import { Block } from "utils"
-import Router from "utils/Router"
-import { Store } from "utils/store/Store"
 
 interface SubmitEvent extends Event {
     submitter: HTMLElement;
   }
 
 type DialogProps = {
-    router: Router;
-    store: Store<AppState>;
     chats?: Nullable<Array<ChatType>>;
     events?: Record<string, unknown>;
-    navigateToProfile?: () => void;
-    toggleCreateChatForm?: () => void;
     toggleShowChatMenu?: () => void;
     toggleShowAddUserForm?: () => void;
     toggleShowDeleteUserForm?: () => void;
-    onClick: (e: Event) => void;
+    onClick?: (e: Event) => void;
 }
-
-type Refs = {
-  messageRef: MessageInput;
-  attach: Input;
-};
 
 const icon = new Image()
 icon.src = require("asserts/threepoint.svg")
 
-export class Dialog extends Block<DialogProps, Refs> {
+export class Dialog extends Block {
     static cName = "Dialog"
     constructor(props: DialogProps) {
-      super({...props, events: { submit: (event: SubmitEvent) => this.onSubmit(event) } });
-      
+      super({...props
+        });
+    
       this.setProps({
-        chats: window.store.getState().chats,
+    //     chats: window.store.getState().chats,
   
-        navigateToProfile: async () => {
-          this.props.router.go("/settings");
-        },
-        toggleCreateChatForm: () => {
-          console.log("Window with create chat")
-          document.querySelector('#createChat')?.classList.toggle('hidden');
-        },
-        toggleShowChatMenu: () => {
-          document.querySelector('.chat-menu')?.classList.toggle('hidden');
-        },
-        toggleShowAddUserForm: () => {
-          document.querySelector('#addUser')?.classList.toggle('form-container_shown');
-          document.querySelector('.chat-menu')?.classList.remove('chat-menu_shown');
-        },
-        toggleShowDeleteUserForm: () => {
-          document.querySelector('#deleteUser')?.classList.toggle("hidden");
-          document.querySelector('.chat-menu')?.classList.remove('chat-menu_shown');
-        },
+    //     navigateToProfile: async () => {
+    //       this.props.router.go("/settings");
+    //     },
+        
+    //     toggleShowChatMenu: () => {
+    //       document.querySelector('.chat-menu')?.classList.toggle('hidden');
+    //     },
+    //     toggleShowAddUserForm: () => {
+    //       document.querySelector('#addUser')?.classList.toggle('form-container_shown');
+    //       document.querySelector('.chat-menu')?.classList.remove('chat-menu_shown');
+    //     },
+    //     toggleShowDeleteUserForm: () => {
+    //       document.querySelector('#deleteUser')?.classList.toggle("hidden");
+    //       document.querySelector('.chat-menu')?.classList.remove('chat-menu_shown');
+    //     },
 
-      });
-      console.log("props", this.props)
-    }
+      });}
+      
+    //   console.log("props", this.props)
+    // }
   
-    componentDidUpdate() {
-      if (window.store.getState().currentRoutePathname !== "/messenger") {
-        return false;
-      }
-      this.children = {};
-      return true;
-    }
+    // componentDidUpdate() {
+    //   if (window.store.getState().currentRoutePathname !== "/messenger") {
+    //     return false;
+    //   }
+    //   this.children = {};
+    //   return true;
+    // }
   
     onSubmit(event: SubmitEvent) {
-      event.preventDefault();
+      event.preventDefault();}
   
-      const refs = Object.entries(this.refs).reduce((acc, [key, value]) => {
-        acc[key] = value.getContent() as HTMLInputElement;
-        return acc;
-      }, {} as { [key: string]: HTMLInputElement });
+    //   const refs = Object.entries(this.refs).reduce((acc, [key, value]) => {
+    //     acc[key] = value.getContent() as HTMLInputElement;
+    //     return acc;
+    //   }, {} as { [key: string]: HTMLInputElement });
   
-      const { messageRef } = refs;
+    //   const { messageRef } = refs;
   
-      const errors = ""
+    //   const errors = ""
   
-      if (Object.keys(errors).length === 0) {
-        const chat = window.store.getState().selectedChat;
-        if (chat) {
-          sendMessage(messageRef.value, chat);
-        }
-      console.log("message ref", messageRef.value)
-        messageRef.value = '';
-      }
-    }
-    // {{{NewChat onCancel=toggleCreateChatForm}}}
+    //   if (Object.keys(errors).length === 0) {
+    //     const chat = window.store.getState().selectedChat;
+    //     if (chat) {
+    //       sendMessage(messageRef.value, chat);
+    //     }
+    //   console.log("message ref", messageRef.value)
+    //     messageRef.value = '';
+    //   }
+    // }
     // {{{AddUserToChatForm onCancel=toggleShowAddUserForm}}}
     // {{{DeleteUserFromChatForm onCancel=toggleShowDeleteUserForm}}}
   
     render() {
       console.log("this", this)
-      const { selectedChat } = window.store.getState();
-      const { id, title = [] } = selectedChat || {};
+      // const { selectedChat } = window.store.getState();
+      // const { id, title = [] } = selectedChat || {};
   
         return `
             <main class="h-[760px] w-cover flex flex-row overflow-hidden">
@@ -107,25 +91,23 @@ export class Dialog extends Block<DialogProps, Refs> {
                     {{{ HeaderListDialog }}}
 
                     <div class="chat-list">
-                    {{#each chats}}
                       <article class="h-content">
-                        {{{ ChatsList chat=this }}}
+                        {{{ ChatsList }}}
                       </article>
-                    {{/each}}
                     </div>
                     <div class="text-blue text-bold text-sm text-center">
-                      {{{LinkPage linkTitle="Create Chat ✚" onClick=toggleCreateChatForm}}}
-                      {{{NewChat onCancel=toggleCreateChatForm}}}
+                      {{{LinkCreateChat}}}
+                      {{{NewChat}}}
 
                     </div>
                 </div>
                 <div class="basis-3/4 bg-transparent">
-                {{#if ${id}}}
+                {{#if id}}
                   <div id="header_chat">
                     <div class="flex items-center gap-x-3 m-[13px]">
                       <div class="min-w-[34px] min-h-[34px] rounded-full bg-blue"></div>
                         <div>
-                            <strong>${title}</strong>
+                            <strong>title</strong>
                         </div>
                         <div class="ml-auto ">
                           <a href={{path}}>
@@ -174,4 +156,4 @@ export class Dialog extends Block<DialogProps, Refs> {
     }
 }
 
-export default WithRouter(WithStore(Dialog))
+export default Dialog

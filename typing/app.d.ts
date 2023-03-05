@@ -9,7 +9,7 @@ declare global {
     [key in string]: T;
   };
 
-  export type UserType = {
+  export interface UserType {
     id: number;
     first_name: string;
     second_name: string;
@@ -20,18 +20,19 @@ declare global {
     avatar?: string;
   };
 
-  export type ChatType = {
-    id: number;
-    title: string;
-    avatar: string;
-    createdBy: number;
-    unreadCount: number;
-    lastMessage: Record<string, unknown>;
-    chatUsers?: Array<UserType>;
-    chatToken?: string;
+  export interface ChatType {
+     id: number;
+      title: string;
+      avatar: string;
+      unread_count: number;
+      last_message: {
+        user: UserType;
+        time: string;
+        content: string;
+      }
   };
 
-  export type AppState = {
+  export interface AppState {
     currentRoutePathname: string;
     view: BlockConstructable | null;
     isLoading: boolean;
@@ -51,7 +52,7 @@ declare global {
 
   export type RefsObject = Record<string, HTMLInputElement>;
 
-  export type RouteProps = {
+  export interface RouteProps {
     pathname: string;
     view: BlockConstructable;
     isPrivate: boolean;

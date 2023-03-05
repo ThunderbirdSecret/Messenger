@@ -1,53 +1,45 @@
 
+//@ts-nocheck
 import { withStore } from "helpers/HOCS/WithStore";
+import { getUserDataArray } from "helpers/getUserDataArray";
+import AuthController from "services/AuthController";
 import { Block } from "utils";
 
-export type UserProps = {
+
+const title = ["first_name", "second_name", "display_name", "login", "email", "phone"] as Array<keyof UserProps>;
+export interface UserProps extends UserType {
     user?: Nullable<UserType>;
     userData?: Array<any>;
     imageSrc?: string;
-    navigateToSet?: (event: PointerEvent) => void;
-    navigateToPass?: (event: PointerEvent) => void;
-    signout?: (e: Event) => void;
+    events: {
+      click: {
+        click: () => void
+      }
+    }
     // getAvatarSrc: (path: string) => void;
   };
   
-  export class User extends Block {
+  export class User extends Block<UserProps> {
     static cName = "User";
   
     avatarSrc = "";
   
     constructor(props: UserProps) {
-      super(props);
-  
-      // const data = props.store.getState().user ? getUserDataArray(props.store.getState().user!) : [];
-      // const imageSrc = props.user?.avatar;
-      // console.log("data", data, "props", props.store.getState().user,)
-      // this.setProps({
-      //   userData: data,
-      //   imageSrc,
-      //   navigateToSet: (event: PointerEvent) => {
-      //     event.preventDefault()
-      //     this.props.router.go("/changeData");
-      //   },
-      //   navigateToPass: (event: PointerEvent) => {
-      //     event.preventDefault()
-      //     this.props.router.go("/changePassword");
-      //   },
-      //   signout: (e: Event) => {
-      //     e.preventDefault()
-      //     signout(this.props.store)},
-      };
-  
-    // componentDidUpdate() {
-    //   if (this.props.store.getState().currentRoutePathname !== "/settings") {
-    //     return false;
-    //   }
-  
-    //   this.children = {};
-  
-    //   return true;
-    // }
+      super({props, events: {
+        click: () => this.logoutUser()
+      }});
+      
+      const data = getUserDataArray(props)
+      this.setProps({
+        userData: data,
+        // imageSrc,
+        
+      });
+    }
+    logoutUser () {
+      console.log("LOGOUT")
+      AuthController.logout()
+    }
   
     render() {
       return `
@@ -59,9 +51,9 @@ export type UserProps = {
                     {{/with}}
                   {{/each}}
               <div class="text-blue py-10 mr-auto flex flex-col items-start text-start">
-                {{{LinkPage linkTitle="Change profile" onClick=navigateToSet type="button" }}} 
-                {{{LinkPage linkTitle="Change password" onClick=navigateToPass }}} 
-                {{{LinkPage linkTitle="Log out" onClick=signout}}} 
+                {{{LinkPage linkTitle="Change profile" to="/change-profile" type="button" }}} 
+                {{{LinkPage linkTitle="Change password" to="/change-password" type="button"}}} 
+                {{{LinkPage linkTitle="Log out" type="button" click=logoutUser}}} 
               </div>
           </div>
           `;
