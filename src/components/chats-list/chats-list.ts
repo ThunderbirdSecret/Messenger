@@ -49,7 +49,6 @@ class ChatsListBase extends Block<ChatsListProps> {
 
 newChat(){
   let modalInput = document.getElementById("modal_input") as HTMLInputElement
-  console.log(modalInput.value)
 
   controller.create(modalInput.value)
 
@@ -75,7 +74,6 @@ newChat(){
   }
 
   protected render(): DocumentFragment {
-    console.log("last messege go", this)
     return this.compile(template, {...this.props});
   }
 }

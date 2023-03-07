@@ -7,7 +7,6 @@ export default function checkTextErr(allNodeErr: NodeListOf<Element>):boolean{
                         //@ts-expect-error
              allErr.push(elem.innerText)
         })
-        console.log((allErr))
 
         return isEmpty(allErr)
 }

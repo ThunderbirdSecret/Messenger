@@ -5,7 +5,6 @@ import Input from "components/input/input";
 import ErrorComponent from "components/error-component/error-component";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 import uController from "services/UserController";
-import { ChangePasswordRequestData } from "api/typesAPI";
 export default class ChangePassword extends Block {
 
   constructor() {
@@ -91,12 +90,11 @@ export default class ChangePassword extends Block {
   }
 
   onBlur(e: FocusEvent) {
-    console.log("Идут технические работы")
+    console.log("и без валидации все очень плохо")
   }
 
 
   render() {
-    console.log(this)
     return this.compile(template, {...this.props});
   }
 }

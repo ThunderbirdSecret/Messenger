@@ -118,7 +118,6 @@ class ChangeData extends Block<ChangeSettingsProps>{
         data[nameEl] = valueEl ? valueEl : placeholderEl
         // data[nameEl] = valueEl
       })
-      console.log(data)
       //@ts-ignore
       uController.changeProfile(data as UserReq)
     }

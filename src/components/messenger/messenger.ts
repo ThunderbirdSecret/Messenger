@@ -68,7 +68,6 @@ interface MessengerProps {
     }
   
     protected render(): DocumentFragment {
-      console.log(this)
       return this.compile(template, { ...this.props });
     }
   }
