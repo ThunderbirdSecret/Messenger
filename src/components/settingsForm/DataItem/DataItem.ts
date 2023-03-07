@@ -3,7 +3,7 @@ import template from "./data-item.hbs"
 
 export interface DataItemProps {
     name: string;
-    value?: string;
+    value?: string | number;
 }
 export default class DataItem extends Block {
   constructor(props:DataItemProps){

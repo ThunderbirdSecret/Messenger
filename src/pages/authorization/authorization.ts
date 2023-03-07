@@ -9,9 +9,6 @@ import AuthController from "services/AuthController";
 import { LoginRequestData } from "api/typesAPI";
 import { InputValidate } from "helpers/validate";
 
-
-
-
 export default class Authorization extends Block {
 
     constructor() {
@@ -98,7 +95,6 @@ export default class Authorization extends Block {
     
 
      render() {
-        console.log(this)
         return this.compile(template, {...this.props});
      }
     }

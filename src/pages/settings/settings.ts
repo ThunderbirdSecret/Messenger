@@ -10,15 +10,11 @@ import { DEFAULT_AVATAR } from "constants/imagesPaths";
 
 export interface SettingsProps extends UserType{}
 
-  const userFields = ["first_name", "second_name", "display_name", "login", "email", "phone"] as Array<keyof UserType>;
+export const userFields = ["first_name", "second_name", "display_name", "login", "email", "phone"] as Array<keyof UserType>;
   
 
   export class Settings extends Block<SettingsProps>{
   
-    constructor() {
-      super({});
-      }
-
       init() {
 
         //@ts-expect-error
@@ -34,14 +30,15 @@ export interface SettingsProps extends UserType{}
         })
 
         this.children.fields = userFields.map(name => {
-          return new DataItem({ name, value: this.props[name] });
+          console.log(this.props[name])
+          return new DataItem({ name, value: this.props[name] ? this.props[name] : "not found" });
         });
 
         //@ts-expect-error
         this.children.datachange = new Link({
           title: "Change profile",
           path: "/changedata",
-          class: "link-page",
+          class: "text-blue border-none text-base",
           type: "button",
         });
 
@@ -49,13 +46,13 @@ export interface SettingsProps extends UserType{}
         this.children.datapass = new Link({
           title: "Change password",
           path: "/changepassword",
-          class: "link-page",
+          class: "text-blue border-none text-base",
           type: "button",
         });
 
         this.children.logout = new ButtonConfirm({
           title: "Sign out",
-          class: "link-page",
+          class: "text-blue border-none text-base",
           events: {
             click:() => AuthController.logout()
           }

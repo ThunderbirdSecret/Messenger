@@ -3,19 +3,26 @@ import template from "./avatar.hbs"
 import Block from "utils/Block";
 
 interface AvatarProps {
-    avatarValue?: any;
+    file?: HTMLInputElement & EventTarget;
+    avatarValue?: HTMLImageElement;
+    events?: {
+        change: (e: Event)=> void;
+    }
+    id?: string;
+    value?: string | HTMLInputElement | HTMLImageElement | File
 }
 
 export default class Avatar extends Block {
     constructor({ ...props}:AvatarProps){
-        super({...props});
+        super({...props
+        });
     }
 
     init(){
         this.children.uploader = new Input({
             class: "hidden",
             type: "file",
-            value: this.props.avatarValue,
+            value: "",
             name: "avatar",
             id: "avatar",
             accept: ".png, .jpg, .jpeg",

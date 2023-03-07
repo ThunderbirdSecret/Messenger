@@ -1,7 +1,7 @@
 import WSTransport, { WSTransportEvents } from "utils/WSTransport";
 import store from "utils/store/Store";
 
-export interface Message {
+export interface MessageInfo {
     chat_id: number;
     time: string;
     type: string;
@@ -18,7 +18,7 @@ export interface Message {
     }
   }
   
-  class MessagesController {
+  export class MessagesController {
     private sockets: Map<number, WSTransport> = new Map();
   
     async connect(id: number, token: string) {
@@ -35,7 +35,7 @@ export interface Message {
       await wsTransport.connect();
   
       this.subscribe(wsTransport, id);
-      this.fetchOldMessages(id);
+      this.getOldMessages(id);
     }
   
     sendMessage(id: number, message: string) {
@@ -51,7 +51,7 @@ export interface Message {
       });
     }
   
-    fetchOldMessages(id: number) {
+    getOldMessages(id: number) {
       const socket = this.sockets.get(id);
   
       if (!socket) {
@@ -65,8 +65,8 @@ export interface Message {
       Array.from(this.sockets.values()).forEach(socket => socket.close());
     }
   
-    private onMessage(id: number, messages: Message | Message[]) {
-      let messagesToAdd: Message[] = [];
+    private onMessage(id: number, messages: MessageInfo | MessageInfo[]) {
+      let messagesToAdd: MessageInfo[] = [];
   
       if (Array.isArray(messages)) {
         messagesToAdd = messages.reverse();

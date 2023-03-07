@@ -44,6 +44,15 @@ class ChatsController {
   selectChat(id: number) {
     store.set('selectedChat', id);
   }
+
+  async commonChat(id: number) {
+
+    await this.api.getCommon(id)
+
+    store.set("chat", id)
+
+    this.getChats();
+  }
 }
 
 const controller = new ChatsController();

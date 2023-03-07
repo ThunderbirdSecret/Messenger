@@ -1,100 +1,103 @@
-import { UserDataInput } from "components";
-import { WithRouter } from "helpers/HOCS/WithRouter";
-import { WithStore } from "helpers/HOCS/WithStore";
-import { getChildInputRefs } from "helpers/getChildInputRefs";
-import { getErrorsObject } from "helpers/getErrorsObject";
-import { setChildErrorsProps } from "helpers/setChildErrorsProps";
-import { ChangeSettingsProps } from "pages/changeData/ChangeData";
-import { changeUserPassword } from "services/userData";
-import { Block } from "utils";
+import Block from "utils/Block";
+import template from "./change-password.hbs"
+import { Link } from "components/navigate-button/navigate-button";
+import Input from "components/input/input";
+import ErrorComponent from "components/error-component/error-component";
+import ButtonConfirm from "components/button-confirm/button-confirm";
+import uController from "services/UserController";
+import { ChangePasswordRequestData } from "api/typesAPI";
+export default class ChangePassword extends Block {
 
-type ChangePasswordRefs = Record<string, UserDataInput>;
+  constructor() {
+    super({ });
+  }
+  
+  init(){
 
-class ChangePassword extends Block<ChangeSettingsProps, ChangePasswordRefs> {
-  static cName: string = "ChangePassword";
+    //@ts-expect-error
+    this.children.back = new Link({
+      title: "🡐",
+      path: "/settings",
+      class: "back-button",
+      type: "button"
+    })
 
-  constructor(props: ChangeSettingsProps) {
-    super({ ...props, events: { 
-      submit: (event: SubmitEvent) => this.onSubmit(event) } 
-    });
+    this.children.oldpassword = new Input({
+      name: "oldPassword",
+      type: "password",
+      class: "input-controlled",
+      placeholder: "old password",
+      id: "old_password",
+      value: "",
+      events: {
+          blur: (e: FocusEvent) => this.onBlur(e),
+          // input: (e: FocusEvent) => this.onInput(e)
+      }
+    })        
+  
+    this.children.newpassword = new Input({
+      name: "newPassword",
+      type: "password",
+      class: "input-controlled",
+      placeholder: "new_password",
+      id: "new_password",
+      value: "",
+      events: {
+          blur: (e: FocusEvent) => this.onBlur(e),
+          // input: (e: FocusEvent) => this.onInput(e)
+      }
+    })        
 
-      const { user } = this.props.store.getState();
-      const { login, avatar } = user || {};
+    this.children.passwordcheck = new Input({
+      name: "password_check",
+      type: "password",
+      class: "input-controlled",
+      placeholder: "password_check",
+      id: "password_check",
+      value: "",
+      events: {
+          blur: (e: FocusEvent) => this.onBlur(e),
+          // input: (e: FocusEvent) => this.onInput(e)
+      }
+    })
 
-    this.setProps({
-      userLogin: login,
-      avatarSrc: avatar,
-      navigateBack: () => {
-        console.log("back")
-        window.router.go("/settings")},
-    });
+    this.children.error = new ErrorComponent({
+      id: "err",
+      text: this.props.textErr
+  })
+
+    this.children.button = new ButtonConfirm({
+      title: "Change Password",
+      class: "button-confirm",
+      events: {
+        click: () => this.onSubmit()
+      },
+    })
+
+
   }
 
-  async onSubmit(event: SubmitEvent) {
-    event.preventDefault();
 
-    const refs = getChildInputRefs(this.refs);
-    const errors = getErrorsObject(refs);
-
-    if (Object.keys(errors).length) {
-      setChildErrorsProps(errors, this.refs);
-
-      return;
-    }
-
-    const { oldPassword, newPassword, repeatNewPassword } = refs;
-
-    if (newPassword.value !== repeatNewPassword.value) {
-      Object.values(this.refs).forEach((value) => {
-        value.getRefs().ErrorRef!.setProps({ error: "Passwords do not match" });
-      });
-
-      return;
-    }
-
-    if (Object.keys(errors).length === 0) {
-      const newData = { oldPassword: oldPassword.value, newPassword: newPassword.value };
-      await changeUserPassword(newData);
-    }
+  async onSubmit() {
+    const values = Object
+        .values(this.children)
+        .filter(child => child instanceof Input)
+        .map((child) => ([(child as Input).getName(), (child as Input).getValue()]))
+        .slice(0, 1)
+        const data = Object.fromEntries(values);
+        
+      uController.changePassword(data)
+      // console.log(data)
   }
 
-  componentDidUpdate() {
-    if (this.props.store.getState().currentRoutePathname !== "/changeUserPassword") {
-      return false;
-    }
-    this.children = {};
-    return true;
+  onBlur(e: FocusEvent) {
+    console.log("Идут технические работы")
   }
+
 
   render() {
     console.log(this)
-    return `
-        <main class="h-screen">
-          {{{Loader}}}
-          <div class="flex px-2">
-          <div class="mr-auto my-auto flex-none border-none">
-              {{{BackButton onClick=navigateBack}}}
-          </div>
-          
-          <section class="grow flex flex-col gap-y-2 justify-center items-center h-screen">
-                        {{{Avatar name=userLogin imageSrc=avatarSrc isEditable=false}}}
-
-                        <div class="">
-                            {{{InputControlled placeholder="Old Password" ref="oldPassword" childRef="oldPassword" title="Enter old password" type="password" name="old_password"}}}
-                            {{{InputControlled placeholder="New Password" ref="newPassword" childRef="newPassword" title="Enter new password" type="password" name="password"}}}
-                            {{{InputControlled placeholder="Repeat Password" ref="repeatNewPassword" childRef="repeatNewPassword" title="Repeat new password" type="password" name="repeat_password"}}}
-                        </div>
-
-                        <div class="flex flex-col py-10">
-                            {{{ButtonConfirm btn="Save changes" class="w-[180px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg" type="submit"}}}
-                            {{{LinkPage linkTitle="Cancel" onClick=navigateBack class="border-none bg-transparent py-4 text-sm text-blue" type="button"}}}
-                        </div>
-                    </form>
-                </section>
-            </div>
-        </main>
-        `;
+    return this.compile(template, {...this.props});
   }
 }
 
-export default WithRouter(WithStore(ChangePassword));

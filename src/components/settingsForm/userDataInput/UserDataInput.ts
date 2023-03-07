@@ -1,57 +1,62 @@
-import { Block } from "utils";
-import { DataItemProps } from "../DataItem/DataItem";
+import Block from "utils/Block";
+import template from "./user-data-input.hbs"
+import Input from "components/input/input";
 
-type IncomingUserDataInputProps = DataItemProps & {
+  interface DataInputProps{
+    title: string;
+    type: "phone" | "text" | "password" | "email";
+    placeholder: string;
+    value?: string | HTMLInputElement;
     name: string;
-    error?: string;
-  };
+    id: string;
+    class?: string;
+  }
+class UserDataInput extends Block<DataInputProps>{
   
-  // type UserDataInputProps = IncomingUserDataInputProps & {
-  //   onInputEvent?: (event: FocusEvent) => void;
-  // };
-  
-  // type UserDataInputRefs = Record<string, Input | undefined>;
-  
-  export default class UserDataInput extends Block {
-    static cName = "UserDataInput";
-  
-    constructor({ title, data, type, error = '', name: inputName }: IncomingUserDataInputProps) {
-      super({
-        title,
-        data,
-        type,
-        error,
-        name: inputName,
-        // onInputEvent: (event: FocusEvent) => {
-        //   const target = event.target as HTMLInputElement;
-        //   const errorObject = validateForm([{ name: inputName as ValidateType, input: target }])[
-        //     inputName
-        //   ];
-        //   this.refs.errorRef?.setProps({ error: errorObject });
-        // },
-      });
+    constructor(props: DataInputProps) {
+      super(props);
+    }
+
+
+    init() {
+      this.children.input = new Input({
+          id: this.props.id,
+          type: this.props.type,
+          placeholder: this.props.placeholder,
+          value: this.props.value,
+          name: this.props.name,
+          class: "input-setting py-1",
+          events: {
+            blur: (e: FocusEvent) => this.onBlur(e)
+          }
+      })
+    }
+
+    public setValue(value: string) {
+      return (this.element as HTMLInputElement).value = value;
     }
   
+    public getName() {
+      return (this.element as HTMLInputElement).name;
+    }
+  
+    public getValue() {
+      return (this.element as HTMLInputElement).value;
+    }
+
+    onBlur(e: FocusEvent) {
+      const el = (e.target as HTMLInputElement).value
+      this.setProps({value: el})
+    }
+
+    // Input(e: FocusEvent){
+    //   const el = (e!.target as HTMLInputElement)
+    //   this.setProps({value: el})
+    // }
+
     render() {
-      return `
-              <div class="w-full">
-                <div class="flex flex-wrap justify-center gap-x-52 w-[510px] ">
-                  <div class="mr-auto text-bold">{{title}}</div>
-                  {{{Input
-                      ref=childRef
-                      type=type
-                      placeholder=""
-                      name=inputName
-                      value=data
-                      class="input-setting"
-                      onInput=onInputEvent
-                      onFocus=onInputEvent
-                      onBlur=onInputEvent
-                  }}}
-                </div>
-                  
-                {{{ErrorComponent ref="errorRef"}}}
-              </div>
-          `;
+      return this.compile(template, {...this.props})
     }
   }
+
+  export default UserDataInput

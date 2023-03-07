@@ -1,28 +1,34 @@
-import { Block } from "utils";
-
+import Block from "utils/Block";
+import template from "./close-modal.hbs"
+import ButtonConfirm from "components/button-confirm/button-confirm";
 interface CloseModalProps {
-    // idModal?: string;
-    events?: {
-        click:() => void
-    }
+    modalId: string;
 }
 
-export default class CloseModal extends Block {
-    static cName = "CloseModal"
+export default class CloseModal extends Block<CloseModalProps> {
 
     constructor(props:CloseModalProps){
-        super({props, events: { click: ()=> this.onClose()}})
+        super(props)
+    }
+
+    init() {
+
+        this.children.close = new ButtonConfirm({
+            class:"text-white border-none",
+            title: "x",
+            events: {
+                click: () => this.onClose()
+            }
+        })
     }
 
     onClose() {
-            let el = document.getElementById("createChat")
-            return el!.classList.add("hidden");
+            let el = document.getElementById(this.props.modalId)
+            return el!.classList.toggle("hidden");
         
       } 
 
     render() {
-        return `
-        {{{LinkPage linkTitle="x" type="button"}}}
-        `
+        return this.compile( template, {...this.props})
     }
 }

@@ -17,7 +17,7 @@ export default class WSTransport extends EventBus {
 
   public send(data: unknown) {
     if (!this.socket) {
-      throw new Error('Socket is not connected');
+      throw new Error("Socket is not connected");
     }
 
     this.socket.send(JSON.stringify(data))
@@ -44,7 +44,7 @@ export default class WSTransport extends EventBus {
   private setupPing() {
     //@ts-expect-error
     this.pingInterval = setInterval(() => {
-      this.send({ type: 'ping' });
+      this.send({ type: "ping" });
     }, 5000)
 
     this.on(WSTransportEvents.Close, () => {

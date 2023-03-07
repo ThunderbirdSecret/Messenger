@@ -1,10 +1,11 @@
 import Block from "utils/Block";
 import template from "./button-confirm.hbs"
 interface ButtonConfirmProps {
-    title: string;
+    title: string | HTMLImageElement;
     class: string;
     events?: {
-        click: ()=> void;
+        click?: ()=> void;
+        submit?: (e: Event) => void
     }
 }
 export default class ButtonConfirm extends Block<ButtonConfirmProps>{

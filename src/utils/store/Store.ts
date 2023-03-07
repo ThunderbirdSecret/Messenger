@@ -1,5 +1,5 @@
 import { set } from "helpers/set";
-import { Message } from "services/MessageController";
+import { MessageInfo } from "services/MessageController";
 import Block from "utils/Block";
 import { EventBus } from "utils/EventBus";
 
@@ -10,7 +10,7 @@ export enum StoreEvents {
 interface State {
   user: UserType;
   chats: ChatType[];
-  messages: Record<number, Message[]>;
+  messages: Record<number, MessageInfo[]>;
   selectedChat?: number;
 }
 

@@ -1,23 +1,43 @@
-import HTTPTransport from "utils/HttpTransport";
-import { APIError, ChangePasswordRequestData, ResponseStatus, UserFromServer } from "./typesAPI";
+import BaseApi from "./BaseApi";
+import { ChangePasswordRequestData, UserReq } from "./typesAPI";
 
-export default class UserAPI extends HTTPTransport {
-  changeProfile = async (data: Partial<UserFromServer>): Promise<UserFromServer | APIError> => {
-    return this.put("user/profile", { data }) as Promise<UserFromServer | APIError>;
-  };
 
-  changeAvatar = async (data: FormData): Promise<UserFromServer | APIError> =>
-    this.put("user/profile/avatar", {
-      data,
-      contentType: "",
-    }) as Promise<UserFromServer | APIError>;
+export class UserApi extends BaseApi {
+ constructor(){
+  super("/user")
+ }
 
-  getAvatar = async (path: string) =>
-    this.get(`resources/${path.slice(1)}`, {}, { responseType: "blob" });
-
-  changePassword = async (data: ChangePasswordRequestData): Promise<ResponseStatus | APIError> =>
-    this.put("user/password", { data }) as Promise<ResponseStatus | APIError>;
-
-  getUserByLogin = async (data: Record<string, string>): Promise<UserFromServer[] | APIError> =>
-    this.post("user/search", { data }) as Promise<UserFromServer[] | APIError>;
+reading(): Promise<UserType> {
+  return this.http.get("/");
 }
+
+ public changeProfile(user: UserReq){
+  return this.http.put("/profile", {user})
+ }
+
+ public changeAvatar(file: FormData) {
+  return this.http.put("/profile/avatar", {file})
+ }
+
+ public changePassword({newPassword, oldPassword}: ChangePasswordRequestData){
+  return this.http.put("/password", {oldPassword, newPassword})
+ }
+
+ getUser(id: string) {
+  return this.http.get(`/${id}`)
+ }
+
+ userSearch(login: string){
+  return this.http.post("/search", {login})
+ }
+
+ setAvatar(file: FormData) {
+  return this.http.post("/resources", {file})
+ }
+
+  update = undefined
+  create = undefined
+  delete = undefined
+}
+
+export default new UserApi;

@@ -5,16 +5,18 @@
         {{{back}}}
       </div>
       
-      <section class="grow flex flex-col justify-center items-center">
+      <section class="grow flex flex-col gap-y-2 justify-center items-center h-screen">
         {{{avatar}}}
+            <div>
             {{#each fields}}
                 {{{this}}}
             {{/each}}
-            <div class="text-blue py-10 mr-auto flex flex-col items-start text-start">
+            </div>
+            <div class="text-blue mr-[388px] py-4 flex flex-col items-start text-start">
                 {{{datachange}}} 
                 {{{datapass}}} 
                 {{{logout}}} 
-            </div>
+            </div>      
       </section>
     </div>
 </main>
