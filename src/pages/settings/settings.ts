@@ -68,6 +68,7 @@ export const userFields = ["first_name", "second_name", "display_name", "login",
       }
 
     render() {
+      console.log(this)
       return this.compile(template, {...this.props})
     }
   }

@@ -3,7 +3,7 @@ import { ChatsList } from "components/chats-list/chats-list";
 import template from "./dialog.hbs"
 import Block from "utils/Block";
 import { Messenger } from "components/messenger/messenger";
-import controller from "services/ChatsController";
+import ccontroller from "services/ChatsController";
 
 // type DialogProps = {
 //     chats?: Nullable<Array<ChatType>>;
@@ -27,7 +27,7 @@ export class Dialog extends Block {
 
     this.children.messenger = new Messenger({});
 
-    controller.getChats().finally(() => {
+    ccontroller.getChats().finally(() => {
       (this.children.chatsList as Block).setProps({
         isLoaded: true
       })

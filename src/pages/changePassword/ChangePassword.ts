@@ -82,9 +82,9 @@ export default class ChangePassword extends Block {
         .values(this.children)
         .filter(child => child instanceof Input)
         .map((child) => ([(child as Input).getName(), (child as Input).getValue()]))
-        .slice(0, 1)
+        .slice(0, 2)
         const data = Object.fromEntries(values);
-        
+      console.log(data)
       uController.changePassword(data)
       // console.log(data)
   }

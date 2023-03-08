@@ -1,8 +1,10 @@
 import API, { ChatsApi } from "api/ChatsAPI";
 import store from "utils/store/Store";
 import MessagesController from './MessageController';
+import uController from "./UserController";
+import { GetUserByLoginRequestData } from "api/typesAPI";
 
-class ChatsController {
+export class ChatsController {
   private readonly api: ChatsApi;
 
   constructor() {
@@ -24,11 +26,11 @@ class ChatsController {
       await MessagesController.connect(chat.id, token);
     });
 
-    store.set('chats', chats);
+    store.set("chats", chats);
   }
 
-  addUserToChat(id: number, userId: number) {
-    this.api.addUsers(id, [userId]);
+  addUserToChat(userId: number, chat_id: number, ) {
+    this.api.addUsers( [userId], chat_id);
   }
 
   async delete(id: number) {
@@ -55,9 +57,9 @@ class ChatsController {
   }
 }
 
-const controller = new ChatsController();
+const ccontroller = new ChatsController();
 
 // @ts-ignore
-window.chatsController = controller;
+window.chatsController = ccontroller;
 
-export default controller;
+export default ccontroller;

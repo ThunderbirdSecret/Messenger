@@ -1,5 +1,5 @@
 import API, { UserApi } from "api/UserAPI";
-import { ChangePasswordRequestData, UserReq } from "api/typesAPI";
+import { ChangePasswordRequestData, GetUserByLoginRequestData, UserReq } from "api/typesAPI";
 import store from "utils/store/Store";
 
 export class UserController {
@@ -19,7 +19,7 @@ export class UserController {
         try {
             await this.api.changeProfile(user)
 
-            // store.set("user", user)
+            store.set("user", user)
 
             await this.getUser()
         } catch(e: any) {
@@ -38,13 +38,27 @@ export class UserController {
         }
     }
 
-    async changePassword({oldPassword, newPassword}: ChangePasswordRequestData){
+    async changePassword(passwords: ChangePasswordRequestData){
         try {
-            await this.api.changePassword({oldPassword, newPassword})
+            await this.api.changePassword({
+                oldPassword: passwords.oldPassword, 
+                newPassword: passwords.newPassword
+            })
         } catch(e) {
             console.log(e, "error change password")
         }
 
+    }
+
+    async searchUser(data: GetUserByLoginRequestData) {
+        try {
+            await this.api.userSearch(data).then(
+                res => store.set("searchUser", res)
+                
+            )
+        } catch(e){
+            console.log(e, "error search")
+        }
     }
 
 }

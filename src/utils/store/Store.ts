@@ -12,6 +12,7 @@ interface State {
   chats: ChatType[];
   messages: Record<number, MessageInfo[]>;
   selectedChat?: number;
+  searchUser: UserType[];
 }
 
 export class Store extends EventBus {

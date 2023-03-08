@@ -1,6 +1,13 @@
 <div class="flex flex-col ">
     {{#if selectedChat }}
         <div class="flex items-center justify-center h-cover ">
+                <div class="absolute top-1.5 right-1.5">{{{droppoint}}}</div>
+                    <div id="user-menu" class="hidden absolute top-10 right-5 bg-graphite rounded-lg w-content h-content">
+                        {{{addUser}}}
+                        {{{deleteUser}}}
+                    </div>
+                    {{{addUserWindow}}}
+                    {{{deleteUserWindow}}}
             <div class="flex flex-col customw h-[670px] bg-transparent text-white py-14 px-8 overflow-y-auto scrollbar">
                     {{#each messages}}
                         {{{this}}}

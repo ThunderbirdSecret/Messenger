@@ -108,7 +108,7 @@ class ChangeData extends Block<ChangeSettingsProps>{
     }
 
     onSubmit() {
-      const data: Record<string, string> = {}
+      const data: any = {}
       const input = document.querySelectorAll("input")
       input.forEach((_, i) => {
         let nameEl = input[i].name
@@ -119,6 +119,7 @@ class ChangeData extends Block<ChangeSettingsProps>{
         // data[nameEl] = valueEl
       })
       //@ts-ignore
+      console.log(data)
       uController.changeProfile(data as UserReq)
     }
     

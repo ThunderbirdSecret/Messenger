@@ -8,9 +8,10 @@ interface WindowModalProps {
     text: string;
     id: string;
     func: () => void;
+    inputId: string;
 }
 
-export default class WindowModal extends Block {
+export default class WindowModal extends Block<WindowModalProps> {
     constructor(props: WindowModalProps){
         super(props)
     }
@@ -21,10 +22,10 @@ export default class WindowModal extends Block {
         })
 
         this.children.input = new Input({
-            id: "modal_input",
+            id: this.props.inputId,
             class: "input-controlled",
             name: "modal_input",
-            placeholder: ""
+            placeholder: "",
         })
 
         this.children.button = new ButtonConfirm({
@@ -35,6 +36,7 @@ export default class WindowModal extends Block {
             }
         })
     }
+
 
     render() {
         return this.compile( template, {...this.props})

@@ -1,5 +1,5 @@
 import { Link } from "components/navigate-button/navigate-button";
-import controller from "services/ChatsController";
+import ccontroller from "services/ChatsController";
 import Block from "utils/Block";
 import { withStore } from "utils/store/Store";
 import { Chat } from "./item-chat";
@@ -42,7 +42,8 @@ class ChatsListBase extends Block<ChatsListProps> {
   this.children.newchat = new WindowModal({
     id: "new_chat",
     text: "Enter the login of your interlocutor",
-    func: () => this.newChat()
+    func: () => this.newChat(),
+    inputId: "modal_input"
   })
 
 }
@@ -50,7 +51,7 @@ class ChatsListBase extends Block<ChatsListProps> {
 newChat(){
   let modalInput = document.getElementById("modal_input") as HTMLInputElement
 
-  controller.create(modalInput.value)
+  ccontroller.create(modalInput.value)
 
   document.getElementById("new_chat")!.classList.add("hidden")
 }
@@ -66,7 +67,7 @@ newChat(){
         ...data,
         events: {
           click: () => {
-            controller.selectChat(data.id);
+            ccontroller.selectChat(data.id);
           }
         }
       });

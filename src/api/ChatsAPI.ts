@@ -26,7 +26,7 @@ export class ChatsApi extends BaseApi {
     return this.http.get(`/${id}/common`)
   }
 
-  addUsers(id: number, users: number[]): Promise<unknown> {
+  addUsers(users: number[], id: number): Promise<unknown> {
     return this.http.put("/users", { users, chatId: id });
   }
 
