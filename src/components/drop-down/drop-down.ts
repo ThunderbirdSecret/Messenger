@@ -12,7 +12,7 @@ const icon = {
  icon.location.src = require("asserts/icon/location.png")
 
 
-//описать событие открытия drop down и передать туда компоненты
+//TODO: добавление и загрузка медиа в сообщение
 
 export class DropDown extends Block {
 
@@ -26,18 +26,14 @@ export class DropDown extends Block {
             src: icon.union.src,
             title: "Photo or video",
             uploadId: "photo",
-            events: {
-                click: ()=> this.uploadPhoto()
-            }
+
         })
 
         this.children.file = new DropItem({
             src: icon.file.src,
             title: "file",
             uploadId: "file",
-            events: {
-                click: ()=> this.uploadPhoto()
-            }
+
         })
 
         this.children.location = new DropItem({
@@ -47,9 +43,6 @@ export class DropDown extends Block {
         })
     }
 
-    uploadPhoto(){
-        console.log("загрузка фото")
-    }
     render() {
         return this.compile(template, {...this.props})
     }

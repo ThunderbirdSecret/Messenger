@@ -12,7 +12,8 @@ interface State {
   chats: ChatType[];
   messages: Record<number, MessageInfo[]>;
   selectedChat?: number;
-  searchUser: UserType[];
+  searchUser: findUser[];
+  addUsers: findUser[];
 }
 
 export class Store extends EventBus {
@@ -27,6 +28,7 @@ export class Store extends EventBus {
   public getState() {
     return this.state;
   }
+  
 }
 
 const store = new Store();

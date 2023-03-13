@@ -2,6 +2,7 @@ import API, { UserApi } from "api/UserAPI";
 import { ChangePasswordRequestData, GetUserByLoginRequestData, UserReq } from "api/typesAPI";
 import store from "utils/store/Store";
 
+
 export class UserController {
     private readonly api: UserApi;
 
@@ -17,24 +18,26 @@ export class UserController {
 
     async changeProfile(user: UserReq){
         try {
-            await this.api.changeProfile(user)
-
+            await this.api.changeProfile({
+                first_name: user.first_name,
+                second_name: user.second_name,
+                display_name: user.display_name,
+                login: user.login,
+                email: user.email,
+                phone: user.phone}) 
             store.set("user", user)
 
-            await this.getUser()
         } catch(e: any) {
             console.log(e, "Change profile error")
         }
     }
 
-    async changeAvatar(file: FormData) {
+    async changeAvatar(file: FormData) {        
         try {
-            const avatar = await this.api.changeAvatar(file)
+             await this.api.changeAvatar(file)
 
-            // store.set("user", avatar)
-            await this.getUser()
         } catch(e) {
-            console.log(e, "error aupload avatar")
+            console.log("error aupload avatar", e)
         }
     }
 
@@ -52,8 +55,7 @@ export class UserController {
 
     async searchUser(data: GetUserByLoginRequestData) {
         try {
-            await this.api.userSearch(data).then(
-                res => store.set("searchUser", res)
+            await this.api.userSearch(data).then(res => store.set("searchUser", res)
                 
             )
         } catch(e){

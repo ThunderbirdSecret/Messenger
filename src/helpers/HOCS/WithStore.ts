@@ -1,35 +1,27 @@
-import { deepEqual } from "helpers/checkers and validators/deepEqual";
-import { Block } from "utils";
+import Block from "utils/Block";
 import store, { StoreEvents } from "utils/store/Store";
 
-export function withStore(mapStateToProps: (state: any) => any) {
-
-  return function wrap(Component: typeof Block){
-    let currentState: any;
-
+export function withStore<SP extends Partial<any>>(mapStateToProps: (state: State) => SP) {
+  return function wrap<P>(Component: typeof Block<SP>){
 
     return class WithStore extends Component {
 
-      constructor(props: any) {
-        const state = store.getState()
-        currentState = mapStateToProps(state);
+      constructor(props: Omit<P, keyof SP>) {
+        let previousState = mapStateToProps(store.getState());
 
-        super({ ...props, ...currentState });
+        super({ ...(props as P), ...previousState });
 
         store.on(StoreEvents.Updated, () => {
-          const stateProps = mapStateToProps(state);
+          const stateProps = mapStateToProps(store.getState());
 
-          if(deepEqual(currentState, stateProps)){
-            return
-          }
-
-          // currentState = stateProps;
+          previousState = stateProps;
 
           this.setProps({ ...stateProps });
         });
+
       }
+
     }
 
   }
-
 }

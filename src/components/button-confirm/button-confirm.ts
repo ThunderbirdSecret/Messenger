@@ -3,6 +3,7 @@ import template from "./button-confirm.hbs"
 interface ButtonConfirmProps {
     title: string | HTMLImageElement;
     class: string;
+    id?: string;
     events?: {
         click?: ()=> void;
         submit?: (e: Event) => void

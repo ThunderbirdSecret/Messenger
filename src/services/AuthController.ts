@@ -16,9 +16,10 @@ export class AuthController {
       await this.api.signin(data);
 
       await this.getUser();
-
-      Router.go('/messenger');
+      
+      Router.go("/messenger");
     } catch (e: any) {
+      Router.go("/404")
       console.error(e);
     }
   }
@@ -31,6 +32,7 @@ export class AuthController {
 
       Router.go("/messenger");
     } catch (e: any) {
+      Router.go("/404")
       console.error(e.message);
     }
   }
@@ -49,6 +51,7 @@ export class AuthController {
 
       Router.go("/");
     } catch (e: any) {
+      Router.go("/404")
       console.error(e.message);
     }
   }

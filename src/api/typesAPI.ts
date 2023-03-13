@@ -26,6 +26,10 @@ export type SignupRequestData = {
   phone: string;
 };
 
+export interface AvatarType {
+  avatar: FormData
+}
+
 export type ChatFromServer = {
   id: number;
   title: string;

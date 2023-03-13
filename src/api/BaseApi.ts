@@ -11,7 +11,7 @@ export default class BaseApi {
   
     public reading?(identifier?: string): Promise<unknown>;
 
-    public update?(identifier: string, data: unknown): Promise<unknown>;
-  
-    public delete?(identifier?: any): Promise<unknown>;
+    public update?(identifier: string | number, data: unknown): Promise<unknown>;
+      
+    public delete?(identifier?: string | number): Promise<unknown>;
   }

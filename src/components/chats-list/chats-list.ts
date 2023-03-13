@@ -20,7 +20,7 @@ class ChatsListBase extends Block<ChatsListProps> {
 
   protected init() {
     this.children.chats = this.createChats(this.props);
-    //@ts-expect-error
+    
     this.children.profileLink = new Link({ path: "/settings", title: "Профиль"});
  
 
@@ -41,9 +41,10 @@ class ChatsListBase extends Block<ChatsListProps> {
   })
   this.children.newchat = new WindowModal({
     id: "new_chat",
-    text: "Enter the login of your interlocutor",
+    text: "Enter name for new chat",
     func: () => this.newChat(),
-    inputId: "modal_input"
+    inputId: "modal_input",
+    btn: "Create chat"
   })
 
 }
@@ -55,7 +56,8 @@ newChat(){
 
   document.getElementById("new_chat")!.classList.add("hidden")
 }
-  protected componentDidUpdate(oldProps: ChatsListProps, newProps: ChatsListProps): boolean {
+
+protected componentDidUpdate(oldProps: ChatsListProps, newProps: ChatsListProps): boolean {
     this.children.chats = this.createChats(newProps);
 
     return true;
@@ -68,6 +70,7 @@ newChat(){
         events: {
           click: () => {
             ccontroller.selectChat(data.id);
+            ccontroller.getUsers(data.id)
           }
         }
       });

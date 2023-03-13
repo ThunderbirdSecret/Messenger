@@ -3,6 +3,7 @@ import template from "./close-modal.hbs"
 import ButtonConfirm from "components/button-confirm/button-confirm";
 interface CloseModalProps {
     modalId: string;
+    title?: string
 }
 
 export default class CloseModal extends Block<CloseModalProps> {
@@ -15,7 +16,7 @@ export default class CloseModal extends Block<CloseModalProps> {
 
         this.children.close = new ButtonConfirm({
             class:"text-white border-none",
-            title: "x",
+            title: this.props.title ? this.props.title : "x",
             events: {
                 click: () => this.onClose()
             }

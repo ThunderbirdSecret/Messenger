@@ -9,7 +9,7 @@ enum Methods {
 
 type Options = {
   method: Methods;
-  data?: any;
+  data?: Record<string, any> | FormData | unknown;
 };
 
 export default class HTTPTransport {
@@ -21,8 +21,8 @@ export default class HTTPTransport {
     this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
   }
 
-  public get<Response>(path = '/'): Promise<Response> {
-    return this.request<Response>(this.endpoint + path);
+  public get<Response>(path = "/"): Promise<Response> {
+    return this.request<Response>(this.endpoint + path)
   }
 
   public post<Response = void>(path: string, data?: unknown): Promise<Response> {
@@ -46,9 +46,10 @@ export default class HTTPTransport {
     });
   }
 
-  public delete<Response>(path: string): Promise<Response> {
+  public delete<Response>(path: string, data?: unknown): Promise<Response> {
     return this.request<Response>(this.endpoint + path, {
       method: Methods.Delete,
+      data
     });
   }
 
@@ -74,18 +75,24 @@ export default class HTTPTransport {
       xhr.onerror = () => reject({reason: 'network error'});
       xhr.ontimeout = () => reject({reason: 'timeout'});
 
-      if(!(data instanceof FormData)){
-        xhr.setRequestHeader('Content-Type', 'application/json');
-      }
-
       xhr.withCredentials = true;
-      xhr.responseType = 'json';
+      xhr.responseType = "json";
 
-      if (method === Methods.Get || !data) {
-        xhr.send();
-      } else {
-        xhr.send(JSON.stringify(data));
+      if(!(data instanceof FormData)){
+        xhr.setRequestHeader("Content-Type", "application/json");
       }
+
+      if (method === Methods.Get || !data) {  
+        xhr.send();
+        return;
+      }
+
+      if (data instanceof FormData) {
+        xhr.send(data);
+        return;
+      }
+
+      xhr.send(JSON.stringify(data));
     });
   }
 }

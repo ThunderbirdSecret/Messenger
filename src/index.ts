@@ -7,14 +7,8 @@ import { ProfilePage } from "pages/settings/settings";
 import { EditProfile } from "pages/changeData/ChangeData";
 import ChangePassword from "pages/changePassword/ChangePassword";
 import { Dialog } from "pages/dialog/dialog";
-// import Page404 from "pages/page404/page404";
-// import Registration from "pages/registration/registration";
-// import Settings from "pages/settings/settings";
-// import Dialog from "pages/dialog/dialog";
+import Page404 from "pages/page404/page404";
 
-// Object.values(components).forEach((Component: BlockConstructable) => {
-//     registerComponent(Component);
-// });
 
 enum Routes {
   Authorization = "/",
@@ -35,7 +29,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     .use(Routes.Dialog, Dialog)
     .use(Routes.EditProfile, EditProfile)
     .use(Routes.ChangePassword, ChangePassword)
-    // .use(Routes.Page404, Page404)
+    .use(Routes.Page404, Page404)
 
   let isProtectedRoute = true;
 
@@ -51,9 +45,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     Router.start()
     if(!isProtectedRoute){
-      Router.go(Routes.Settings)
-      // Router.go(Routes.EditProfile)
       Router.go(Routes.Dialog)
+
 
     } 
   } catch(e) {
@@ -61,6 +54,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     if(isProtectedRoute){
       Router.go(Routes.Authorization)
+      Router.go(Routes.Registration)
+
       }
     }
 

@@ -1,5 +1,5 @@
 import BaseApi from "./BaseApi";
-import { LoginRequestData, SignupRequestData, UserApi } from "./typesAPI";
+import { LoginRequestData, SignupRequestData, UserReq } from "./typesAPI";
 
 export class AuthApi extends BaseApi {
     constructor() {
@@ -15,7 +15,7 @@ export class AuthApi extends BaseApi {
       return this.http.post("/signup", SignupRequestData);
     }
   
-    public reading(): Promise<UserApi> {
+    public reading(): Promise<UserReq> {
       return this.http.get("/user");
     }
   

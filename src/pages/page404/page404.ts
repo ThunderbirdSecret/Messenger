@@ -1,23 +1,27 @@
-import { Block } from "utils";
+import { Link } from "components/navigate-button/navigate-button";
+import Title from "components/title/title";
+import Block from "utils/Block";
+import template from "./page404.hbs"
 
 
 export default class Page404 extends Block {
-static cName = "Page404"
 
 constructor({}) {
     super({});
 }
-    // componentDidUpdate() {
-    //     return window.store.getState().screen === '404';
-    // }
 
-    protected render(): string {
-        return `
-            <main class="flex justify-center flex-col gap-5 items-center h-screen">
-                {{{ Title title="404"}}}
-                <p>You got lost.</p>
-                {{{LinkPage linkTitle="Back to chats" to="/"}}}
-            </main>
-        `
+init() {
+    this.children.title = new Title({
+        title: "404"
+    })
+
+    this.children.link = new Link({
+        path: "/messenger",
+        title: "Go back"
+    })
+}
+
+    render() {
+        return this.compile(template, {...this.props})
     }
 } 

@@ -8,7 +8,7 @@ interface InputProps {
     name?: string;
     status?: string;
     accept?: string;
-    id: string;
+    id?: string;
     class?: string;
     events?: {
         input?: (e: FocusEvent) => void;

@@ -5,19 +5,18 @@ import { Link } from "components/navigate-button/navigate-button";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 import AuthController from "services/AuthController";
 import { withStore } from "utils/store/Store";
-import Avatar from "components/avatar/avatar";
-import { DEFAULT_AVATAR } from "constants/imagesPaths";
+import Avatar, { hoverImg } from "components/avatar/avatar";
 
 export interface SettingsProps extends UserType{}
 
 export const userFields = ["first_name", "second_name", "display_name", "login", "email", "phone"] as Array<keyof UserType>;
   
+hoverImg.default.src = require("asserts/images/06.jpg")
 
   export class Settings extends Block<SettingsProps>{
   
       init() {
 
-        //@ts-expect-error
         this.children.back = new Link({
           title: "🡐",
           path: "/messenger",
@@ -25,16 +24,12 @@ export const userFields = ["first_name", "second_name", "display_name", "login",
           type: "button"
         })
 
-        this.children.avatar = new Avatar({
-          avatarValue: DEFAULT_AVATAR
-        })
+        this.children.avatar = new Avatar({})
 
         this.children.fields = userFields.map(name => {
-          console.log(this.props[name])
           return new DataItem({ name, value: this.props[name] ? this.props[name] : "not found" });
         });
 
-        //@ts-expect-error
         this.children.datachange = new Link({
           title: "Change profile",
           path: "/changedata",
@@ -42,7 +37,6 @@ export const userFields = ["first_name", "second_name", "display_name", "login",
           type: "button",
         });
 
-        //@ts-expect-error
         this.children.datapass = new Link({
           title: "Change password",
           path: "/changepassword",
@@ -58,7 +52,7 @@ export const userFields = ["first_name", "second_name", "display_name", "login",
           }
         })
       }
-  
+
       protected componentDidUpdate(oldProps: SettingsProps, newProps: SettingsProps): boolean {
 
         (this.children.fields as DataItem[]).forEach((field, i) => {
@@ -68,7 +62,6 @@ export const userFields = ["first_name", "second_name", "display_name", "login",
       }
 
     render() {
-      console.log(this)
       return this.compile(template, {...this.props})
     }
   }

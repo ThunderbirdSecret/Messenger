@@ -1,8 +1,6 @@
 import API, { ChatsApi } from "api/ChatsAPI";
 import store from "utils/store/Store";
 import MessagesController from './MessageController';
-import uController from "./UserController";
-import { GetUserByLoginRequestData } from "api/typesAPI";
 
 export class ChatsController {
   private readonly api: ChatsApi;
@@ -24,13 +22,26 @@ export class ChatsController {
       const token = await this.getToken(chat.id);
 
       await MessagesController.connect(chat.id, token);
+
     });
+          // this.getUsers(chat.id)
 
     store.set("chats", chats);
   }
 
-  addUserToChat(userId: number, chat_id: number, ) {
-    this.api.addUsers( [userId], chat_id);
+  async getUsers(chat_id:number){
+    try{
+        await this.api.getUsers(chat_id).then(users => {
+          store.set("addUsers", users)
+    })
+      this.getChats();
+    } catch(e) {
+      console.log("users not found", e)
+    }
+  }
+
+  async addUserToChat(userId: number, chat_id: number, ) {
+     await this.api.addUsers( [userId], chat_id);
   }
 
   async delete(id: number) {
@@ -39,19 +50,23 @@ export class ChatsController {
     this.getChats();
   }
 
+  deleteUserToChat(userId: number, chat_id: number, ) {
+    this.api.addUsers( [userId], chat_id);
+  }
+
   getToken(id: number) {
     return this.api.getToken(id);
   }
 
   selectChat(id: number) {
-    store.set('selectedChat', id);
+    store.set("selectedChat", id);
   }
 
   async commonChat(id: number) {
 
     await this.api.getCommon(id)
 
-    store.set("chat", id)
+    store.set("chats", id)
 
     this.getChats();
   }

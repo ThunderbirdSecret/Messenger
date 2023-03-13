@@ -26,7 +26,7 @@ declare global {
       avatar: string;
       unread_count: number;
       last_message: {
-        user: UserType;
+        user: findUser[];
         time: string;
         content: string;
       }
@@ -48,6 +48,17 @@ declare global {
     errorRef?: BlockClass;
   };
 
+  interface findUser {
+    avatar: string;
+    display_name: string;
+    email: string;
+    first_name: string;
+    id: number;
+    login: string;
+    phone: string;
+    second_name: string;
+    role?: string;
+  }
   export type ParentRefs = ErrorRef & Record<string, BlockClass>;
 
   export type RefsObject = Record<string, HTMLInputElement>;

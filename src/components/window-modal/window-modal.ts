@@ -4,13 +4,17 @@ import CloseModal from "components/close-modal/close-modal";
 import Input from "components/input/input";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 
-interface WindowModalProps {
+export interface WindowModalProps {
     text: string;
     id: string;
     func: () => void;
-    inputId: string;
+    inputId?: string;
+    btn: string
+    // btnName: string;
+    // elUp: ()=> void;
+    // users: findUser[];
 }
-
+//TODO добавить списки и кнопку find и условия для их отображения
 export default class WindowModal extends Block<WindowModalProps> {
     constructor(props: WindowModalProps){
         super(props)
@@ -29,12 +33,19 @@ export default class WindowModal extends Block<WindowModalProps> {
         })
 
         this.children.button = new ButtonConfirm({
-            title: "Add",
+            title: this.props.btn,
             class: "button-confirm",
+            id: "modal-button",
             events: {
                 click: () => this.props.func()
             }
         })
+
+        // this.children.list = new UserList({
+        //     elClick: () => this.props.elUp,
+        //     btnName: this.props.btnName,
+        //     users: this.props.users
+        // })
     }
 
 

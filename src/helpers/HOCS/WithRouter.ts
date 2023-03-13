@@ -1,4 +1,4 @@
-import { Block } from "utils";
+import Block from "utils/Block";
 import Router from "utils/Router";
 
 export default function withRouter(Component: typeof Block<any>) {

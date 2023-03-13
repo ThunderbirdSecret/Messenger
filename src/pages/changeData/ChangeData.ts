@@ -3,13 +3,11 @@ import ButtonConfirm from "components/button-confirm/button-confirm";
 import ErrorComponent from "components/error-component/error-component";
 import { Link } from "components/navigate-button/navigate-button";
 import UserDataInput from "components/settingsForm/userDataInput/UserDataInput";
-import { DEFAULT_AVATAR } from "constants/imagesPaths";
 import { SettingsProps } from "pages/settings/settings";
 import Block from "utils/Block";
 import template from "./change-data.hbs"
 import { withStore } from "utils/store/Store";
 import uController from "services/UserController";
-import { UserReq } from "api/typesAPI";
 
 export interface ChangeSettingsProps extends SettingsProps{
   textErr: string;
@@ -18,7 +16,7 @@ export interface ChangeSettingsProps extends SettingsProps{
     
 
 /***
- * Добавить валидацию на blur, изменение данных, запрос на сервак на изменение
+ * TODO:Добавить валидацию на blur, изменение данных, запрос на сервак на изменение
  */
 class ChangeData extends Block<ChangeSettingsProps>{  
     constructor(props:ChangeSettingsProps) {
@@ -27,7 +25,6 @@ class ChangeData extends Block<ChangeSettingsProps>{
 
     init() {
 
-      //@ts-expect-error
       this.children.back = new Link({
         title: "🡐",
         path: "/settings",
@@ -36,7 +33,7 @@ class ChangeData extends Block<ChangeSettingsProps>{
       })
 
       this.children.avatar = new Avatar({
-        avatarValue: DEFAULT_AVATAR
+        // avatarValue: DEFAULT_AVATAR
       })
 
       this.children.firstname = new UserDataInput({
@@ -61,6 +58,7 @@ class ChangeData extends Block<ChangeSettingsProps>{
         title: "Display name",
         name: "display_name",
         id: "display_name",
+        //@ts-expect-error
         placeholder: this.props.display_name ? this.props.display_name : "undefined",
         value: "",
         type: "text"
@@ -120,7 +118,7 @@ class ChangeData extends Block<ChangeSettingsProps>{
       })
       //@ts-ignore
       console.log(data)
-      uController.changeProfile(data as UserReq)
+      uController.changeProfile(data)
     }
     
     render() {

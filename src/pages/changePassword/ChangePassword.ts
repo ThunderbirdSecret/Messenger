@@ -13,7 +13,6 @@ export default class ChangePassword extends Block {
   
   init(){
 
-    //@ts-expect-error
     this.children.back = new Link({
       title: "🡐",
       path: "/settings",
@@ -30,7 +29,6 @@ export default class ChangePassword extends Block {
       value: "",
       events: {
           blur: (e: FocusEvent) => this.onBlur(e),
-          // input: (e: FocusEvent) => this.onInput(e)
       }
     })        
   
@@ -43,7 +41,6 @@ export default class ChangePassword extends Block {
       value: "",
       events: {
           blur: (e: FocusEvent) => this.onBlur(e),
-          // input: (e: FocusEvent) => this.onInput(e)
       }
     })        
 
@@ -56,7 +53,6 @@ export default class ChangePassword extends Block {
       value: "",
       events: {
           blur: (e: FocusEvent) => this.onBlur(e),
-          // input: (e: FocusEvent) => this.onInput(e)
       }
     })
 
@@ -84,12 +80,11 @@ export default class ChangePassword extends Block {
         .map((child) => ([(child as Input).getName(), (child as Input).getValue()]))
         .slice(0, 2)
         const data = Object.fromEntries(values);
-      console.log(data)
       uController.changePassword(data)
-      // console.log(data)
   }
 
   onBlur(e: FocusEvent) {
+    //TODO: Валидация
     console.log("и без валидации все очень плохо")
   }
 

@@ -1,18 +1,9 @@
-// import { Input, MessageInput } from "components"
 import { ChatsList } from "components/chats-list/chats-list";
 import template from "./dialog.hbs"
 import Block from "utils/Block";
 import { Messenger } from "components/messenger/messenger";
 import ccontroller from "services/ChatsController";
 
-// type DialogProps = {
-//     chats?: Nullable<Array<ChatType>>;
-//     events?: Record<string, unknown>;
-//     toggleShowChatMenu?: () => void;
-//     toggleShowAddUserForm?: () => void;
-//     toggleShowDeleteUserForm?: () => void;
-//     onClick?: (e: Event) => void;
-// }
 
 const icon = new Image()
 icon.src = require("asserts/threepoint.svg")

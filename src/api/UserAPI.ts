@@ -11,15 +11,13 @@ reading(): Promise<UserType> {
   return this.http.get("/");
 }
 
+updateUser(data: UserType) {
+  return this.http.put("/", data);
+}
+
+
  public changeProfile(user: UserReq){
-  return this.http.put("/profile", {
-                            first_name: user.first_name,
-                            second_name: user.second_name,
-                            display_name: user.display_name,
-                            login: user.login,
-                            email: user.email,
-                             phone: user.phone
-                          })
+  return this.http.put("/profile", {...user})
  }
 
  public changeAvatar(file: FormData) {
@@ -38,13 +36,8 @@ reading(): Promise<UserType> {
   return this.http.post("/search", {login: data.login})
  }
 
- setAvatar(file: FormData) {
-  return this.http.post("/resources", {file})
- }
-
-  update = undefined
   create = undefined
   delete = undefined
 }
 
-export default new UserApi;
+export default new UserApi();

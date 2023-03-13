@@ -16,7 +16,8 @@ interface MessengerProps {
     selectedChat: number | undefined;
     messages: MessageInfo[];
     userId: number;
-    searchUser: UserType[]
+    searchUser: findUser[],
+    addUsers: findUser[]
 }
 
   class MessengerBase extends Block<MessengerProps> {
@@ -50,16 +51,18 @@ interface MessengerProps {
         text: "Print user login",
         id: "window-add",
         func: () => this.AddUserChat(),
-        inputId: "input-add"
+        inputId: "input-add",
+        btn: "find"
       })
 
-      this.children.deleteUserWindow = new WindowModal ({
-        text: "Delete user from chat",
-        id: "window-delete",
-        func: () => this.DeleteUserChat(),
-        inputId: "input-delete"
-      })
 
+      this.children.DeleteUserWindow = new WindowModal ({
+        text: "Select a user and click on it",
+        id: "deleteModal",
+        inputId: "delete-input",
+        func: () => this.close(),
+        btn: "Done"
+      })
       
       this.children.dropbutton = new ButtonConfirm ({
         title: "❐",
@@ -103,55 +106,98 @@ interface MessengerProps {
       document.getElementById("window-add")!.classList.remove("hidden")
     }
 
+    close(){
+      document.getElementById("deleteModal")?.classList.toggle("hidden")
+    }
+
     DeleteUser() {
-      document.getElementById("window-delete")!.classList.remove("hidden")
+      const modal = document.getElementById("deleteModal")
+      document.getElementById("delete-input")?.classList.add("hidden")
+      modal!.classList.toggle("hidden")
+       this.createItemsDelete()
+    }
+
+      createItemsDelete() {
+      const currentUsers = this.props.addUsers;
+      const div = document.getElementById("delete-input") as HTMLElement
+      const dataReq: any[] = []
+      if(currentUsers.length > 0){
+        
+        currentUsers.forEach((item) => {
+          const p = document.createElement("p")
+          p.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
+          div.after(p)
+          p.id = item.login
+          p.innerText = `User: ${item.login} name: ${item.first_name}  ✘`
+          let chat_id = this.props.selectedChat!
+          p.addEventListener("click", () =>this.DeleteUserHandler(chat_id, item.id, item.login), false);
+          dataReq.push(this.props.selectedChat!, item.id)
+        })
+      } else {
+          const p = document.createElement("p")
+          p.innerText = "User not found"
+          div.after(p)
+        }
+        // console.log(...new Set(dataReq))
+  }
+
+    DeleteUserHandler(chat_id: number, userId: number, login: string){
+      const elp = document.getElementById(login)
+      
+      ccontroller.deleteUserToChat(userId, chat_id)  
+      alert(`User ${login} delete from chat`)
+      elp!.remove()
     }
   
+
     dropDown(){
       document.getElementById("dropdown")!.classList.toggle("hidden")
     }
 
     UserMenu(){
-      console.log("click")
       document.getElementById("user-menu")?.classList.toggle("hidden")
     }
-
+//TODO: перенести в отдельный компонент
     async AddUserChat() {
-      console.log("add user", this)
+
       const modalInput = document.getElementById("input-add") as HTMLInputElement
-      console.log(modalInput.value)
       const user = { login: modalInput.value}
-      console.log(user)
       await uController.searchUser(user as GetUserByLoginRequestData)
       let users = this.props.searchUser
-      console.log("USERS", users)
-      if(users){
-        const p = document.createElement("p")
-        p.className = "text-sm text-white p-2"
-        modalInput.after(p)
-        users.map((item) => {
-          p.innerText = `User: ${item.login}  name: ${item.first_name}`
-          let chat_id = this.props.selectedChat!
-          ccontroller.addUserToChat( item.id, chat_id)
-        })}
-         
+      const dataReq: any[] = []
+      if(users.length > 0){
         
-      //  = `Users${this.props.searchUser}`
-      // console.log("res",  res.then())
+        users.forEach((item) => {
+          const p = document.createElement("p")
+          p.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
+          modalInput.after(p)
+          p.innerText = `User: ${item.login} name: ${item.first_name}`
+          let chat_id = this.props.selectedChat!
+          p.addEventListener("click", () =>this.AddUserHandler(chat_id, item.id, item.login), false);
+          dataReq.push(this.props.selectedChat!, item.id)
+          setTimeout(() => p.remove(), 5000);
+        })
+      } else {
+          const p = document.createElement("p")
+          p.innerText = "User not found"
+          modalInput.after(p)
+          setTimeout(() => p.remove(), 3000);
+        }
     }
 
-    DeleteUserChat() {
-      console.log("А тут будет удалить")
+    async AddUserHandler(chat_id: number, userId: number, login: string){
+      ccontroller.addUserToChat(userId, chat_id)  
+      alert(`User ${login} added in chat`)
     }
 
     private createMessages(props: MessengerProps) {
       return props.messages.map(data => {
+        //TODO: debag
         return new Message({...data, isMine: props.userId === data.user_id });
       })
     }
   
     protected render(): DocumentFragment {
-      console.log(this.props)
       return this.compile(template, { ...this.props });
     }
   }
@@ -164,15 +210,18 @@ interface MessengerProps {
         messages: [],
         selectedChat: undefined,
         userId: state.user.id,
-        searchUser: undefined
+        searchUser: undefined,
+        addUsers: []
       };
     }
+
   
     return {
       messages: (state.messages || {})[selectedChatId] || [],
       selectedChat: state.selectedChat,
       userId: state.user.id,
-      searchUser: (state.searchUser || {})
+      searchUser: (state.searchUser),
+      addUsers: state.addUsers
     };
   });
   

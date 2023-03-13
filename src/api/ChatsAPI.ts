@@ -10,24 +10,31 @@ export class ChatsApi extends BaseApi {
   }
 
   delete(id: number): Promise<unknown> {
-    //@ts-expect-error
     return this.http.delete("/", { chatId: id });
   }
 
   reading(): Promise<ChatType[]> {
-    return this.http.get('/');
+    return this.http.get("/");
   }
 
-  getUsers(id: number): Promise<Array<UserType & { role: string }>> {
-    return this.http.get(`/${id}/users`)
+  getUsers(id: number): Promise<Array<findUser>> {
+    return this.http.get(`/${id}/users/?offset=0&limit=8`)
   }
   
+  getChatUsers(id: number){
+    return this.http.post(`/token/${id}`)
+  }
+
   getCommon(id: number): Promise<Array<UserType>> {
     return this.http.get(`/${id}/common`)
   }
 
   addUsers(users: number[], id: number): Promise<unknown> {
     return this.http.put("/users", { users, chatId: id });
+  }
+
+  deleteUsers(users: number[], id: number): Promise<unknown> {
+    return this.http.delete("/users", { users, chatId: id });
   }
 
   async getToken(id: number): Promise<string> {

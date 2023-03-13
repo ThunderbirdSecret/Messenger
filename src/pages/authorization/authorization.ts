@@ -29,7 +29,6 @@ export default class Authorization extends Block {
             value: "",
             events: {
                 blur: (e: FocusEvent) => this.onBlur(e),
-                // input: (e: FocusEvent) => this.onInput(e)
             }
         })
 
@@ -42,7 +41,6 @@ export default class Authorization extends Block {
             value: "",
             events: {
                 blur: (e: FocusEvent) => this.onBlur(e),
-                // input: (e: FocusEvent) => this.onInput(e)
             }
         })
 
@@ -59,7 +57,6 @@ export default class Authorization extends Block {
             },
           })
 
-      //@ts-expect-error
         this.children.link = new Link({
           title: "Sign Up",
           path: "/signup",
@@ -94,7 +91,7 @@ export default class Authorization extends Block {
 }
     
 
-     render() {
+    render() {
         return this.compile(template, {...this.props});
-     }
     }
+}

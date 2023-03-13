@@ -129,7 +129,6 @@ export default class Registration extends Block{
             },
           })
 
-        //@ts-expect-error
         this.children.link = new Link({
           title: "Sign in",
           path: "/",
@@ -154,7 +153,6 @@ export default class Registration extends Block{
   
       const data = Object.fromEntries(values);
     
-      console.log(data)
       AuthController.signup(data as SignupRequestData);
     }
   
