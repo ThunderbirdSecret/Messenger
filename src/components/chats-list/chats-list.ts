@@ -1,29 +1,87 @@
+import { Link } from "components/navigate-button/navigate-button";
+import ccontroller from "services/ChatsController";
 import Block from "utils/Block";
+import { withStore } from "utils/store/Store";
+import { Chat } from "./item-chat";
+import template from "./chats-list.hbs"
+import Input from "components/input/input";
+import WindowModal from "components/window-modal/window-modal";
+import ButtonConfirm from "components/button-confirm/button-confirm";
 
 interface ChatsListProps {
-    avatar?: string;
-    login: string;
-    lastMessage: string;
-    onClick?: ()=> void;
+  chats: ChatType[];
+  isLoaded: boolean;
 }
 
-export class ChatsList extends Block {
-    static cName = "ChatsList"
-    constructor({onClick, ...props}:ChatsListProps){
-        super({...props, events: {click: onClick}})
-    }
+class ChatsListBase extends Block<ChatsListProps> {
+  constructor(props: ChatsListProps) {
+    super({...props});
+  }
 
-    protected render(): string {
-        return `
-            <div>
-                <hr class="border-t-2 border-hr-color w-12/14 mx-[15px]"/>
-                <div class="flex items-center gap-x-3 p-2.5 h-[73px] hover:bg-select-graphite">
-                    <div class="min-w-[47px] min-h-[47px] rounded-full bg-blue"></div>
-                    <div class="text-sm">
-                        <strong>{{login}}</strong>
-                        <p class="max-w-[250px] truncate">{{lastMessage}}</p>
-                    </div>
-                </div>
-            </div>`
+  protected init() {
+    this.children.chats = this.createChats(this.props);
+    
+    this.children.profileLink = new Link({ path: "/settings", title: "Профиль"});
+ 
+
+  this.children.search = new Input({
+    id: "search",
+    value: "",
+    placeholder: "search",
+    type: "text",
+    class: "placeholder:white pl-[6px] h-[28px] bg-select-graphite focus:outline-none customw rounded-lg m-2"
+  })
+
+  this.children.openModal = new ButtonConfirm ({
+    title: "New chat +",
+    class: "link-page",
+    events: {
+      click: () => document.getElementById("new_chat")!.classList.remove("hidden")
     }
+  })
+  this.children.newchat = new WindowModal({
+    id: "new_chat",
+    text: "Enter name for new chat",
+    func: () => this.newChat(),
+    inputId: "modal_input",
+    btn: "Create chat"
+  })
+
 }
+
+newChat(){
+  let modalInput = document.getElementById("modal_input") as HTMLInputElement
+
+  ccontroller.create(modalInput.value)
+
+  document.getElementById("new_chat")!.classList.add("hidden")
+}
+
+protected componentDidUpdate(oldProps: ChatsListProps, newProps: ChatsListProps): boolean {
+    this.children.chats = this.createChats(newProps);
+
+    return true;
+  }
+
+  private createChats(props: ChatsListProps) {
+    return props.chats.map(data => {
+      return new Chat({
+        ...data,
+        events: {
+          click: () => {
+            ccontroller.selectChat(data.id);
+            ccontroller.getUsers(data.id)
+          }
+        }
+      });
+    })
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(template, {...this.props});
+  }
+}
+
+const withChats = withStore((state) => ({chats: [...(state.chats || [])]}));
+
+export const ChatsList = withChats(ChatsListBase);

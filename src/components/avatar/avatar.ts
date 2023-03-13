@@ -1,65 +1,63 @@
+import Input from "components/input/input";
+import template from "./avatar.hbs"
 import Block from "utils/Block";
+import uController from "services/UserController";
+import { withStore } from "utils/store/Store";
 
-interface AvatarProps {
-    file: HTMLInputElement & EventTarget;
-    onChange?: ()=> void;
-    id?: string;
-    value?: string | HTMLInputElement | HTMLImageElement | File
+export const hoverImg = {
+    union: new Image(),
+    default: new Image()
 }
 
-const image = new Image()
-const icon = new Image()
-image.src = require("asserts/images/06.jpg")
-icon.src = require("asserts/icon/Union-grey.svg")
 
-export class Avatar extends Block {
-    static cName = "Avatar";
-
-    constructor({onChange, ...props}:AvatarProps){
-        super({...props, 
-            onChange: (e: Event) => {
-                let file = (e.target as HTMLInputElement).files![0]
-                let reader = new FileReader()
-                
-                console.log("el: ", this.refs)
-                reader.onloadend = () => {
-                    let preview = document.getElementById("preview")
-                    preview.src = reader.result;
-                  }
-                
-                  if (file) {
-                    reader.readAsDataURL(file);
-                  } else {
-                    preview.src = "";
-                  }
-                }
-                // this.refs.image.setProps({ src: target.files![0]})
-    });
+hoverImg.union.src = require("asserts/icon/Union-grey.svg")
+hoverImg.default.src = require("asserts/images/06.jpg")
+interface AvatarProps extends UserType {
+    events?: {
+        change: (e: Event)=> void;
+    }
+    src?: string | HTMLImageElement;
+    union?: string;
 }
 
-    protected render(): string {
-        return `
-            <form method="post" enctype="multipart/form-data" class="text-center w-[130px] h-[130px] overflow-hidden my-4 cursor-pointer overflow-hidden rounded-full">
-                <label>
-                {{{Input 
-                    class="hidden"
-                    type="file"
-                    ref="avatar"
-                    value=avatarValue
-                    name="avatar"
-                    id=id
-                    accept=".png, .jpg, .jpeg"
-                    onChange=onChange
-                }}}
-                    <figure class="relative w-[130px] h-[130px] ">
-                    <img src=${image.src} id="preview" alt="Avatar" class="w-full h-full align-start object-cover" 
-                        class="bg-auto rounded-full box-border w-[130px] h-[130px] transition-all ease-linear" >
-                        <figcaption class="absolute inset-0 flex justify-center items-center z-10 opacity-0 transition-all ease-linear hover:opacity-100 hover:bg-gray-800/75">
-                            <img class="m-auto" alt="icon" src=${icon.src}>
-                        </figcaption>
-                    </figure>
-                </label>
-            </form>
-        `
+ export class Avatar extends Block<AvatarProps>{
+    constructor(props:AvatarProps){
+        super({...props,
+                union: hoverImg.union.src,
+                src: props.avatar ? `https://ya-praktikum.tech/api/v2/resources/${props.avatar}` : hoverImg.default.src
+            });
+
+    }
+
+    init(){
+        this.children.uploader = new Input({
+            class: "hidden",
+            type: "file",
+            value: this.props.src,
+            name: "avatar",
+            id: "avatar",
+            accept: ".png, .jpg, .jpeg",
+            events: {change: (e: Event) => this.UpdateAvatar(e)}
+            })
+        }
+
+     UpdateAvatar(e: Event) {
+        const file = (e.target as HTMLInputElement).files![0]
+        const fd = new FormData()
+        if(file){
+            fd.append("avatar", file)
+             return uController.changeAvatar(fd)
+        } else {
+            return console.log("No file")
+        }
+    }
+
+
+    render() {
+        return this.compile( template, {...this.props})
     }
 }
+
+const withUser = withStore((state) => ({ ...state.user }))
+
+export default withUser(Avatar);

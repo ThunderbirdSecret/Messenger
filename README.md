@@ -9,10 +9,14 @@ This is a messenger through which you can exchange messages and information. The
 
 [Final design layout](https://www.figma.com/file/csZQv144HAIIvmP4Q9CiVB/Chat_external_link-(Copy)?node-id=1%3A498&t=ahgR49tuID51WlxH-0) 
 
+[Link for Netlify deploy](https://soft-brigadeiros-a63dac.netlify.app/)
 
-[Link for Netlify deploy](https://6394e38be5a7ff6372ab4dc3--famous-monstera-783f00.netlify.app/)
-
-## The project is currently under development
+## Technologies used
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+and `postcss, parcel, handlebars, nanoId`
 
 ## Install
 

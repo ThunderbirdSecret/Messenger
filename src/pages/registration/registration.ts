@@ -1,179 +1,163 @@
-import { SubmitBtn } from "helpers/submit";
+import AuthController from "services/AuthController";
 import Block from "utils/Block";
+import template from "./register.hbs"
+import Title from "components/title/title";
+import Input from "components/input/input";
+import ErrorComponent from "components/error-component/error-component";
+import ButtonConfirm from "components/button-confirm/button-confirm";
+import { InputValidate } from "helpers/validate";
+import { Link } from "components/navigate-button/navigate-button";
+import { SignupRequestData } from "api/typesAPI";
 
-// // interface RegistrationProps {
-// //     dataInput: object  {}
-// // }
 
-// const dataInput: {type:string, placeholder: string, name: string, ref: string} = [
-//     {
-//         type: "email", placeholder: "E-mail", name: "email", ref: "emailRef"
-//     },
-//     {
-//         type: "text", placeholder: "Login", name: "login", ref: "loginRef"
-//     },
-//     {
-//         type: "text", placeholder: "Name", name: "first_name", ref: "nameRef"
-//     },
-//     {
-//         type: "text", placeholder: "Second-name", name: "second-name", ref: "secondNameRef"
-//     },
-//     {
-//         type: "tel", placeholder: "Phone", name: "phone", ref: "phoneRef"
-//     },
-//     {
-//         type: "password", placeholder: "Password", name: "password", ref: "passwordRef"
-//     },
-//     {
-//         type: "password", placeholder: "Password repeat", name: "password", ref: "passwordRepeatRef"
-//     }
-// ]
-
-export class Registration extends Block {
-    static cName = "Registration";
-
+export default class Registration extends Block{
     constructor(){
-        super()
-
-        this.setProps({
-            onInput: (e: Event) => {console.log("input")},
-            onFocus: () => console.log("onFocus"),
-            onSubmit: (event: Event)=>{
-                return SubmitBtn(event, "registration", this.refs)
-            },
-        })
+        super({})
     }
 
-    protected render(): string {
-        return `
-        <main class="flex justify-center items-center h-screen">
-            <div class="w-[340px] h-[615px] bg-graphite rounded-md p-[20px] overflow-y-scroll scrollbar">
-                <form class="flex flex-col gap-y-2.5 justify-center items-center">
-                    {{{ Title title="Registration" }}}
-                    <div class="py-0.5">
-                        {{{InputControlled
-                            onInput=onInput
-                            onFocus=onFocus
-                            onBlur=onBlur
-                            type="text"
-                            name="login"
-                            placeholder="Login"
-                            ref="login"
-                            value=loginValue
-                            id="loginReg"
-                        }}}
-                    </div>
-                    <div class="py-0.5">
-                        {{{InputControlled
-                            onInput=onInput
-                            onFocus=onFocus
-                            onBlur=onBlur
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            ref="password"
-                            value=passwordValue
-                            id="passwordReg"
-                        }}}
-                    </div>
-                    <div class="py-0.5">
-                        {{{InputControlled
-                            onInput=onInput
-                            onFocus=onFocus
-                            onBlur=onBlur
-                            type="password"
-                            name="password_check"
-                            placeholder="Password check"
-                            ref="passwordCheck"
-                            value=passwordCheckValue
-                            id="passwordCheckReg"
-                        }}}
-                    </div>
-                    <div class="py-0.5">
-                        {{{InputControlled
-                            onInput=onInput
-                            onFocus=onFocus
-                            onBlur=onBlur
-                            type="text"
-                            name="name"
-                            placeholder="Name"
-                            ref="name"
-                            value=nameValue
-                            id="nameReg"
-                        }}}
-                    </div>
-                    <div class="py-0.5">
-                        {{{InputControlled
-                            onInput=onInput
-                            onFocus=onFocus
-                            onBlur=onBlur
-                            type="text"
-                            name="second_name"
-                            placeholder="Second name"
-                            ref="secondName"
-                            value=secondNameValue
-                            id="secondNameReg"
-                        }}}
-                    </div>
-                    <div class="py-0.5">
-                    {{{InputControlled
-                        onInput=onInput
-                        onFocus=onFocus
-                        onBlur=onBlur
-                        type="text"
-                        name="display_name"
-                        placeholder="Display name"
-                        ref="displayName"
-                        value=displayNameValue
-                        id="displayNameReg"
-                    }}}
-                    </div>
-                    <div class="py-0.5">
-                    {{{InputControlled
-                        onInput=onInput
-                        onFocus=onFocus
-                        onBlur=onBlur
-                        type="phone"
-                        name="phone"
-                        placeholder="Phone"
-                        ref="phone"
-                        value=phoneValue
-                        id="phoneReg"
-                    }}}
-                    </div>
-                    <div class="py-0.5">
-                    {{{InputControlled
-                        onInput=onInput
-                        onFocus=onFocus
-                        onBlur=onBlur
-                        type="email"
-                        name="email"
-                        placeholder="E-mail"
-                        ref="email"
-                        value=emailValue
-                        id="emailReg"
-                    }}}
-                    </div>
-                    <div>
-                        <div class="text-red pb-2" id="err"> 
-                            {{{ErrorComponent text=error ref="errReg"}}}
-                        </div>
-                        {{{ ButtonConfirm
-                                btn="Create account" 
-                                path="../dialog/dialog.html"
-                                onSubmit=onSubmit
-                                class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
-                        }}}
-                        <div class="text-center py-2 text-blue">
-                            {{{ LinkPage 
-                                link="../authorization/authorization.html" 
-                                linkTitle="Sign in"
-                            }}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </main>
-        `
+    init() {
+        this.children.title = new Title({
+            title: "Registration"
+        })
+
+        this.children.login = new Input({
+            name: "login",
+            type: "text",
+            class: "input-controlled",
+            placeholder: "Login",
+            id: "login",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.password = new Input({
+            name: "password",
+            type: "password",
+            class: "input-controlled",
+            placeholder: "password",
+            id: "password",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.password_check = new Input({
+            name: "password_check",
+            type: "password",
+            class: "input-controlled",
+            placeholder: "password",
+            id: "password_check",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.firstname = new Input({
+            name: "first_name",
+            type: "text",
+            class: "input-controlled",
+            placeholder: "first name",
+            id: "first_name",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.secondname = new Input({
+            name: "second_name",
+            type: "text",
+            class: "input-controlled",
+            placeholder: "second name",
+            id: "second_name",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.displayname = new Input({
+            name: "display_name",
+            type: "text",
+            class: "input-controlled",
+            placeholder: "display name",
+            id: "display_name",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.email = new Input({
+            name: "email",
+            type: "email",
+            class: "input-controlled",
+            placeholder: "email",
+            id: "email",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.phone = new Input({
+            name: "phone",
+            type: "phone",
+            class: "input-controlled",
+            placeholder: "phone",
+            id: "phone",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.error = new ErrorComponent ({
+            id: "err",
+            text: ""           
+        })
+
+        this.children.button = new ButtonConfirm({
+            title: "Sign in",
+            class: "button-confirm",
+            events: {
+              click: () => this.onSubmit()
+            },
+          })
+
+        this.children.link = new Link({
+          title: "Sign in",
+          path: "/",
+          class: "link-page",
+          type: "button",
+        });
+    }
+
+    onBlur(e: FocusEvent) {
+        
+        const ev = (e.target as HTMLInputElement)
+        let err = document.getElementById("err") as HTMLElement
+        InputValidate("Registration", ev, err)        
+        
+    }
+
+    onSubmit() {
+        const values = Object
+        .values(this.children)
+        .filter(child => child instanceof Input)
+        .map((child) => ([(child as Input).getName(), (child as Input).getValue()]))
+  
+      const data = Object.fromEntries(values);
+    
+      AuthController.signup(data as SignupRequestData);
+    }
+  
+     render() {
+        return this.compile(template, {...this.props})
     }
 }
+
