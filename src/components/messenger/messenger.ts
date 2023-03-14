@@ -159,35 +159,41 @@ interface MessengerProps {
     }
 //TODO: перенести в отдельный компонент
     async AddUserChat() {
-
-      const modalInput = document.getElementById("input-add") as HTMLInputElement
-      const user = { login: modalInput.value}
-      await uController.searchUser(user as GetUserByLoginRequestData)
-      let users = this.props.searchUser
-      const dataReq: any[] = []
-      if(users.length > 0){
-        
-        users.forEach((item) => {
-          const p = document.createElement("p")
-          p.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
-          modalInput.after(p)
-          p.innerText = `User: ${item.login} name: ${item.first_name}`
-          let chat_id = this.props.selectedChat!
-          p.addEventListener("click", () =>this.AddUserHandler(chat_id, item.id, item.login), false);
-          dataReq.push(this.props.selectedChat!, item.id)
-          setTimeout(() => p.remove(), 5000);
-        })
-      } else {
-          const p = document.createElement("p")
-          p.innerText = "User not found"
-          modalInput.after(p)
-          setTimeout(() => p.remove(), 3000);
+      try{
+        const modalInput = document.getElementById("input-add") as HTMLInputElement
+        const user = { login: modalInput.value}
+        await uController.searchUser(user as GetUserByLoginRequestData)
+        let users = this.props.searchUser
+        const dataReq: any[] = []
+        if(users.length > 0){
+          
+          users.forEach((item) => {
+            const p = document.createElement("p")
+            p.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
+            modalInput.after(p)
+            p.innerText = `User: ${item.login} name: ${item.first_name}`
+            let chat_id = this.props.selectedChat!
+            p.addEventListener("click", () =>this.AddUserHandler(chat_id, item.id, item.login), false);
+            dataReq.push(this.props.selectedChat!, item.id)
+            setTimeout(() => p.remove(), 5000);
+          })
+        } else {
+            const p = document.createElement("p")
+            p.innerText = "User not found"
+            modalInput.after(p)
+            setTimeout(() => p.remove(), 3000);
+        }} catch(e) {
+          console.log("Все сломалось, все пропало", e)
         }
     }
 
     async AddUserHandler(chat_id: number, userId: number, login: string){
-      ccontroller.addUserToChat(userId, chat_id)  
+      try {
+      await ccontroller.addUserToChat(userId, chat_id)  
       alert(`User ${login} added in chat`)
+    }  catch(e) {
+        console.log("Все сломалось, все пропало", e)
+      }
     }
 
     private createMessages(props: MessengerProps) {

@@ -1,4 +1,7 @@
-import { isObject } from './checkers and validators/isObject';
+
+export const isObject = (valueToCheck: unknown) => {
+  return String(valueToCheck) === '[object Object]';
+};
 
 type ArrayOrObject = Record<number | string, unknown>;
 

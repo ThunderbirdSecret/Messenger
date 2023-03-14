@@ -11,7 +11,7 @@ interface ChatProps {
     selectedChat: ChatType;
     last_message?: string;
     events: {
-      click: () => void;
+      click: (e?: Event) => void;
     }
   }
   

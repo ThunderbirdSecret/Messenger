@@ -10,23 +10,29 @@ export class ChatsController {
   }
 
   async create(title: string) {
-    await this.api.create(title);
+    try{
+      await this.api.create(title);
 
-    this.getChats();
+      this.getChats();
+    } catch(e) {
+      console.log("Create chat err", e)
+    }
   }
 
   async getChats() {
-    const chats = await this.api.reading();
+    try{
+      const chats = await this.api.reading();
 
-    chats.map(async (chat: any) => {
-      const token = await this.getToken(chat.id);
-
-      await MessagesController.connect(chat.id, token);
-
-    });
-          // this.getUsers(chat.id)
-
-    store.set("chats", chats);
+      chats.map(async (chat: any) => {
+        const token = await this.getToken(chat.id);
+        if(token){
+          await MessagesController.connect(chat.id, token);
+        }
+      });
+      store.set("chats", chats);
+    } catch(e) {
+      console.log("Create chat error", e)
+    }
   }
 
   async getUsers(chat_id:number){
@@ -36,18 +42,27 @@ export class ChatsController {
     })
       this.getChats();
     } catch(e) {
-      console.log("users not found", e)
+      //@ts-expect-error
+      console.log("users not found because", e.reason)
     }
   }
 
   async addUserToChat(userId: number, chat_id: number, ) {
+    try{
      await this.api.addUsers( [userId], chat_id);
+    } catch(e) {
+      console.log("add Uset chat error ", e)
+    }
   }
 
   async delete(id: number) {
-    await this.api.delete(id);
+    try{
+      await this.api.delete(id);
 
-    this.getChats();
+      this.getChats();
+    } catch(e){
+      console.log("delete error", e)
+    }
   }
 
   deleteUserToChat(userId: number, chat_id: number, ) {
@@ -63,12 +78,15 @@ export class ChatsController {
   }
 
   async commonChat(id: number) {
+    try{
+      await this.api.getCommon(id)
 
-    await this.api.getCommon(id)
+      store.set("chats", id)
 
-    store.set("chats", id)
-
-    this.getChats();
+      this.getChats();
+    } catch(e){
+      console.log("commonChat", e)
+    }
   }
 }
 

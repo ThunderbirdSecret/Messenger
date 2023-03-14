@@ -22,20 +22,24 @@ export interface MessageInfo {
     private sockets: Map<number, WSTransport> = new Map();
   
     async connect(id: number, token: string) {
-      if (this.sockets.has(id)) {
-        return;
+      try{
+        if (this.sockets.has(id)) {
+          return;
+        }
+      
+        const userId = store.getState().user.id;
+      
+        const wsTransport = new WSTransport(`wss://ya-praktikum.tech/ws/chats/${userId}/${id}/${token}`);
+      
+        this.sockets.set(id, wsTransport);
+      
+        await wsTransport.connect();
+      
+        this.subscribe(wsTransport, id);
+        this.getOldMessages(id);
+      } catch(e) {
+        console.log("Connect chats message catch error", e)
       }
-  
-      const userId = store.getState().user.id;
-  
-      const wsTransport = new WSTransport(`wss://ya-praktikum.tech/ws/chats/${userId}/${id}/${token}`);
-  
-      this.sockets.set(id, wsTransport);
-  
-      await wsTransport.connect();
-  
-      this.subscribe(wsTransport, id);
-      this.getOldMessages(id);
     }
   
     sendMessage(id: number, message: string) {

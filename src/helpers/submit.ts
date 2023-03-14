@@ -35,12 +35,4 @@ export function SubmitBtn(formName: string, allInput: NodeListOf<Element>, err: 
     }
 }
 
-    // if(formName === "dialog") {
-    //     let dialogMessage = refs.messageInput.refs.message
-    //     if(dialogMessage.props.value){
-    //         console.log("submit ", dialogMessage.props.value)
-    //         return refs.messageInput.refs.message.setProps({value: ""})
-    //     }
-    //     return console.log("пустое сообщение")
-    // }
 }

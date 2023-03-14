@@ -10,9 +10,7 @@ export interface WindowModalProps {
     func: () => void;
     inputId?: string;
     btn: string
-    // btnName: string;
-    // elUp: ()=> void;
-    // users: findUser[];
+
 }
 //TODO добавить списки и кнопку find и условия для их отображения
 export default class WindowModal extends Block<WindowModalProps> {
@@ -41,11 +39,6 @@ export default class WindowModal extends Block<WindowModalProps> {
             }
         })
 
-        // this.children.list = new UserList({
-        //     elClick: () => this.props.elUp,
-        //     btnName: this.props.btnName,
-        //     users: this.props.users
-        // })
     }
 
 

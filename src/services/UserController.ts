@@ -11,9 +11,13 @@ export class UserController {
     }
 
     async getUser(){
-        const user = await this.api.reading()
+        try{
+            const user = await this.api.reading()
 
-        store.set("user", user)
+            store.set("user", user)
+        } catch(e){
+            console.log("get user catch error on uc", e)
+        }
     }
 
     async changeProfile(user: UserReq){
@@ -34,10 +38,11 @@ export class UserController {
 
     async changeAvatar(file: FormData) {        
         try {
-             await this.api.changeAvatar(file)
+            await this.api.changeAvatar(file)
 
         } catch(e) {
-            console.log("error aupload avatar", e)
+        //@ts-expect-error
+            alert(e.reason)
         }
     }
 
@@ -48,7 +53,8 @@ export class UserController {
                 newPassword: passwords.newPassword
             })
         } catch(e) {
-            console.log(e, "error change password")
+        //@ts-expect-error
+            alert(e.reason)
         }
 
     }

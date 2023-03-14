@@ -89,13 +89,34 @@ export function InputValidate(pageName: string, el: HTMLInputElement, err: HTMLE
             }
     }
 }
+if(pageName === "changePassword"){
 
-// if(el.name === "old_password") {
-//     if(!el.value) {
-//         return err.innerText = "что-нибудь напиши"
-//     } else {
-//         return
-//     }
-// }
-
+    if(el.name! === "password") {
+        if(!regExpValidate.Password.test(el.value)) {
+            return err.innerText = "Пароль не корректный!"
+        } else {
+            return
+        }
+    }
+    
+    if(el.name === "password_check") {
+        let target = document.querySelector('input[name="password"]') as HTMLInputElement;
+            if (target) {
+                let password = target.value;
+                if(el.value !== password || el.value === '') {
+                    return err.innerText = "пароли не совпадают!"
+                } else {
+                    return
+                }
+            }
+    }
+    
+        if(el.name === "old_password") {
+            if(!el.value) {
+                return err.innerText = "что-нибудь напиши"
+            } else {
+                return
+            }
+        }
+    }
 }

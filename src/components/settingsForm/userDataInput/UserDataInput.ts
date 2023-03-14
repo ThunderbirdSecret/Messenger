@@ -49,11 +49,6 @@ class UserDataInput extends Block<DataInputProps>{
       this.setProps({value: el})
     }
 
-    // Input(e: FocusEvent){
-    //   const el = (e!.target as HTMLInputElement)
-    //   this.setProps({value: el})
-    // }
-
     render() {
       return this.compile(template, {...this.props})
     }

@@ -5,6 +5,7 @@ import Input from "components/input/input";
 import ErrorComponent from "components/error-component/error-component";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 import uController from "services/UserController";
+import { InputValidate } from "helpers/validate";
 export default class ChangePassword extends Block {
 
   constructor() {
@@ -36,7 +37,7 @@ export default class ChangePassword extends Block {
       name: "newPassword",
       type: "password",
       class: "input-controlled",
-      placeholder: "new_password",
+      placeholder: "password",
       id: "new_password",
       value: "",
       events: {
@@ -68,8 +69,6 @@ export default class ChangePassword extends Block {
         click: () => this.onSubmit()
       },
     })
-
-
   }
 
 
@@ -80,12 +79,18 @@ export default class ChangePassword extends Block {
         .map((child) => ([(child as Input).getName(), (child as Input).getValue()]))
         .slice(0, 2)
         const data = Object.fromEntries(values);
-      uController.changePassword(data)
+        console.log(data)
+        const errorEl = document.getElementById("err")
+        if(errorEl!.innerText === ""){
+          uController.changePassword(data)
+        } 
   }
 
   onBlur(e: FocusEvent) {
     //TODO: Валидация
-    console.log("и без валидации все очень плохо")
+    let el = e.target as HTMLInputElement
+    let err = document.getElementById("err") as HTMLElement
+    InputValidate("changePassword", el, err)
   }
 
 

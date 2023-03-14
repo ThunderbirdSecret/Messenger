@@ -13,26 +13,27 @@ export class AuthController {
   }
   async signin(data: LoginRequestData) {
     try {
-      await this.api.signin(data);
-
-      await this.getUser();
+      await this.api.signin(data).catch( err => alert(err.reason))
       
+      await this.getUser();
+
       Router.go("/messenger");
+        
     } catch (e: any) {
-      Router.go("/404")
       console.error(e);
     }
   }
 
   async signup(data: SignupRequestData) {
     try {
-      await this.api.signup(data);
+     const sign = await this.api.signup(data).catch( err => alert(err.reason));
+     //@ts-expect-error
+      if(sign){
+        await this.getUser();
 
-      await this.getUser();
-
-      Router.go("/messenger");
+        Router.go("/messenger");
+      } 
     } catch (e: any) {
-      Router.go("/404")
       console.error(e.message);
     }
   }
@@ -41,6 +42,7 @@ export class AuthController {
     const user = await this.api.reading();
 
     store.set("user", user);
+  
   }
 
   async logout() {
@@ -51,7 +53,6 @@ export class AuthController {
 
       Router.go("/");
     } catch (e: any) {
-      Router.go("/404")
       console.error(e.message);
     }
   }
