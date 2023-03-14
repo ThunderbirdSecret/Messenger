@@ -45,7 +45,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     Router.start()
     if(!isProtectedRoute){
-      console.log("isProtectedRoute", isProtectedRoute)
       Router.go(Routes.Dialog)
 
 
@@ -54,7 +53,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     Router.start()
 
     if(isProtectedRoute){
-            console.log("isProtectedRoute", isProtectedRoute)
 
       Router.go(Routes.Authorization)
       Router.go(Routes.Registration)
