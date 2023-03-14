@@ -9,7 +9,7 @@ This is a messenger through which you can exchange messages and information. The
 
 [Final design layout](https://www.figma.com/file/csZQv144HAIIvmP4Q9CiVB/Chat_external_link-(Copy)?node-id=1%3A498&t=ahgR49tuID51WlxH-0) 
 
-[Link for Netlify deploy](https://640f8549da845b00085d0b86--famous-monstera-783f00.netlify.app/)
+[Link for Netlify deploy](https://deploy--famous-monstera-783f00.netlify.app/)
 
 ## Technologies used
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
