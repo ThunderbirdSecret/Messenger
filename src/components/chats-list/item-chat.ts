@@ -2,7 +2,7 @@ import Block from "utils/Block";
 import template from "./item-chat.hbs"
 import { withStore } from "utils/store/Store";
 import ButtonConfirm from "components/button-confirm/button-confirm";
-import ccontroller from "services/ChatsController";
+import ChatController from "services/ChatsController";
 
 interface ChatProps {
     id: number;
@@ -29,7 +29,7 @@ interface ChatProps {
     }
 
     delete() {
-      ccontroller.delete(this.props.id)
+      ChatController.delete(this.props.id)
     }
     protected render(): DocumentFragment {
       return this.compile(template, {...this.props, isSelected: this.props.id === this.props.selectedChat?.id });

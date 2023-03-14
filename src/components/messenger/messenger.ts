@@ -7,10 +7,10 @@ import { withStore } from "utils/store/Store";
 import DropDown from "components/drop-down/drop-down";
 import UserMenu from "components/user-menu/user-menu";
 import WindowModal from "components/window-modal/window-modal";
-import controller, { MessageInfo } from "services/MessageController";
+import MessageController, { MessageInfo } from "services/MessageController";
 import { GetUserByLoginRequestData } from "api/typesAPI";
-import uController from "services/UserController";
-import ccontroller from "services/ChatsController";
+import UsersController from "services/UserController";
+import ChatController from "services/ChatsController";
 
 interface MessengerProps {
     selectedChat: number | undefined;
@@ -30,27 +30,27 @@ interface MessengerProps {
       this.children.droppoint = new ButtonConfirm({
         title: "⋮",
         class: "text-white text-center bg-transparent text-bold w-5 h-5 rounded-full hover:bg-select-graphite",
-        events: {click:() => this.UserMenu()}
+        events: {click:() => this.userMenu()}
       })
 
       this.children.addUser = new UserMenu({
         title: "Add user",
         events: {
-          click: () => this.AddUser()
+          click: () => this.addUser()
         }
       })
 
       this.children.deleteUser = new UserMenu({
         title: "Delete user",
         events: {
-          click: () => this.DeleteUser()
+          click: () => this.deleteUser()
         }
       })
 
       this.children.addUserWindow = new WindowModal ({
         text: "Print user login",
         id: "window-add",
-        func: () => this.AddUserChat(),
+        func: () => this.addUserChat(),
         inputId: "input-add",
         btn: "find"
       })
@@ -90,7 +90,7 @@ interface MessengerProps {
   
             input.setValue("");
   
-            controller.sendMessage(this.props.selectedChat!, message);
+            MessageController.sendMessage(this.props.selectedChat!, message);
           }
         }
       });
@@ -102,7 +102,7 @@ interface MessengerProps {
       return true;
     }
 
-    AddUser(){
+    addUser(){
       document.getElementById("window-add")!.classList.remove("hidden")
     }
 
@@ -110,7 +110,7 @@ interface MessengerProps {
       document.getElementById("deleteModal")?.classList.toggle("hidden")
     }
 
-    DeleteUser() {
+    deleteUser() {
       const modal = document.getElementById("deleteModal")
       document.getElementById("delete-input")?.classList.add("hidden")
       modal!.classList.toggle("hidden")
@@ -130,7 +130,7 @@ interface MessengerProps {
           p.id = item.login
           p.innerText = `User: ${item.login} name: ${item.first_name}  ✘`
           let chat_id = this.props.selectedChat!
-          p.addEventListener("click", () =>this.DeleteUserHandler(chat_id, item.id, item.login), false);
+          p.addEventListener("click", () =>this.deleteUserHandler(chat_id, item.id, item.login), false);
           dataReq.push(this.props.selectedChat!, item.id)
         })
       } else {
@@ -141,10 +141,10 @@ interface MessengerProps {
         // console.log(...new Set(dataReq))
   }
 
-    DeleteUserHandler(chat_id: number, userId: number, login: string){
+    deleteUserHandler(chat_id: number, userId: number, login: string){
       const elp = document.getElementById(login)
       
-      ccontroller.deleteUserToChat(userId, chat_id)  
+      ChatController.deleteUserToChat(userId, chat_id)  
       alert(`User ${login} delete from chat`)
       elp!.remove()
     }
@@ -154,15 +154,15 @@ interface MessengerProps {
       document.getElementById("dropdown")!.classList.toggle("hidden")
     }
 
-    UserMenu(){
+    userMenu(){
       document.getElementById("user-menu")?.classList.toggle("hidden")
     }
 //TODO: перенести в отдельный компонент
-    async AddUserChat() {
+    async addUserChat() {
       try{
         const modalInput = document.getElementById("input-add") as HTMLInputElement
         const user = { login: modalInput.value}
-        await uController.searchUser(user as GetUserByLoginRequestData)
+        await UsersController.searchUser(user as GetUserByLoginRequestData)
         let users = this.props.searchUser
         const dataReq: any[] = []
         if(users.length > 0){
@@ -173,7 +173,7 @@ interface MessengerProps {
             modalInput.after(p)
             p.innerText = `User: ${item.login} name: ${item.first_name}`
             let chat_id = this.props.selectedChat!
-            p.addEventListener("click", () =>this.AddUserHandler(chat_id, item.id, item.login), false);
+            p.addEventListener("click", () =>this.addUserHandler(chat_id, item.id, item.login), false);
             dataReq.push(this.props.selectedChat!, item.id)
             setTimeout(() => p.remove(), 5000);
           })
@@ -187,9 +187,9 @@ interface MessengerProps {
         }
     }
 
-    async AddUserHandler(chat_id: number, userId: number, login: string){
+    async addUserHandler(chat_id: number, userId: number, login: string){
       try {
-      await ccontroller.addUserToChat(userId, chat_id)  
+      await ChatController.addUserToChat(userId, chat_id)  
       alert(`User ${login} added in chat`)
     }  catch(e) {
         console.log("Все сломалось, все пропало", e)

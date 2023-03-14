@@ -71,9 +71,6 @@ export class UserController {
 
 }
 
-const uController = new UserController()
+const UsersController = new UserController()
 
-// @ts-ignore
-window.userController = uController;
-
-export default uController
+export default UsersController

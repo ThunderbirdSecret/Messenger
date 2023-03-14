@@ -7,7 +7,7 @@ import { SettingsProps } from "pages/settings/settings";
 import Block from "utils/Block";
 import template from "./change-data.hbs"
 import { withStore } from "utils/store/Store";
-import uController from "services/UserController";
+import UsersController from "services/UserController";
 
 export interface ChangeSettingsProps extends SettingsProps{
   textErr: string;
@@ -32,9 +32,7 @@ class ChangeData extends Block<ChangeSettingsProps>{
         type: "button"
       })
 
-      this.children.avatar = new Avatar({
-        // avatarValue: DEFAULT_AVATAR
-      })
+      this.children.avatar = new Avatar({})
 
       this.children.firstname = new UserDataInput({
           title: "First name",
@@ -114,11 +112,9 @@ class ChangeData extends Block<ChangeSettingsProps>{
         let placeholderEl = input[i].placeholder
         if(nameEl != "avatar")
         data[nameEl] = valueEl ? valueEl : placeholderEl
-        // data[nameEl] = valueEl
       })
-      //@ts-ignore
       console.log(data)
-      uController.changeProfile(data)
+      UsersController.changeProfile(data)
     }
     
     render() {

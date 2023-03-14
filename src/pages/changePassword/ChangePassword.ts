@@ -4,7 +4,7 @@ import { Link } from "components/navigate-button/navigate-button";
 import Input from "components/input/input";
 import ErrorComponent from "components/error-component/error-component";
 import ButtonConfirm from "components/button-confirm/button-confirm";
-import uController from "services/UserController";
+import UsersController from "services/UserController";
 import { InputValidate } from "helpers/validate";
 export default class ChangePassword extends Block {
 
@@ -79,10 +79,9 @@ export default class ChangePassword extends Block {
         .map((child) => ([(child as Input).getName(), (child as Input).getValue()]))
         .slice(0, 2)
         const data = Object.fromEntries(values);
-        console.log(data)
         const errorEl = document.getElementById("err")
         if(errorEl!.innerText === ""){
-          uController.changePassword(data)
+          UsersController.changePassword(data)
         } 
   }
 

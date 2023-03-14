@@ -90,9 +90,6 @@ export class ChatsController {
   }
 }
 
-const ccontroller = new ChatsController();
+const ChatController = new ChatsController();
 
-// @ts-ignore
-window.chatsController = ccontroller;
-
-export default ccontroller;
+export default ChatController;

@@ -96,9 +96,7 @@ export interface MessageInfo {
   }
   
   
-  const controller = new MessagesController();
+  const MessageController = new MessagesController();
+
   
-  // @ts-ignore
-  window.messagesController = controller;
-  
-  export default controller;
+  export default MessageController;

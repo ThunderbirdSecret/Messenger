@@ -1,13 +1,15 @@
 import Input from "components/input/input";
 import template from "./avatar.hbs"
 import Block from "utils/Block";
-import uController from "services/UserController";
+import UsersController from "services/UserController";
 import { withStore } from "utils/store/Store";
 
 export const hoverImg = {
     union: new Image(),
     default: new Image()
 }
+
+export const avatarUrl = `https://ya-praktikum.tech/api/v2/resources/`
 
 
 hoverImg.union.src = require("asserts/icon/Union-grey.svg")
@@ -24,9 +26,8 @@ interface AvatarProps extends UserType {
     constructor(props:AvatarProps){
         super({...props,
                 union: hoverImg.union.src,
-                src: props.avatar ? `https://ya-praktikum.tech/api/v2/resources/${props.avatar}` : hoverImg.default.src
+                src: props.avatar ? `${avatarUrl}${props.avatar}` : hoverImg.default.src
             });
-
     }
 
     init(){
@@ -37,16 +38,16 @@ interface AvatarProps extends UserType {
             name: "avatar",
             id: "avatar",
             accept: ".png, .jpg, .jpeg",
-            events: {change: (e: Event) => this.UpdateAvatar(e)}
+            events: {change: (e: Event) => this.updateAvatar(e)}
             })
         }
 
-     UpdateAvatar(e: Event) {
+     updateAvatar(e: Event) {
         const file = (e.target as HTMLInputElement).files![0]
         const fd = new FormData()
         if(file){
             fd.append("avatar", file)
-             return uController.changeAvatar(fd)
+             return UsersController.changeAvatar(fd)
         } else {
             return console.log("No file")
         }

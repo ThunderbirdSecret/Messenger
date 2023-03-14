@@ -2,7 +2,7 @@ import { ChatsList } from "components/chats-list/chats-list";
 import template from "./dialog.hbs"
 import Block from "utils/Block";
 import { Messenger } from "components/messenger/messenger";
-import ccontroller from "services/ChatsController";
+import ChatController from "services/ChatsController";
 
 
 const icon = new Image()
@@ -18,7 +18,7 @@ export class Dialog extends Block {
 
     this.children.messenger = new Messenger({});
 
-    ccontroller.getChats().finally(() => {
+    ChatController.getChats().finally(() => {
       (this.children.chatsList as Block).setProps({
         isLoaded: true
       })

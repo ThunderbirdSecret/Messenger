@@ -1,5 +1,5 @@
 import { Link } from "components/navigate-button/navigate-button";
-import ccontroller from "services/ChatsController";
+import ChatController from "services/ChatsController";
 import Block from "utils/Block";
 import { withStore } from "utils/store/Store";
 import { Chat } from "./item-chat";
@@ -52,7 +52,7 @@ class ChatsListBase extends Block<ChatsListProps> {
 newChat(){
   let modalInput = document.getElementById("modal_input") as HTMLInputElement
 
-  ccontroller.create(modalInput.value)
+  ChatController.create(modalInput.value)
 
   document.getElementById("new_chat")!.classList.add("hidden")
 }
@@ -69,8 +69,8 @@ protected componentDidUpdate(oldProps: ChatsListProps, newProps: ChatsListProps)
         ...data,
         events: {
           click: () => {
-            ccontroller.selectChat(data.id);
-            ccontroller.getUsers(data.id)
+            ChatController.selectChat(data.id);
+            ChatController.getUsers(data.id)
           }
         }
       });
