@@ -1,0 +1,18 @@
+<main class="h-full bg-transparent customw">
+  {{{profileLink}}}
+  {{{search}}}
+  <div class="scrollbar overflow-y-auto h-[730px]">
+{{#if isLoaded }}
+    <div class="text-center">
+      {{{openModal}}}
+    </div>
+    {{#each chats}}
+        {{{this}}}
+    {{/each}}
+    
+    {{{newchat}}}
+{{else}}
+  Loading...
+{{/if}}
+</div>
+</main>

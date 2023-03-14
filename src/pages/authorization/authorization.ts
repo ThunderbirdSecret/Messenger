@@ -1,75 +1,97 @@
-import { SubmitBtn } from "helpers/submit"
-import Block from "utils/Block"
+import Block from "utils/Block";
+import template from "./auth.hbs"
+import { Link } from "components/navigate-button/navigate-button";
+import Title from "components/title/title";
+import Input from "components/input/input";
+import ErrorComponent from "components/error-component/error-component";
+import ButtonConfirm from "components/button-confirm/button-confirm";
+import AuthController from "services/AuthController";
+import { LoginRequestData } from "api/typesAPI";
+import { InputValidate } from "helpers/validate";
 
-export class Authorization extends Block {
-    static cName = "Authorization"
+export default class Authorization extends Block {
 
-    constructor(){
-        super()
-    
-        this.setProps({
-            login: "",
-            password: "",
-            error: "",
-            onSubmit: (event: Event)=>{
-                return SubmitBtn(event, "authorization", this.refs)
-            },
+    constructor() {
+        super({});
+      }
+
+    init() {
+        this.children.title = new Title({
+            title: "Authorization"
         })
+
+        this.children.login = new Input({
+            name: "login",
+            type: "text",
+            class: "input-controlled",
+            placeholder: "Login",
+            id: "login",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.password = new Input({
+            name: "password",
+            type: "password",
+            class: "input-controlled",
+            placeholder: "password",
+            id: "password",
+            value: "",
+            events: {
+                blur: (e: FocusEvent) => this.onBlur(e),
+            }
+        })
+
+        this.children.error = new ErrorComponent({
+            id: "err",
+            text: this.props.textErr
+        })
+
+        this.children.button = new ButtonConfirm({
+            title: "Sign in",
+            class: "button-confirm",
+            events: {
+              click: () => this.onSubmit()
+            },
+          })
+
+        this.children.link = new Link({
+          title: "Sign Up",
+          path: "/signup",
+          class: "link-page",
+          type: "button",
+        });
     }
 
+    onBlur(e: FocusEvent) {
+        let ev = (e.target as HTMLInputElement)
+        let err = document.getElementById("err") as HTMLElement
+        
+        return InputValidate("Authorization", ev, err)
+    }
 
-    protected render(): string {
-        return `
-        <main class="flex justify-center items-center h-screen">
-            <div class="w-[340px] h-[384px] bg-graphite rounded-md p-[20px]">
-                {{{ Title title="Autorization" }}}
-                <form class="flex flex-col gap-y-10 justify-center items-center">
-                    <div>
-                            {{{ InputControlled
-                                    type="text"
-                                    name="login"
-                                    placeholder="Login"
-                                    ref="login"
-                                    onBlur=onBlur
-                                    onInput=onInput
-                                    onFocus=onFocus
-                                    value=value
-                                    id="login"
-                            }}}
-                    </div>
-                    <div>
-                        {{{ InputControlled
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                ref="password"
-                                onInput=onInput
-                                onFocus=onFocus
-                                onBlur=onBlur
-                                id="password"
-                        }}}
-                    </div>
-                    <div>
-                        <div class="text-red pb-2" id="err"> 
-                            {{{ErrorComponent text=error ref="errAuth"}}}
-                        </div>
-                        {{{ ButtonConfirm 
-                                class="w-[280px] h-[37px] bg-gradient-b-button-color text-white text-xl rounded-lg"
-                                btn="Sign Up" 
-                                path="#" 
-                                ref="buttonConfirm"
-                                onSubmit=onSubmit
-                        }}}
-                        <div class="text-center py-2">
-                            {{{ LinkPage
-                                ref="link"
-                                link="../registration/registration.html" 
-                                linkTitle="Create account" 
-                            }}}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </main>`
+    onSubmit(){
+    let loginValue = document.getElementById("login") as HTMLInputElement
+    let passVal = document.getElementById("password") as HTMLInputElement
+    const err = document.getElementById("err")
+
+    if(err!.innerText === "" && loginValue.value !== "" && passVal.value !== ""){
+            const data = {
+                login: loginValue.value,
+                password: passVal.value
+            };
+
+            AuthController.signin(data as LoginRequestData);
+            return
+    } else {
+        return err!.innerText = "Не все поля заполнены"
+    }
+}
+    
+
+    render() {
+        return this.compile(template, {...this.props});
     }
 }
