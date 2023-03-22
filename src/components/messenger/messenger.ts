@@ -119,20 +119,24 @@ interface MessengerProps {
     }
 
       createItemsDelete() {
-      const currentUsers = this.props.addUsers;
+      var currentUsers = this.props.addUsers;
       const div = document.getElementById("delete-input") as HTMLElement
       const dataReq: any[] = []
       if(currentUsers.length > 0){
-        
         currentUsers.forEach((item) => {
-          const p = document.createElement("p")
-          p.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
-          div.after(p)
-          p.id = item.login
-          p.innerText = `User: ${item.login} name: ${item.first_name}  ✘`
-          let chat_id = this.props.selectedChat!
-          p.addEventListener("click", () =>this.deleteUserHandler(chat_id, item.id, item.login), false);
-          dataReq.push(this.props.selectedChat!, item.id)
+          const newElp = document.createElement("p")
+          newElp.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
+          div.after(newElp)
+          const alreadyExists = document.getElementById(item.login)
+          if(alreadyExists){
+            newElp.remove()
+          } else {
+            newElp.id = item.login
+            newElp.innerText = `User: ${item.login} name: ${item.first_name}  ✘`
+            let chat_id = this.props.selectedChat!
+            newElp.addEventListener("click", () =>this.deleteUserHandler(chat_id, item.id, item.login), false);
+            dataReq.push(this.props.selectedChat!, item.id)
+        }
         })
       } else {
           const p = document.createElement("p")
@@ -142,13 +146,14 @@ interface MessengerProps {
         // console.log(...new Set(dataReq))
   }
 
-    deleteUserHandler(chat_id: number, userId: number, login: string){
+    async deleteUserHandler(chat_id: number, userId: number, login: string){
       const elp = document.getElementById(login)
       
       ChatController.deleteUserToChat(userId, chat_id)  
       alert(`User ${login} delete from chat`)
       elp!.remove()
-      ChatController.getUsers(chat_id)
+      await ChatController.getUsers(chat_id)
+
     }
   
 
@@ -193,7 +198,8 @@ interface MessengerProps {
       try {
       await ChatController.addUserToChat(userId, chat_id)  
       alert(`User ${login} added in chat`)
-      ChatController.getUsers(chat_id)
+      await ChatController.getUsers(chat_id)
+
     }  catch(e) {
         console.log("Все сломалось, все пропало", e)
       }
