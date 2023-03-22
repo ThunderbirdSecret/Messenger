@@ -1,7 +1,7 @@
 import { Link } from "components/navigate-button/navigate-button";
-import Title from "components/title/title";
 import Block from "utils/Block";
 import template from "./page500.hbs"
+import TitleComponent from "components/title-component/title-component";
 
 export default class Page404 extends Block{
 
@@ -10,7 +10,7 @@ export default class Page404 extends Block{
     }
     
     init() {
-        this.children.title = new Title({
+        this.children.title = new TitleComponent({
             title: "404"
         })
     
