@@ -37,9 +37,9 @@ export class ChatsController {
 
   async getUsers(chat_id:number){
     try{
-        await this.api.getUsers(chat_id).then(users => {
-          store.set("addUsers", users)
-    })
+        const updateUsers = await this.api.getUsers(chat_id)
+          store.set("addUsers", updateUsers)
+    
       this.getChats();
     } catch(e) {
       //@ts-expect-error
@@ -66,7 +66,7 @@ export class ChatsController {
   }
 
   deleteUserToChat(userId: number, chat_id: number, ) {
-    this.api.addUsers( [userId], chat_id);
+    this.api.deleteUsers( [userId], chat_id);
   }
 
   getToken(id: number) {

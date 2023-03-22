@@ -3,6 +3,7 @@ import template from "./avatar.hbs"
 import Block from "utils/Block";
 import UsersController from "services/UserController";
 import { withStore } from "utils/store/Store";
+import withRouter from "helpers/HOCS/WithRouter";
 
 export const hoverImg = {
     union: new Image(),
@@ -16,7 +17,7 @@ hoverImg.union.src = require("asserts/icon/Union-grey.svg")
 hoverImg.default.src = require("asserts/images/06.jpg")
 interface AvatarProps extends UserType {
     events?: {
-        change: (e: Event)=> void;
+        submit: (e: Event)=> void;
     }
     src?: string | HTMLImageElement;
     union?: string;
@@ -42,12 +43,20 @@ interface AvatarProps extends UserType {
             })
         }
 
-     updateAvatar(e: Event) {
+        // private createAvatar(props: AvatarProps){
+        //     return new 
+        // }
+
+     async updateAvatar(e: Event) {
+        const oldAvatar = this.props.avatar
         const file = (e.target as HTMLInputElement).files![0]
         const fd = new FormData()
         if(file){
             fd.append("avatar", file)
-             return UsersController.changeAvatar(fd)
+            await UsersController.changeAvatar(fd)
+            if(oldAvatar !== this.props.avatar){
+             this.setProps({src: `${avatarUrl}${this.props.avatar}`})
+            }
         } else {
             return console.log("No file")
         }
@@ -61,4 +70,4 @@ interface AvatarProps extends UserType {
 
 const withUser = withStore((state) => ({ ...state.user }))
 
-export default withUser(Avatar);
+export default withRouter(withUser(Avatar));

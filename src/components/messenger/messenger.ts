@@ -148,6 +148,7 @@ interface MessengerProps {
       ChatController.deleteUserToChat(userId, chat_id)  
       alert(`User ${login} delete from chat`)
       elp!.remove()
+      ChatController.getUsers(chat_id)
     }
   
 
@@ -192,6 +193,7 @@ interface MessengerProps {
       try {
       await ChatController.addUserToChat(userId, chat_id)  
       alert(`User ${login} added in chat`)
+      ChatController.getUsers(chat_id)
     }  catch(e) {
         console.log("Все сломалось, все пропало", e)
       }
