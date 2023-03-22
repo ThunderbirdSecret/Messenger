@@ -1,17 +1,29 @@
 {
-    "compilerOptions": {
-       "target": "es2017",
-      "module": "commonjs",
-      "rootDir": "./src",
-      "baseUrl": "./src",
-      "typeRoots": ["node_modules/@types", "typings/app.d.ts", "typings/hbs.d.ts"],
-      "sourceMap": true,
-      "esModuleInterop": true,
-      "strict": true,
-      "noImplicitAny": true,
-      "strictNullChecks": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "skipLibCheck": true
-    }
-  }
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "es6",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "typeRoots": ["node_modules/@types", "typings/app.d.ts", "typings/hbs.d.ts"],
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "target": "es5"
+  },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+  "include": [
+    "src",
+    "src/types/hbs.d.ts",
+    "src/types/app.d.ts"
+  ]
+}

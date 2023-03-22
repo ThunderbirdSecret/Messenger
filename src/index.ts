@@ -1,4 +1,4 @@
-
+import "./styles/index.css"
 import Router from "utils/Router";
 import AuthController from "services/AuthController";
 import Authorization from "pages/authorization/authorization";
@@ -8,7 +8,6 @@ import { EditProfile } from "pages/changeData/ChangeData";
 import ChangePassword from "pages/changePassword/ChangePassword";
 import { Dialog } from "pages/dialog/dialog";
 import Page404 from "pages/page404/page404";
-
 
 enum Routes {
   Authorization = "/",

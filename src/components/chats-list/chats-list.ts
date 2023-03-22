@@ -57,6 +57,7 @@ newChat(){
   document.getElementById("new_chat")!.classList.add("hidden")
 }
 
+//@ts-expect-error
 protected componentDidUpdate(oldProps: ChatsListProps, newProps: ChatsListProps): boolean {
     this.children.chats = this.createChats(newProps);
 

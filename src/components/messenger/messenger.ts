@@ -96,6 +96,7 @@ interface MessengerProps {
       });
     }
   
+    //@ts-expect-error
     protected componentDidUpdate(oldProps: MessengerProps, newProps: MessengerProps): boolean {
       this.children.messages = this.createMessages(newProps);
   

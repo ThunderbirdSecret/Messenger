@@ -5,7 +5,7 @@ interface TitleProps {
     title: string;
 }
 
-class Title extends Block<TitleProps> {    
+export default class Title extends Block<TitleProps> {    
     constructor({title}:TitleProps){
         super({title})
     }
@@ -14,5 +14,3 @@ class Title extends Block<TitleProps> {
         return this.compile(template, {...this.props})
     }
 }
-
-export default Title;
