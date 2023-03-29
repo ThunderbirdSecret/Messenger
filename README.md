@@ -16,7 +16,7 @@ This is a messenger through which you can exchange messages and information. The
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-<img src="https://img.shields.io/badge/tailwindcss-ede-yellowgreen" />
+<img src="https://img.shields.io/badge/postcss-8.4-brightgreen" />
 
 and `postcss, parcel, handlebars, nanoId, webSocket, custom router`
 
