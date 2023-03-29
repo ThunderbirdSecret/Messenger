@@ -3,7 +3,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "lib",
-    "module": "es6",
+    "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": "./src",
     "baseUrl": "./src",
