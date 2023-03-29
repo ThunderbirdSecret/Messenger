@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "outDir": "lib",
     "module": "es6",
     "moduleResolution": "node",
     "rootDir": "./src",
@@ -15,7 +16,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "target": "es6"
+    "target": "es2021",
+    "forceConsistentCasingInFileNames": true,
+  },
+  "ts-node": {
+    "files": true
   },
   "exclude": [
     "dist",
@@ -23,7 +28,11 @@
   ],
   "include": [
     "src",
-    "src/types/hbs.d.ts",
-    "src/types/app.d.ts"
+    "src/typing/hbs.d.ts",
+    "src/typing/app.d.ts"
+  ],
+  "lib": [
+    "ESNext",
+    "DOM"
   ]
 }
