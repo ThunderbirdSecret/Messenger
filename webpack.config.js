@@ -43,7 +43,7 @@ const config = {
             },
             {
                 test: /\.css$/i,
-                include: path.resolve(__dirname, "src"),
+                include: path.resolve(__dirname, 'src'),
                 use: [ 'style-loader', 'css-loader', 'postcss-loader'],
             },
             {
@@ -61,18 +61,19 @@ const config = {
         ],
     },
     resolve: {
+        fallback: { crypto: false },
         extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
         alias: {
             handlebars: 'handlebars/dist/handlebars.js',
-            utils: path.resolve(__dirname, "./src/utils"),
-            components: path.resolve(__dirname, "./src/components"), 
-            pages: path.resolve(__dirname, "./src/pages"), 
-            asserts: path.resolve(__dirname, "./src/asserts"), 
-            styles: path.resolve(__dirname, "./src/styles"), 
-            helpers: path.resolve(__dirname, "./src/helpers"), 
-            services: path.resolve(__dirname, "./src/services"), 
-            api: path.resolve(__dirname, "./src/api"), 
-            constants: path.resolve(__dirname, "./src/constants")
+            utils: path.resolve(__dirname, './src/utils'),
+            components: path.resolve(__dirname, './src/components'), 
+            pages: path.resolve(__dirname, './src/pages'), 
+            asserts: path.resolve(__dirname, './src/asserts'), 
+            styles: path.resolve(__dirname, './src/styles'), 
+            helpers: path.resolve(__dirname, './src/helpers'), 
+            services: path.resolve(__dirname, './src/services'), 
+            api: path.resolve(__dirname, './src/api'), 
+            constants: path.resolve(__dirname, './src/constants')
         }
     },
 };

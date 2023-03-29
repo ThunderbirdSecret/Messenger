@@ -1,57 +1,77 @@
-import proxyquire from "proxyquire";
-import { expect } from "chai";
-import sinon from "sinon";
-import type BlockType from "./Block";
+import { expect } from 'chai';
+import sinon from 'sinon';
+import BlockType from './Block';
+import proxyquire from 'proxyquire';
 
 const eventBusMock = {
-  on: sinon.stub(),
-  emit: sinon.stub(),
-  off: sinon.stub(),
-  listeners: {},
-};
-
-const { default: Block } = proxyquire("./Block", {
-    "./EventBus": {
-      default: class {
+    on: sinon.fake(),
+    emit: sinon.fake(),
+  }
+  
+  const { default: Block } = proxyquire('./Block', {
+    './EventBus': {
+      EventBus: class {
         emit = eventBusMock.emit;
         on = eventBusMock.on;
-        off = eventBusMock.off
       }
     }
   }) as { default: typeof BlockType };
   
-  describe("Block", () => {
+  describe('Block', () => {
+    const tmp = () => '<div>TEST</div>';
+    class ComponentMock extends Block {
+        constructor(props: any){
+            super(props)
+        }
 
-    beforeEach(() => {
-        eventBusMock.on.reset()
-        eventBusMock.emit.reset()
-        eventBusMock.off.reset()
-    })
+        render(){
+            return this.compile(tmp, {})
+        }
+    }
 
-    class ComponentMock extends Block {}
-  
-    it("should fire init event on initialization",  () => {
-      new ComponentMock({});
-  
-      expect(eventBusMock.emit.calledWith("init")).to.eq(true);
+    const block = new ComponentMock("div")
+    
+    it("getContent() return HTMLElement", () => {
+      expect(block.getContent()).to.eq(block.element);
+    });
+    
+    it("setProps() install props value", () => {
+        block.setProps({ test: 'test' });
+        //@ts-expect-error
+        const props = block.props.test;
+        expect(props).to.eq('test');
     });
 
-    it("should fire protected componentDidMount on didMountDispatch", () => {
-        let isCalled = false
+    describe('setProps() update props with new property', () => {
+        before(() => {
+          //@ts-expect-error
+          block.props = { test: 'test' };
+        });
+        it('Where added props  "flow:component-did-update"', () => {
+          block.setProps({ test: 'testNew' });
+          //@ts-expect-error
+          const props = block.props.test;
+          expect(props).to.eq('testNew');
+        });
+      });
 
-        class ComponentMock extends Block {
+    it('should fire init event on initialization',  () => {
+      new ComponentMock({});
+  
+      expect(eventBusMock.emit.calledWith('init')).to.eq(true);
+    });
 
+    it("componentdidmount ", () => {
+        let isCalled = true
+        class ComponentMock extends Block{
             componentDidMount(): void {
                 isCalled = true
             }
         }
-    
         const component = new ComponentMock({})
 
         component.dispatchComponentDidMount()
 
         expect(isCalled).to.eq(true)
     })
-
-    it("test render", () => {})
   });

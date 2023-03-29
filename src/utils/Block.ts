@@ -1,4 +1,4 @@
-import {nanoid} from "nanoid";
+import {nanoid} from "nanoid/non-secure";
 import { EventBus } from "./EventBus";
 
 export default class Block<P extends Record<string, any> = any> {

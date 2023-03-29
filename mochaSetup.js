@@ -1,6 +1,6 @@
-const { JSDOM } = require("jsdom");
-const Handlebars = require("handlebars");
-const fs = require("fs");
+const { JSDOM } = require('jsdom');
+const Handlebars = require('handlebars');
+const fs = require('fs');
 
 const dom = new JSDOM('<div id="app"><div>', { url: 'http://localhost:3000' });
 
@@ -16,6 +16,6 @@ require.extensions['.hbs'] = function (module, filename) {
   module.exports = Handlebars.compile(contents);
 };
 
-require.extensions[".scss"] = function () {
+require.extensions['.scss'] = function () {
   module.exports = () => ({});
 };

@@ -1,6 +1,6 @@
 import Block from "./Block";
 
-interface BlockConstructable<P = any> {
+export interface BlockConstructable<P = any> {
   new(props: P): Block;
 }
 
@@ -22,7 +22,7 @@ function render(query: string, block: Block) {
   return root;
 }
 
-class Route {
+export class Route {
   private block: Block | null = null;
 
   constructor(
@@ -117,4 +117,4 @@ class Router {
   }
 }
 
-export default new Router("#app");
+export const router = new Router("#app");
