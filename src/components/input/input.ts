@@ -1,4 +1,4 @@
-import Block from "utils/Block";
+  import Block from "utils/Block";
 import template from "./input.hbs"
 
 interface InputProps {
@@ -11,6 +11,7 @@ interface InputProps {
     id?: string;
     class?: string;
     events?: {
+        submit?: (e: KeyboardEvent) => void;
         input?: (e: FocusEvent) => void;
         focus?: (e: FocusEvent) => void;
         blur?: (e: FocusEvent) => void;

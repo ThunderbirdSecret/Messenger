@@ -65,6 +65,15 @@ export class ChatsController {
     }
   }
 
+  async chatsAvatar(chat_id: number) {
+    try {
+      await this.api.chatAvatar(chat_id)
+    } catch(e) {
+      //@ts-expect-error
+      alert(e.reason)
+    }
+  }
+
   deleteUserToChat(userId: number, chat_id: number, ) {
     this.api.deleteUsers( [userId], chat_id);
   }

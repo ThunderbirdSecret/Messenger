@@ -55,7 +55,6 @@ interface MessengerProps {
         btn: "find"
       })
 
-
       this.children.DeleteUserWindow = new WindowModal ({
         text: "Select a user and click on it",
         id: "deleteModal",
@@ -82,12 +81,16 @@ interface MessengerProps {
   
       this.children.button = new ButtonConfirm({
         title: "➤",
-        class: "rounded-full bg-blue text-white mx-2 w-[28px] h-[28px] text-center",
+        class: "rounded-full bg-blue text-white mx-2 w-[30px] h-[28px] text-center",
         events: {
           click: () => {
             const input =this.children.input as Input;
             const message = input.getValue();
-  
+            if(message.trim() === "" || !message){
+              alert("Message is empty")
+              input.setValue("");
+              return
+            }
             input.setValue("");
   
             MessageController.sendMessage(this.props.selectedChat!, message);
