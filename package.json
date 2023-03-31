@@ -26,6 +26,9 @@
     ".css": "stylelint '**/*.css'",
     "*.(js|ts)": ["npm run lint:write", "git add"]  
   },
+  "engines": {
+    "node": ">= 16.13.2"
+  },
   "alias": {
     "utils": "./src/utils",
     "components": "./src/components",
