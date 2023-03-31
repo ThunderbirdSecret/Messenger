@@ -9,8 +9,8 @@ This is a messenger through which you can exchange messages and information. The
 
 [Final design layout](https://www.figma.com/file/csZQv144HAIIvmP4Q9CiVB/Chat_external_link-(Copy)?node-id=1%3A498&t=ahgR49tuID51WlxH-0) 
 
+
 [Link for Netlify deploy](https://6427549a6d2b5e00095d6182--famous-monstera-783f00.netlify.app/)
-[Link deploy on Render.com](https://katarina-cluk.onrender.com/) 
 
 ## Technologies used
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
@@ -22,8 +22,10 @@ This is a messenger through which you can exchange messages and information. The
 <img src="https://img.shields.io/badge/nanoId-3-pink" />
 <img src="https://img.shields.io/badge/Webpack-5.7-green" />
 <img src="https://img.shields.io/badge/Docker-latest-brightgreen" />
+
 <img src="https://img.shields.io/badge/Mocha-chai%2Fsinon-a38068" />
 <img src="https://img.shields.io/badge/husky-8-lightgrey" />
+
 
 
 ## Install
