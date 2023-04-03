@@ -1,13 +1,13 @@
 import AuthController from "services/AuthController";
 import Block from "utils/Block";
 import template from "./register.hbs"
-import Title from "components/title/title";
 import Input from "components/input/input";
 import ErrorComponent from "components/error-component/error-component";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 import { InputValidate } from "helpers/validate";
 import { Link } from "components/navigate-button/navigate-button";
 import { SignupRequestData } from "api/typesAPI";
+import TitleComponent from "components/title-component/title-component";
 
 
 export default class Registration extends Block{
@@ -16,7 +16,7 @@ export default class Registration extends Block{
     }
 
     init() {
-        this.children.title = new Title({
+        this.children.title = new TitleComponent({
             title: "Registration"
         })
 

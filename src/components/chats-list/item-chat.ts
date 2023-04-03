@@ -3,13 +3,16 @@ import template from "./item-chat.hbs"
 import { withStore } from "utils/store/Store";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 import ChatController from "services/ChatsController";
+import { avatarUrl } from "components/avatar/avatar";
 
 interface ChatProps {
     id: number;
+    avatar: string | HTMLImageElement | null;
     title: string;
     unread_count: number;
     selectedChat: ChatType;
     last_message?: string;
+    src?: string | HTMLImageElement;
     events: {
       click: (e?: Event) => void;
     }
@@ -17,7 +20,8 @@ interface ChatProps {
   
   class ChatBase extends Block<ChatProps> {
     constructor(props: ChatProps) {
-      super(props);
+      super({...props,
+        src: props.avatar ? `${avatarUrl}${props.avatar}` : undefined})
     }
   
     init() {
@@ -27,6 +31,11 @@ interface ChatProps {
         events: { click: ()=> this.delete()}
       })
     }
+
+     
+    // getAvatarChat(){
+    //   ChatController.chatsAvatar(this.props.id)
+    // }
 
     delete() {
       ChatController.delete(this.props.id)

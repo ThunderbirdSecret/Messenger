@@ -1,5 +1,4 @@
-
-import Router from "utils/Router";
+import "./styles/index.css"
 import AuthController from "services/AuthController";
 import Authorization from "pages/authorization/authorization";
 import Registration from "pages/registration/registration";
@@ -8,7 +7,7 @@ import { EditProfile } from "pages/changeData/ChangeData";
 import ChangePassword from "pages/changePassword/ChangePassword";
 import { Dialog } from "pages/dialog/dialog";
 import Page404 from "pages/page404/page404";
-
+import { router } from "utils/Router";
 
 enum Routes {
   Authorization = "/",
@@ -22,7 +21,7 @@ enum Routes {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-  Router
+  router
     .use(Routes.Authorization, Authorization)
     .use(Routes.Registration, Registration)
     .use(Routes.Settings, ProfilePage)
@@ -43,19 +42,19 @@ window.addEventListener("DOMContentLoaded", async () => {
   try {
     await AuthController.getUser()
 
-    Router.start()
+    router.start()
     if(!isProtectedRoute){
-      Router.go(Routes.Dialog)
+      router.go(Routes.Dialog)
 
 
     } 
   } catch(e) {
-    Router.start()
+    router.start()
 
     if(isProtectedRoute){
 
-      Router.go(Routes.Authorization)
-      Router.go(Routes.Registration)
+      router.go(Routes.Authorization)
+      router.go(Routes.Registration)
 
       }
     }

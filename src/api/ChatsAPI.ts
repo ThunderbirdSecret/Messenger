@@ -37,6 +37,10 @@ export class ChatsApi extends BaseApi {
     return this.http.delete("/users", { users, chatId: id });
   }
 
+  chatAvatar(id: number){
+    return this.http.put("/avatar", { chat_id: id })
+  }
+
   async getToken(id: number): Promise<string | void> {
     try {
     const response = await this.http.post<{ token: string }>(`/token/${id}`);

@@ -55,7 +55,6 @@ interface MessengerProps {
         btn: "find"
       })
 
-
       this.children.DeleteUserWindow = new WindowModal ({
         text: "Select a user and click on it",
         id: "deleteModal",
@@ -82,12 +81,16 @@ interface MessengerProps {
   
       this.children.button = new ButtonConfirm({
         title: "➤",
-        class: "rounded-full bg-blue text-white mx-2 w-[28px] h-[28px] text-center",
+        class: "rounded-full bg-blue text-white mx-2 w-[30px] h-[28px] text-center",
         events: {
           click: () => {
             const input =this.children.input as Input;
             const message = input.getValue();
-  
+            if(message.trim() === "" || !message){
+              alert("Message is empty")
+              input.setValue("");
+              return
+            }
             input.setValue("");
   
             MessageController.sendMessage(this.props.selectedChat!, message);
@@ -96,6 +99,7 @@ interface MessengerProps {
       });
     }
   
+    //@ts-expect-error
     protected componentDidUpdate(oldProps: MessengerProps, newProps: MessengerProps): boolean {
       this.children.messages = this.createMessages(newProps);
   
@@ -118,20 +122,24 @@ interface MessengerProps {
     }
 
       createItemsDelete() {
-      const currentUsers = this.props.addUsers;
+      var currentUsers = this.props.addUsers;
       const div = document.getElementById("delete-input") as HTMLElement
       const dataReq: any[] = []
       if(currentUsers.length > 0){
-        
         currentUsers.forEach((item) => {
-          const p = document.createElement("p")
-          p.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
-          div.after(p)
-          p.id = item.login
-          p.innerText = `User: ${item.login} name: ${item.first_name}  ✘`
-          let chat_id = this.props.selectedChat!
-          p.addEventListener("click", () =>this.deleteUserHandler(chat_id, item.id, item.login), false);
-          dataReq.push(this.props.selectedChat!, item.id)
+          const newElp = document.createElement("p")
+          newElp.className = "text-sm text-white p-0.5 hover:bg-select-graphite"
+          div.after(newElp)
+          const alreadyExists = document.getElementById(item.login)
+          if(alreadyExists){
+            newElp.remove()
+          } else {
+            newElp.id = item.login
+            newElp.innerText = `User: ${item.login} name: ${item.first_name}  ✘`
+            let chat_id = this.props.selectedChat!
+            newElp.addEventListener("click", () =>this.deleteUserHandler(chat_id, item.id, item.login), false);
+            dataReq.push(this.props.selectedChat!, item.id)
+        }
         })
       } else {
           const p = document.createElement("p")
@@ -141,12 +149,14 @@ interface MessengerProps {
         // console.log(...new Set(dataReq))
   }
 
-    deleteUserHandler(chat_id: number, userId: number, login: string){
+    async deleteUserHandler(chat_id: number, userId: number, login: string){
       const elp = document.getElementById(login)
       
       ChatController.deleteUserToChat(userId, chat_id)  
       alert(`User ${login} delete from chat`)
       elp!.remove()
+      await ChatController.getUsers(chat_id)
+
     }
   
 
@@ -191,6 +201,8 @@ interface MessengerProps {
       try {
       await ChatController.addUserToChat(userId, chat_id)  
       alert(`User ${login} added in chat`)
+      await ChatController.getUsers(chat_id)
+
     }  catch(e) {
         console.log("Все сломалось, все пропало", e)
       }

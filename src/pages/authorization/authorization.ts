@@ -1,13 +1,13 @@
 import Block from "utils/Block";
 import template from "./auth.hbs"
 import { Link } from "components/navigate-button/navigate-button";
-import Title from "components/title/title";
 import Input from "components/input/input";
 import ErrorComponent from "components/error-component/error-component";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 import AuthController from "services/AuthController";
 import { LoginRequestData } from "api/typesAPI";
 import { InputValidate } from "helpers/validate";
+import TitleComponent from "components/title-component/title-component";
 
 export default class Authorization extends Block {
 
@@ -16,7 +16,7 @@ export default class Authorization extends Block {
       }
 
     init() {
-        this.children.title = new Title({
+        this.children.title = new TitleComponent({
             title: "Authorization"
         })
 

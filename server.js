@@ -1,16 +1,18 @@
-require('dotenv').config();
+const express = require('express')
+const path = require('path')
 
-
-const express = require("express")
 const app = express()
-const port = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
+const buildDir = path.join(__dirname, 'dist')
+const index = path.join(buildDir, 'index.html')
 
-app.use(express.static("dist"));
+app.use(express.static(buildDir))
 
 app.get('*', (req, res) => {
-  res.sendFile(`${__dirname}/dist/index.html`);
-});
+  res.sendFile(index)
+})
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(PORT, function () {
+  console.log(`Express is executed on port ${PORT}`)
+  console.log(`Build directory: ${buildDir}, index.html: ${index}`)
 })

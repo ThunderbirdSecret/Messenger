@@ -1,8 +1,8 @@
 import API, { AuthApi } from "api/AuthApi";
 import { LoginRequestData, SignupRequestData } from "api/typesAPI";
-import Router from "utils/Router";
 import store from "utils/store/Store";
 import MessagesController from "./MessageController"
+import { router } from "utils/Router";
 
 
 export class AuthController {
@@ -17,7 +17,7 @@ export class AuthController {
       
       await this.getUser();
 
-      Router.go("/messenger");
+      router.go("/messenger");
         
     } catch (e: any) {
       console.error(e);
@@ -31,7 +31,7 @@ export class AuthController {
       if(sign){
         await this.getUser();
 
-        Router.go("/messenger");
+        router.go("/messenger");
       } 
     } catch (e: any) {
       console.error(e.message);
@@ -51,7 +51,7 @@ export class AuthController {
 
       await this.api.logout();
 
-      Router.go("/");
+      router.go("/");
     } catch (e: any) {
       console.error(e.message);
     }

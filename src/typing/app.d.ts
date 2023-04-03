@@ -21,11 +21,11 @@ declare global {
   };
 
   export interface ChatType {
-     id: number;
+      id: number;
       title: string;
       avatar: string;
       unread_count: number;
-      last_message: {
+      last_message?: {
         user: findUser[];
         time: string;
         content: string;

@@ -38,8 +38,9 @@ export class UserController {
 
     async changeAvatar(file: FormData) {        
         try {
-            await this.api.changeAvatar(file)
 
+            const avatarEl = await this.api.changeAvatar(file)
+            store.set("user", avatarEl)
         } catch(e) {
         //@ts-expect-error
             alert(e.reason)

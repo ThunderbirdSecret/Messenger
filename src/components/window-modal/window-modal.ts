@@ -28,6 +28,9 @@ export default class WindowModal extends Block<WindowModalProps> {
             class: "input-controlled",
             name: "modal_input",
             placeholder: "",
+            // events: {
+            //     input: (e: Event) => this.checkSbm(e)
+            // }
         })
 
         this.children.button = new ButtonConfirm({
@@ -35,12 +38,26 @@ export default class WindowModal extends Block<WindowModalProps> {
             class: "button-confirm",
             id: "modal-button",
             events: {
-                click: () => this.props.func()
+                click: () => this.props.func(),
             }
         })
 
     }
 
+        
+    // checkSbm(e: Event) {
+    //     //@ts-expect-error
+    //     console.log(e.target.value)
+    //     if(this.props.inputId){
+    //     const checkPressEnter = document.getElementById(this.props.inputId)
+    //     checkPressEnter?.addEventListener("keydown", (e: Event) => {
+    //         e.preventDefault()
+    //         console.log(e)
+    //     })
+    // }
+
+
+    // }
 
     render() {
         return this.compile( template, {...this.props})

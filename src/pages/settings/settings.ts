@@ -53,6 +53,7 @@ hoverImg.default.src = require("asserts/images/06.jpg")
         })
       }
 
+      //@ts-expect-error
       protected componentDidUpdate(oldProps: SettingsProps, newProps: SettingsProps): boolean {
 
         (this.children.fields as DataItem[]).forEach((field, i) => {

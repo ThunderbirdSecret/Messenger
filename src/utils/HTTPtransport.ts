@@ -60,6 +60,7 @@ export default class HTTPTransport {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
 
+      //@ts-expect-error
       xhr.onreadystatechange = (e) => {
 
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -71,9 +72,9 @@ export default class HTTPTransport {
         }
       };
 
-      xhr.onabort = () => reject({reason: 'abort'});
-      xhr.onerror = () => reject({reason: 'network error'});
-      xhr.ontimeout = () => reject({reason: 'timeout'});
+      xhr.onabort = () => reject({reason: "abort"});
+      xhr.onerror = () => reject({reason: "network error"});
+      xhr.ontimeout = () => reject({reason: "timeout"});
 
       xhr.withCredentials = true;
       xhr.responseType = "json";
