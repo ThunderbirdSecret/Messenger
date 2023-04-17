@@ -1,6 +1,7 @@
 import API, { ChatsApi } from "api/ChatsAPI";
 import store from "utils/store/Store";
 import MessagesController from './MessageController';
+import { ChatsAva } from "api/typesAPI";
 
 export class ChatsController {
   private readonly api: ChatsApi;
@@ -65,9 +66,10 @@ export class ChatsController {
     }
   }
 
-  async chatsAvatar(chat_id: number) {
+  async chatsAvatar(chatId: number, avatar: FormData) {
     try {
-      await this.api.chatAvatar(chat_id)
+      const data: ChatsAva = {chatId, avatar}
+      await this.api.chatAvatar(data)
     } catch(e) {
       //@ts-expect-error
       alert(e.reason)

@@ -1,3 +1,7 @@
 <button type="button" class="{{class}}">
-    <p class="text-center">{{title}}</p>
-    </button>
+    {{#if btnImg}} 
+        <img src="{{title}}" alt="btn" /> 
+    {{else}}
+        <p class="text-center">{{title}}</p>
+    {{/if}}
+</button>

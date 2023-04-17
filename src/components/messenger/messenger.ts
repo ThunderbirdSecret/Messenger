@@ -12,6 +12,12 @@ import { GetUserByLoginRequestData } from "api/typesAPI";
 import UsersController from "services/UserController";
 import ChatController from "services/ChatsController";
 
+const dropIcon = {
+  icon: new Image()
+}
+
+dropIcon.icon.src = require("asserts/icon/pin.png")
+
 interface MessengerProps {
     selectedChat: number | undefined;
     messages: MessageInfo[];
@@ -29,7 +35,7 @@ interface MessengerProps {
   
       this.children.droppoint = new ButtonConfirm({
         title: "⋮",
-        class: "text-white text-center bg-transparent text-bold w-5 h-5 rounded-full hover:bg-select-graphite",
+        class: "text-white text-center bg-transparent text-bold w-[28px] h-[28px] rounded-full hover:bg-select-graphite",
         events: {click:() => this.userMenu()}
       })
 
@@ -64,8 +70,9 @@ interface MessengerProps {
       })
       
       this.children.dropbutton = new ButtonConfirm ({
-        title: "❐",
-        class: "w-8 h-8 text-white text-bold",
+        btnImg: true,
+        title: dropIcon.icon.src,
+        class: "w-8 h-8 text-white text-bold pr-2",
         events: {click: ()=> this.dropDown()}
       })
 

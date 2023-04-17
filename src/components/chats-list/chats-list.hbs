@@ -1,14 +1,18 @@
 <main class="h-full bg-transparent customw sticky top-0">
-  {{{profileLink}}}
-  {{{search}}}
-  <div class="scrollbar overflow-y-auto">
+  <div class="flex pt-2 pl-2">
+      {{{profileLink}}}
+      {{{search}}}
+  </div>
+  <div class="">
 {{#if isLoaded }}
     <div class="text-center">
       {{{openModal}}}
     </div>
-    {{#each chats}}
-        {{{this}}}
-    {{/each}}
+    <div class="overflow-y-scroll h-screen scrollbar">
+      {{#each chats}}
+          {{{this}}}
+      {{/each}}
+    </div>
     
     {{{newchat}}}
 {{else}}

@@ -9,9 +9,10 @@ const isProduction = process.env.NODE_ENV == 'production';
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
-
-
 const config = {
+    watchOptions: {
+        ignored: path.resolve(__dirname, '/node_modules/'),
+      },
     entry: {
         path: path.resolve(__dirname, 'src', 'index.ts')
     },
@@ -19,14 +20,16 @@ const config = {
         path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
+        hot: true,
         open: true,
+		liveReload: true,
         host: 'localhost',
         historyApiFallback: true,
         port: 3000,
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: path.join(__dirname, 'src', 'index.html'),
         }),
 
         new MiniCssExtractPlugin(),

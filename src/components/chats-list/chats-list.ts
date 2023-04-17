@@ -8,6 +8,12 @@ import Input from "components/input/input";
 import WindowModal from "components/window-modal/window-modal";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 
+const linkImg = {
+  burger: new Image()
+}
+
+linkImg.burger.src = require('asserts/menu.svg')
+
 interface ChatsListProps {
   chats: ChatType[];
   isLoaded: boolean;
@@ -21,7 +27,7 @@ class ChatsListBase extends Block<ChatsListProps> {
   protected init() {
     this.children.chats = this.createChats(this.props);
     
-    this.children.profileLink = new Link({ path: "/settings", title: "Профиль"});
+    this.children.profileLink = new Link({ path: "/settings", image: true, title: linkImg.burger.src});
  
 
   this.children.search = new Input({

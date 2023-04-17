@@ -1,4 +1,5 @@
 import BaseApi from "./BaseApi"
+import { ChatsAva } from "./typesAPI";
 
 export class ChatsApi extends BaseApi {
   constructor() {
@@ -37,8 +38,9 @@ export class ChatsApi extends BaseApi {
     return this.http.delete("/users", { users, chatId: id });
   }
 
-  chatAvatar(id: number){
-    return this.http.put("/avatar", { chat_id: id })
+  chatAvatar(data: ChatsAva){
+    console.log(data)
+    return this.http.put("/avatar", data )
   }
 
   async getToken(id: number): Promise<string | void> {

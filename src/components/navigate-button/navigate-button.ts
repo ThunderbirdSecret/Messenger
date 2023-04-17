@@ -6,7 +6,8 @@ interface NavigateButtonProps extends PropsWithRouter {
     path: string;
     type?: string;
     class?: string;
-    title: string;
+    title: string | HTMLImageElement;
+    image?: boolean;
     events?: {
         click: () => void;
       };

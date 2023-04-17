@@ -7,6 +7,11 @@ export type APIError = {
   status: string;
 };
 
+export interface ChatsAva {
+  chatId: number,
+  avatar: FormData
+}
+
 export type LoginRequestData = {
   login: string;
   password: string;

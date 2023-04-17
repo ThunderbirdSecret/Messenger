@@ -79,6 +79,7 @@ export default class HTTPTransport {
       xhr.withCredentials = true;
       xhr.responseType = "json";
 
+
       if(!(data instanceof FormData)){
         xhr.setRequestHeader("Content-Type", "application/json");
       }

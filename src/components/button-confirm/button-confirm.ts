@@ -4,6 +4,7 @@ interface ButtonConfirmProps {
     title: string | HTMLImageElement;
     class: string;
     id?: string;
+    btnImg?: boolean;
     events?: {
         click?: ()=> void;
         submit?: (e: Event) => void

@@ -4,6 +4,7 @@ import { withStore } from "utils/store/Store";
 import ButtonConfirm from "components/button-confirm/button-confirm";
 import ChatController from "services/ChatsController";
 import { avatarUrl } from "components/avatar/avatar";
+import { AvatarChats } from "components/chats-avatar/chats-avatar";
 
 interface ChatProps {
     id: number;
@@ -25,6 +26,12 @@ interface ChatProps {
     }
   
     init() {
+
+      this.children.chatAvatar = new AvatarChats({
+        chat_id: this.props.id,
+        avatar: this.props.avatar
+      })
+      
       this.children.delete = new ButtonConfirm({
         title: "x",
         class: "link-page",
